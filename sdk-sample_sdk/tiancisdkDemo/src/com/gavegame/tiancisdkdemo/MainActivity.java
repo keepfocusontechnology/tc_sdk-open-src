@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.activity.LoginPageActivity;
+import com.gavegame.tiancisdk.alipay.AliPayActivity;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
@@ -119,6 +120,14 @@ public class MainActivity extends ActionBarActivity {
 						TCLogUtils.d(arg0.getRetMsg());
 					}
 				});
+			}
+		});
+		
+		findViewById(R.id.bt_alipay).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this,AliPayActivity.class));
 			}
 		});
 	}

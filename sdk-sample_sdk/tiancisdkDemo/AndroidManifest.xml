@@ -28,7 +28,8 @@
         </activity>
         <activity android:name="com.gavegame.tiancisdk.activity.LoginPageActivity" />
         <activity android:name="com.gavegame.tiancisdk.activity.RegisterPageActivity" />
-
+        <activity android:name="com.gavegame.tiancisdk.alipay.AliPayActivity" />
+		
         <meta-data
             android:name="TIANCI_GAME_ID"
             android:value="410" />
