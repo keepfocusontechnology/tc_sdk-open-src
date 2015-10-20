@@ -6,21 +6,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import com.alipay.sdk.app.PayTask;
 import com.gavegame.tiancisdk.R;
 
 @SuppressLint("NewApi")
-public class AliPayActivity extends FragmentActivity {
+public class AliPayActivity extends FragmentActivity{
 
 	// 商户PID
 	public static final String PARTNER = "2088911821839844";
@@ -76,11 +80,22 @@ public class AliPayActivity extends FragmentActivity {
 			}
 		};
 	};
+	private String subject;
+	private String subject_desc;
+	private String price;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay_main);
+		initData();
+	}
+	
+	private void initData(){
+		Intent data = getIntent();
+		subject = data.getStringExtra("subject");
+		subject_desc = data.getStringExtra("subject_desc");
+		price = data.getStringExtra("price");
 	}
 
 	/**
@@ -103,8 +118,11 @@ public class AliPayActivity extends FragmentActivity {
 							}).show();
 			return;
 		}
+		
+		
 		// 订单
-		String orderInfo = getOrderInfo("测试商品", "商品细述", "0.01");
+		String orderInfo = getOrderInfo(subject, subject_desc, price);
+	
 
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo);
@@ -266,5 +284,4 @@ public class AliPayActivity extends FragmentActivity {
 	public String getSignType() {
 		return "sign_type=\"RSA\"";
 	}
-
 }
