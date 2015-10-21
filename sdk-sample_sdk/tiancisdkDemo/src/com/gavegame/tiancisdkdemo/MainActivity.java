@@ -20,7 +20,7 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 public class MainActivity extends Activity {
 
 	private Context context;
-	
+	private static final int PAY_RESULT = 2233;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -145,6 +145,19 @@ public class MainActivity extends Activity {
             TCLogUtils.toastShort(context, "tcsso=" +tcsso);
         } else if (resultCode == Config.REQUEST_STATUS_CODE_FAILURE) {
             TCLogUtils.toastShort(context, data.getExtras().getSerializable("result").toString());
+        }else if(resultCode == PAY_RESULT){
+        	int payResultCode = data.getExtras().getInt("pay_resultcode");
+        	if(payResultCode == 200){
+        		Toast.makeText(MainActivity.this, "支付成功",
+						Toast.LENGTH_SHORT).show();
+        	}else if(payResultCode == 300){
+        		Toast.makeText(MainActivity.this, "支付中",
+						Toast.LENGTH_SHORT).show();
+        	}else if(payResultCode == 400){
+        		Toast.makeText(MainActivity.this, "支付失败",
+						Toast.LENGTH_SHORT).show();
+        	}
+        	
         }
     }
 	

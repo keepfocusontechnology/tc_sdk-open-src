@@ -38,6 +38,8 @@ public class AliPayActivity extends FragmentActivity{
 	private static final int SDK_PAY_FLAG = 1;
 
 	private static final int SDK_CHECK_FLAG = 2;
+	
+	private static final int PAY_RESULT = 2233;
 
 	private Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -54,20 +56,28 @@ public class AliPayActivity extends FragmentActivity{
 				if (TextUtils.equals(resultStatus, "9000")) {
 					Toast.makeText(AliPayActivity.this, "支付成功",
 							Toast.LENGTH_SHORT).show();
-					
+					Intent data = getIntent();
+					data.putExtra("pay_resultcode", 200);
+					setResult(PAY_RESULT, data);
 				} else {
 					// 判断resultStatus 为非“9000”则代表可能支付失败
 					// “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
 					if (TextUtils.equals(resultStatus, "8000")) {
 						Toast.makeText(AliPayActivity.this, "支付结果确认中",
 								Toast.LENGTH_SHORT).show();
-
+						Intent data = getIntent();
+						data.putExtra("pay_resultcode", 300);
+						setResult(PAY_RESULT, data);
 					} else {
 						// 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
 						Toast.makeText(AliPayActivity.this, "支付失败",
 								Toast.LENGTH_SHORT).show();
+						Intent data = getIntent();
+						data.putExtra("pay_resultcode", 400);
+						setResult(PAY_RESULT, data);
 					}
 				}
+				
 				break;
 			}
 			case SDK_CHECK_FLAG: {
@@ -78,6 +88,7 @@ public class AliPayActivity extends FragmentActivity{
 			default:
 				break;
 			}
+			finish();
 		};
 	};
 	private String subject;
