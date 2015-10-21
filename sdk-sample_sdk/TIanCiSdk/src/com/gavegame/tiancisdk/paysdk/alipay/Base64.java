@@ -1,4 +1,4 @@
-package com.gavegame.tiancisdk.alipay;
+package com.gavegame.tiancisdk.paysdk.alipay;
 
 public final class Base64 {
 

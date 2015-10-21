@@ -1,4 +1,4 @@
-package com.gavegame.tiancisdk.alipay;
+package com.gavegame.tiancisdk.paysdk.alipay;
 
 import android.content.Intent;
 import android.os.Bundle;

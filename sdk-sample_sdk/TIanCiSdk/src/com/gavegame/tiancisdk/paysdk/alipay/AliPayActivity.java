@@ -1,4 +1,4 @@
-package com.gavegame.tiancisdk.alipay;
+package com.gavegame.tiancisdk.paysdk.alipay;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

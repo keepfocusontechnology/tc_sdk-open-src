@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.gavegame.tiancisdk.alipay.ExternalFragment"
+        android:name="com.gavegame.tiancisdk.paysdk.alipay.ExternalFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 

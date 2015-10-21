@@ -1,4 +1,4 @@
-package com.gavegame.tiancisdk.alipay;
+package com.gavegame.tiancisdk.paysdk.alipay;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;

@@ -9,12 +9,14 @@
     <!-- 支付宝去重后所需权限 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 微信支付去重后所需权限 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="21" />
-    
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -28,27 +30,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.gavegame.tiancisdk.activity.LoginPageActivity" />
-        <activity android:name="com.gavegame.tiancisdk.activity.RegisterPageActivity" />
-        <activity android:name="com.gavegame.tiancisdk.alipay.AliPayActivity" />
-		
-        <!-- alipay sdk begin -->
-        <activity
-            android:name="com.alipay.sdk.app.H5PayActivity"
-            android:configChanges="orientation|keyboardHidden|navigation"
-            android:exported="false"
-            android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
         <meta-data
             android:name="TIANCI_GAME_ID"
             android:value="410" />
@@ -61,6 +42,45 @@
             android:name="TIANCI_CHANNEL_ID"
             android:value="12" />
         <!-- 天赐分配的服务器ID -->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.gavegame.tiancisdk.activity.LoginPageActivity" />
+        <activity android:name="com.gavegame.tiancisdk.activity.RegisterPageActivity" />
+        <!-- alipay sdk begin -->
+        <activity android:name="com.gavegame.tiancisdk.paysdk.alipay.AliPayActivity" />
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+         <!-- alipay sdk end -->
+        <!-- wxpay sdk begin -->
+        <activity
+            android:name="com.gavegame.tiancisdk.paysdk.wxpay.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.gavegame.tiancisdk.paysdk.wxpay.WxPayActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        
+
+        <receiver
+            android:name="com.gavegame.tiancisdk.paysdk.wxpay.AppRegister">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
+        <!-- wxpay sdk end -->
     </application>
 
 </manifest>

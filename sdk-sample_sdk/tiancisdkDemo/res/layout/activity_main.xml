@@ -1,39 +1,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <Button
         android:id="@+id/jump_login_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="login" />
-    
-     <Button
+
+    <Button
         android:id="@+id/bt_auto_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="autoLogin" />
-      <Button
+
+    <Button
         android:id="@+id/bt_create_role"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="createRole" />
-       <Button
+
+    <Button
         android:id="@+id/bt_create_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="createOrder" />
-        <Button
+
+    <Button
         android:id="@+id/bt_finish_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="finishOrder" />
-        <Button
+
+    <Button
         android:id="@+id/bt_alipay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="alipay_button" />
+
+    <Button
+        android:id="@+id/bt_wxpay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="wxpay_button" />
 
 </LinearLayout>
