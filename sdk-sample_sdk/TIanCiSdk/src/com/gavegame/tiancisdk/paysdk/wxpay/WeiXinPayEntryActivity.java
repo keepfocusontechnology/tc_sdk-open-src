@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.gavegame.tiancisdk.R;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -45,11 +46,16 @@ public class WeiXinPayEntryActivity extends Activity implements IWXAPIEventHandl
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+		TCLogUtils.d(TAG, "onPayFinish, errCode = " + resp.errCode);
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.app_tip);
-			builder.setMessage(getString(R.string.pay_result_callback_msg, resp.errStr +";code=" + String.valueOf(resp.errCode)));
+			if(resp.errCode == 0){
+				builder.setMessage("支付成功，游戏在此回调");
+			}else{
+				builder.setMessage("支付失败，错误码：code=" + String.valueOf(resp.errCode));
+			}
+//			builder.setMessage(getString(R.string.pay_result_callback_msg, resp. +";code=" + String.valueOf(resp.errCode)));
 			builder.show();
 		}
 	}
