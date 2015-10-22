@@ -257,6 +257,7 @@ public class WxPayActivity extends Activity {
 			packageParams.add(new BasicNameValuePair("notify_url", "http://121.40.35.3/test"));
 			packageParams.add(new BasicNameValuePair("out_trade_no",genOutTradNo()));
 			packageParams.add(new BasicNameValuePair("spbill_create_ip","127.0.0.1"));
+			//订单金额
 			packageParams.add(new BasicNameValuePair("total_fee", "1"));
 			packageParams.add(new BasicNameValuePair("trade_type", "APP"));
 

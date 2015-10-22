@@ -1,4 +1,4 @@
-package com.gavegame.tiancisdk.paysdk.wxpay.wxapi;
+package com.gavegame.tiancisdk.paysdk.wxpay;
 
 
 import android.app.Activity;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.gavegame.tiancisdk.R;
-import com.gavegame.tiancisdk.paysdk.wxpay.Constants;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -16,7 +15,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
+public class WeiXinPayEntryActivity extends Activity implements IWXAPIEventHandler{
 	
 	private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
 	
@@ -26,7 +25,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_result);
-        
+        Log.e(TAG, "onPayFinish, 回调Acticity = " + this.toString());
     	api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
 
         api.handleIntent(getIntent(), this);
@@ -41,6 +40,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 
 	@Override
 	public void onReq(BaseReq req) {
+		Log.e(TAG, "onPayFinish, successdCode = " + req.toString());
 	}
 
 	@Override
