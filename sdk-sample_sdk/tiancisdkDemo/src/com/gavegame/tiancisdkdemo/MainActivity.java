@@ -122,14 +122,13 @@ public class MainActivity extends Activity {
 
 									@Override
 									public void onSuccessed() {
-										Toast.makeText(getApplicationContext(),
-												"200", 0).show();
+										TCLogUtils.toastShort(getApplicationContext(),"完成订单数据上传成功");
 									}
 
 									@Override
 									public void onFailure(ResponseMsg arg0) {
 										// TODO Auto-generated method stub
-										TCLogUtils.d(arg0.getRetMsg());
+										TCLogUtils.toastShort(getApplicationContext(),"完成订单数据上传失败,失败原因："+arg0.getRetMsg());
 									}
 								});
 					}

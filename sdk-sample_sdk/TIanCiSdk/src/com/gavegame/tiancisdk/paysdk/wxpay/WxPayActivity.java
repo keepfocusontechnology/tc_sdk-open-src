@@ -285,7 +285,6 @@ public class WxPayActivity extends Activity {
 		req.nonceStr = genNonceStr();
 		req.timeStamp = String.valueOf(genTimeStamp());
 
-
 		List<NameValuePair> signParams = new LinkedList<NameValuePair>();
 		signParams.add(new BasicNameValuePair("appid", req.appId));
 		signParams.add(new BasicNameValuePair("noncestr", req.nonceStr));
@@ -304,14 +303,9 @@ public class WxPayActivity extends Activity {
 
 	}
 	private void sendPayReq() {
-		
-
 		msgApi.registerApp(Constants.APP_ID);
 		msgApi.sendReq(req);
 	}
-
-
-
 
 }
 
