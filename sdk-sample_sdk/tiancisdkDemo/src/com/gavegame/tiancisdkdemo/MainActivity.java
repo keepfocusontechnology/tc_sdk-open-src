@@ -51,8 +51,7 @@ public class MainActivity extends Activity {
 
 									@Override
 									public void onSuccessed() {
-										Toast.makeText(getApplicationContext(),
-												"200", 0).show();
+										TCLogUtils.toastShort(getApplicationContext(),"自动登陆成功");
 									}
 
 									@Override
@@ -75,8 +74,7 @@ public class MainActivity extends Activity {
 
 									@Override
 									public void onSuccessed() {
-										Toast.makeText(getApplicationContext(),
-												"200", 0).show();
+										TCLogUtils.toastShort(getApplicationContext(),"创建角色成功");
 									}
 
 									@Override
@@ -99,8 +97,7 @@ public class MainActivity extends Activity {
 
 									@Override
 									public void onSuccessed() {
-										Toast.makeText(getApplicationContext(),
-												"200", 0).show();
+										TCLogUtils.toastShort(getApplicationContext(),"创建订单数据上传成功");
 									}
 
 									@Override

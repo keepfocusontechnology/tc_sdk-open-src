@@ -41,7 +41,7 @@ public class WeiXinPayEntryActivity extends Activity implements IWXAPIEventHandl
 
 	@Override
 	public void onReq(BaseReq req) {
-		Log.e(TAG, "onPayFinish, successdCode = " + req.toString());
+		TCLogUtils.d(TAG, "onPayFinish, successdCode = " + req.toString());
 	}
 
 	@Override
