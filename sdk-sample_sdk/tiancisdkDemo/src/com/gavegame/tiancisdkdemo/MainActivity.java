@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
 									@Override
 									public void onFailure(ResponseMsg arg0) {
 										// TODO Auto-generated method stub
-										TCLogUtils.d(arg0.getRetMsg());
+										TCLogUtils.toastShort(getApplicationContext(),"创建订单数据上传失败,失败原因："+arg0.getRetMsg());
 									}
 								});
 					}
