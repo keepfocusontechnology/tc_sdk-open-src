@@ -62,6 +62,7 @@ public class WxPayActivity extends Activity {
 			public void onClick(View v) {
 				//吊起微信客户端
 				sendPayReq();
+				finish();
 			}
 		});
 
