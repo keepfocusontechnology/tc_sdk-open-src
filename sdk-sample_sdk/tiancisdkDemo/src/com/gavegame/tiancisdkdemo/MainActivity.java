@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.TianCi;
-import com.gavegame.tiancisdk.activity.LoginPageActivity;
+import com.gavegame.tiancisdk.activity.TCLoginActivity;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				startActivityForResult(new Intent(MainActivity.this,LoginPageActivity.class),0);
+				startActivityForResult(new Intent(MainActivity.this,TCLoginActivity.class),0);
 			}
 		});;
 		

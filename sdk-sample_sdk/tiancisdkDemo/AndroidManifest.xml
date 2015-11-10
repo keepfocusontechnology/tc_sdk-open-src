@@ -26,8 +26,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.gavegame.tiancisdk.activity.LoginPageActivity" />
-        <activity android:name="com.gavegame.tiancisdk.activity.RegisterPageActivity" />
+        <activity
+            android:name="com.gavegame.tiancisdk.activity.TCLoginActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/dialog" >
+        </activity>
 
         <meta-data
             android:name="TIANCI_GAME_ID"

@@ -1,10 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TianCiGame</string>
-    <string name="register">resgiter</string>
-    <string name="login">login</string>
-    <string name="auto_login">auto_login</string>
-    <string name="action_settings">setting</string>
-    <string name="account_hint">请输入手机号</string>
-    <string name="psw_hint">请输入密码</string>
-    <string name="psw_repeat">请重复密码</string>
+
+    <string name="app_name">dialogActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="tcsdk_account_login">账号登录</string>
+    <string name="tcsdk_fast_register">快速注册</string>
+    <string name="tcsdk_immediately_login">立即登录</string>
+    <string name="tcsdk_register_finish">完成注册</string>
+    <string name="tcsdk_account">账 号:</string>
+    <string name="tcsdk_password">密 码:</string>
+    <string name="tcsdk_new_psw">新密码:</string>
+    <string name="tcsdk_visitor_one_key_login">游客一键登录 ></string>
+    <string name="tcsdk_password_retake">找回密码 ></string>
+    <string name="tcsdk_user_protocol">已阅读和同意使用条款和隐私协议</string>
+    <string name="tcsdk_u_can">你也可以选择使用</string>
+    <string name="tcsdk_phone_num_register">手机账号注册 ></string>
+    <string name="tcsdk_phone_num">手机号:</string>
+    <string name="tcsdk_back">返回</string>
+    <string name="tcsdk_retake">重置</string>
+    <string name="tcsdk_reg">注册</string>
+    <string name="tcsdk_captcha">发送验证码</string>
+    <string name="tcsdk_check">验证</string>
+    <string name="tcsdk_new_psw_setting">设置新密码</string>
+    
+
 </resources>

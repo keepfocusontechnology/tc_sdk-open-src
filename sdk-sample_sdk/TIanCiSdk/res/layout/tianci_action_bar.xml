@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="@color/one_key_login_bg"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:background="@color/tcsdk_main_background" >
 
     <ImageView
-        android:id="@+id/iv_action_bar_icon_back"
-        android:layout_gravity="center"
-        android:src="@drawable/action_bar_back_icon"
-        android:layout_weight="0.2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/tcsdk_back" />
 
     <TextView
-        android:id="@+id/tv_action_bar_text_title"
-        android:textColor="@color/white_bg"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_weight="0.8"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent" />
+        android:id="@+id/tv_actionbar_title"
+        style="@style/tcsdk_title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/tcsdk_fast_register" />
 
-    <TextView
-        android:id="@+id/tv_action_bar_text_action"
-        android:textColor="@color/white_bg"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_weight="0.2"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent" />
-</LinearLayout>
+</RelativeLayout>
