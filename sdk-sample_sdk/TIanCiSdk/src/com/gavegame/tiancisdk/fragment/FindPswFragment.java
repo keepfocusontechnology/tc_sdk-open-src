@@ -46,7 +46,7 @@ public class FindPswFragment extends TCBaseFragment {
 											public void onSuccessed(
 													int userBindCode) {
 												// TODO 非手机号绑定成功，跳转输入绑定手机号验证界面
-												callback.jumpNextPage(Config.MAKE_NEWPSW_FRAGMENT);
+												callback.jumpNextPage(Config.PSW_RETAKE_FRAGMENT);
 											}
 
 											@Override

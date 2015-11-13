@@ -1,5 +1,6 @@
 package com.gavegame.tiancisdk.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,10 +20,12 @@ public class PswRetakeFragment extends TCBaseFragment {
 	private TimerCount timer;
 	private Button bt_captcha;
 	private EditText et_phone_num;
+	private EditText et_captcha;
 
 	@Override
 	void initID() {
 		et_phone_num = (EditText) view.findViewById(R.id.et_bind_phone_num);
+		et_captcha = (EditText)view.findViewById(R.id.et_mobile_bind_captcha);
 		bt_captcha = (Button) view.findViewById(R.id.bt_captcha);
 		timer = new TimerCount(60000, 1000, bt_captcha);
 		bt_captcha.setOnClickListener(new OnClickListener() {
@@ -55,9 +58,31 @@ public class PswRetakeFragment extends TCBaseFragment {
 
 					@Override
 					public void onClick(View v) {
-						callback.jumpNextPage(Config.MAKE_NEWPSW_FRAGMENT);
+						TianCi.getInstance().forgetPsw(et_phone_num.getText()+"", et_captcha.getText()+"", new RequestCallBack() {
+							
+							@Override
+							public void onSuccessed(int userBindCode) {
+								Bundle bundle = new Bundle();
+								bundle.putString("account", et_phone_num.getText()+"");
+								bundle.putString("captcha", et_captcha.getText()+"");
+								callback.jumpNextPage(Config.MAKE_NEWPSW_FRAGMENT);
+							}
+							
+							@Override
+							public void onFailure(ResponseMsg msg) {
+								TCLogUtils.toastShort(getActivity(), msg.getRetMsg());
+							}
+						});
+						
 					}
 				});
+		view.findViewById(R.id.bt_mobile_back).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				callback.back();
+			}
+		});
 	}
 
 	@Override

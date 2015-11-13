@@ -3,6 +3,7 @@ package com.gavegame.tiancisdk.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build.VERSION;
@@ -18,6 +19,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +27,6 @@ import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.FragmentChangedCallback;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
-import com.gavegame.tiancisdk.TianCiSDK;
 import com.gavegame.tiancisdk.fragment.FindPswFragment;
 import com.gavegame.tiancisdk.fragment.FinishCodeCheckFragment;
 import com.gavegame.tiancisdk.fragment.MakeNewPswFragment;
@@ -60,7 +61,7 @@ public class TCLoginActivity extends BaseActivity implements
 		if (VERSION.SDK_INT >= 11)
 			TCLoginActivity.this.setFinishOnTouchOutside(false);
 		manager = getSupportFragmentManager();
-		titleStack = new ArrayList<String>();
+			titleStack = new ArrayList<String>();
 		initTitle();
 		switchFragment(0, savedInstanceState);
 		WindowManager m = getWindowManager();
@@ -93,7 +94,12 @@ public class TCLoginActivity extends BaseActivity implements
 	}
 
 	private void switchFragment(int fragmentID, Bundle bundle) {
-		
+		switchFragment(fragmentID, bundle, false);
+	}
+
+	private void switchFragment(int fragmentID, Bundle bundle,
+			boolean isHaveAnimation) {
+
 		switch (fragmentID) {
 		case Config.QUCKILY_LOGIN_FRAGMENT:
 			contentFragment = new QuckilyLoginFragment();
@@ -119,6 +125,10 @@ public class TCLoginActivity extends BaseActivity implements
 			contentFragment = new FindPswFragment();
 			tag = "FindPswFragment";
 			break;
+		case Config.FINISH_CODE_CHECK_FRAGMENT:
+			contentFragment = new FinishCodeCheckFragment();
+			tag = "FinishCodeCheckFragment";
+			break;
 		case Config.DIALOG_BIND_FRAGMENT:
 			contentFragment = new PhoneBindFragment();
 			tag = "PhoneBindFragment";
@@ -127,27 +137,35 @@ public class TCLoginActivity extends BaseActivity implements
 			contentFragment = new MobileBindFragment();
 			tag = "MobileBindFragment";
 			break;
-		case Config.FINISH_CODE_CHECK_FRAGMENT:
-			contentFragment = new FinishCodeCheckFragment();
-			tag = "FinishCodeCheckFragment";
-			break;
 		default:
 			break;
 		}
-		if(bundle != null){
+		if (bundle != null) {
 			contentFragment.initData(bundle);
 		}
-		showFragment(fragmentID, contentFragment);
+		if (isHaveAnimation) {
+			showFragment(fragmentID, contentFragment, isHaveAnimation);
+		} else {
+			showFragment(fragmentID, contentFragment);
+		}
 
 	}
 
 	private void showFragment(int fragmentID, TCBaseFragment fragment) {
+		showFragment(fragmentID, fragment, false);
+	}
+
+	private void showFragment(int fragmentID, TCBaseFragment fragment,
+			boolean isHaveAnimation) {
 		transaction = manager.beginTransaction();
+		if (isHaveAnimation) {
+			transaction.setCustomAnimations(R.anim.left_silde,
+					R.anim.right_silde);
+		}
 		transaction.replace(R.id.fl_content, fragment, tag);
 		if (!tag.equals("QuckilyLoginFragment")) {
 			transaction.addToBackStack(tag);
 		}
-		transaction.commit();
 		String titleStr = null;
 		try {
 			titleStr = getResources().getStringArray(R.array.fragment_title)[fragmentID];
@@ -162,11 +180,12 @@ public class TCLoginActivity extends BaseActivity implements
 			tv_title.setText(titleStr);
 			titleStack.add(titleStr);
 		}
+		transaction.commit();
 	}
 
 	@Override
 	public void jumpNextPage(int targetFragmentID) {
-		switchFragment(targetFragmentID, null);
+		switchFragment(targetFragmentID, null, true);
 	}
 
 	@Override
@@ -230,10 +249,10 @@ public class TCLoginActivity extends BaseActivity implements
 
 	@Override
 	public void jumpNextPage(int fragmentID, Bundle bundle) {
-		//首先弹出栈中所有fragment
-		manager.popBackStackImmediate(null,1);
-		titleStack.clear();
-		switchFragment(fragmentID, bundle);
+		// 首先弹出栈中所有fragment
+		// manager.popBackStackImmediate(null, 1);
+//		titleStack.clear();
+		switchFragment(fragmentID, bundle, true);
 	}
 
 }

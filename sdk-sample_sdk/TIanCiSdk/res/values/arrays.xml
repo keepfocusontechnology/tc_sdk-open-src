@@ -8,6 +8,8 @@
         <item>修改密码</item>
         <item>设置新密码</item>
         <item>找回密码</item>
+        <item>账号验证</item>
+        <item>重置密码</item>
     </string-array>
 
 </resources>

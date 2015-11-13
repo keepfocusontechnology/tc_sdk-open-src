@@ -204,6 +204,8 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 		if (context != null) {
 			dialog = DialogUtils.createLoadingDialog(context);
 			dialog.show();
+		}else{
+			dialog.dismiss();
 		}
 
 		channelId = (int) SharedPreferencesUtils.getParam(context,
