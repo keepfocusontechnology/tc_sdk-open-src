@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/tcsdk_main_background"
+    android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tcsdk_account_background"
+        android:padding="14dp" >
+
+        <TextView
+            android:id="@+id/tv_username"
+            style="@style/tcsdk_text_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tcsdk_account" />
+
+        <EditText
+            android:id="@+id/et_quckily_reg_username"
+            style="@style/tcsdk_et_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_username"
+            android:background="@null" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/tcsdk_account_background"
+        android:padding="14dp" >
+
+        <TextView
+            android:id="@+id/tv_psw"
+            style="@style/tcsdk_text_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tcsdk_password" />
+
+        <EditText
+            android:id="@+id/et_quckily_reg_psw"
+            style="@style/tcsdk_et_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_psw"
+            android:password="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp" >
+
+        <TextView
+            android:id="@+id/tv_user_protocol"
+            style="@style/tcsdk_text_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/tcsdk_user_protocol" />
+
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@id/tv_user_protocol"
+            android:background="@drawable/tcsdk_check_box"
+            android:button="@null" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_register_finish"
+        style="@style/tcsdk_button_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/tcsdk_buton_login_selector"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/tcsdk_register_finish" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp" >
+
+        <TextView
+            android:id="@+id/tv_phone_num_register"
+            style="@style/tcsdk_text_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/tcsdk_phone_num_register" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tv_phone_num_register"
+            android:text="@string/tcsdk_u_can"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</LinearLayout>

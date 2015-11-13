@@ -5,53 +5,58 @@ import java.io.Serializable;
 /**
  * Created by Tianci on 15/9/24.
  */
-public class ResponseMsg implements Serializable{
+public class ResponseMsg implements Serializable {
 
-    private int retCode;
-    private String retMsg;
-    private String tcsso;
-    private int orderId;
+	private int retCode;
+	private String retMsg;
+	private String tcsso;
+	private int orderId;
+	private int bindCode;
 
+	public void setBindCode(int bindCode) {
+		this.bindCode = bindCode;
+	}
 
-        public int getRetCode() {
-            return retCode;
-        }
+	public int getBindCode() {
+		return bindCode;
+	}
 
-        public void setRetCode(int retCode) {
-            this.retCode = retCode;
-        }
+	public int getRetCode() {
+		return retCode;
+	}
 
-        public String getRetMsg() {
-            return retMsg;
-        }
+	public void setRetCode(int retCode) {
+		this.retCode = retCode;
+	}
 
-        public void setRetMsg(String retMsg) {
-            this.retMsg = retMsg;
-        }
+	public String getRetMsg() {
+		return retMsg;
+	}
 
-        public String getTcsso() {
-            return tcsso;
-        }
+	public void setRetMsg(String retMsg) {
+		this.retMsg = retMsg;
+	}
 
-        public void setTcsso(String tcsso) {
-            this.tcsso = tcsso;
-        }
+	public String getTcsso() {
+		return tcsso;
+	}
 
-        public int getOrderId() {
-            return orderId;
-        }
+	public void setTcsso(String tcsso) {
+		this.tcsso = tcsso;
+	}
 
-        public void setOrderId(int orderId) {
-            this.orderId = orderId;
-        }
+	public int getOrderId() {
+		return orderId;
+	}
 
-        @Override
-        public String toString() {
-            return "ResponseMsg{" +
-                    "retCode=" + retCode +
-                    ", retMsg='" + retMsg + '\'' +
-                    ", tcsso='" + tcsso + '\'' +
-                    ", orderId=" + orderId +
-                    '}';
-        }
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+
+	@Override
+	public String toString() {
+		return "ResponseMsg{" + "retCode=" + retCode + ", retMsg='" + retMsg
+				+ '\'' + ", tcsso='" + tcsso + '\'' + ", orderId=" + orderId
+				+ ", bindCode=" + bindCode + '}';
+	}
 }

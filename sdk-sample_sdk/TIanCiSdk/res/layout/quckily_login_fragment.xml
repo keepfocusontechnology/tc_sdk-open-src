@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/tcsdk_main_background"
+    android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tcsdk_account_background"
+        android:padding="14dp" >
+
+        <TextView
+            android:id="@+id/tv_username"
+            style="@style/tcsdk_text_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tcsdk_account" />
+
+        <EditText
+            android:id="@+id/et_username"
+            style="@style/tcsdk_et_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_username"
+            android:background="@null" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/tcsdk_account_background"
+        android:padding="14dp" >
+
+        <TextView
+            android:id="@+id/tv_psw"
+            style="@style/tcsdk_text_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tcsdk_password" />
+
+        <EditText
+            android:id="@+id/et_psw"
+            style="@style/tcsdk_et_normal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_psw"
+            android:password="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bt_fast_register"
+            style="@style/tcsdk_button_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@drawable/tcsdk_buton_faster_register_selector"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/tcsdk_fast_register" />
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="1dp" />
+
+        <Button
+            android:id="@+id/bt_immediately_login"
+            style="@style/tcsdk_button_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:background="@drawable/tcsdk_buton_login_selector"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/tcsdk_immediately_login" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="18dp"
+        android:paddingBottom="20dp" >
+
+        <TextView
+            android:id="@+id/tv_visitor_one_key_login"
+            style="@style/tcsdk_text_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/tcsdk_visitor_one_key_login" />
+
+        <TextView
+            android:id="@+id/tv_psw_retake"
+            style="@style/tcsdk_text_blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/tcsdk_password_retake" />
+    </RelativeLayout>
+
+</LinearLayout>

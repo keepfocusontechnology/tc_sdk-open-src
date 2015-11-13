@@ -5,8 +5,10 @@ package com.gavegame.tiancisdk.network;
  */
 public interface RequestCallBack {
 
-    //成功回调
-    void onSuccessed();
-    //失败的回调
-    void onFailure(ResponseMsg msg);
+	// 成功回调(参数为用户是否已绑定的code)
+	void onSuccessed(int userBindCode);
+
+
+	// 失败的回调
+	void onFailure(ResponseMsg msg);
 }

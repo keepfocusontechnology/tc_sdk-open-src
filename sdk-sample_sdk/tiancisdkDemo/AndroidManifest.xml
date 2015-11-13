@@ -37,13 +37,9 @@
             android:value="410" />
         <!-- 天赐分配的游戏ID -->
         <meta-data
-            android:name="TIANCI_SERVER_ID"
-            android:value="12" />
-        <!-- 天赐分配的服务器ID -->
-        <meta-data
             android:name="TIANCI_CHANNEL_ID"
             android:value="12" />
-        <!-- 天赐分配的服务器ID -->
+        <!-- 天赐分配的渠道ID -->
     </application>
 
 </manifest>

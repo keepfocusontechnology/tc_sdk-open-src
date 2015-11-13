@@ -1,0 +1,75 @@
+package com.gavegame.tiancisdk.fragment;
+
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.gavegame.tiancisdk.R;
+import com.gavegame.tiancisdk.TianCi;
+import com.gavegame.tiancisdk.network.RequestCallBack;
+import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
+
+public class MakeNewPswFragment extends TCBaseFragment {
+
+	private EditText et_new_psw;
+	private Button bt_back;
+	private Button bt_confirm;
+
+	private String mobileNum;
+	private String captcha;
+
+	@Override
+	public void initData(Bundle data) {
+		super.initData(data);
+		mobileNum = data.getString("account");
+		captcha = data.getString("captcha");
+	}
+
+	@Override
+	void initID() {
+		et_new_psw = (EditText) view.findViewById(R.id.et_new_psw);
+		bt_back = (Button) view.findViewById(R.id.bt_new_psw_back);
+		bt_back.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				callback.back();
+			}
+		});
+
+		bt_confirm = (Button) view.findViewById(R.id.bt_new_psw_retake);
+		bt_confirm.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (!TextUtils.isEmpty(et_new_psw.getText()))
+					TianCi.getInstance().setPsw(mobileNum, captcha,
+							et_new_psw.getText() + "", new RequestCallBack() {
+
+								@Override
+								public void onSuccessed(int userBindCode) {
+									TCLogUtils.toastShort(getActivity(),
+											"修改密码成功");
+								}
+
+								@Override
+								public void onFailure(ResponseMsg msg) {
+									TCLogUtils.toastShort(getActivity(),
+											msg.getRetMsg());
+								}
+							});
+
+			}
+		});
+	}
+
+	@Override
+	int getLayoutId() {
+		return R.layout.make_new_psw_fragment;
+	}
+
+}

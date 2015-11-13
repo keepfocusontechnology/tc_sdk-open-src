@@ -16,180 +16,237 @@ import java.util.HashMap;
 /**
  * Created by Tianci on 15/9/22.
  */
-@SuppressLint("NewApi") public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
+@SuppressLint("NewApi")
+public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 
-    private static final String loginUrl = Config.SERVER + "/index.php?g=mobile&m=login&a=%s";
-    private static final String orderUri = Config.SERVER + "/index.php?g=mobile&m=order&a=%s";
-    private ResponseMsg responsMsg;
+	private static final String loginUrl = Config.SERVER
+			+ "/index.php?g=mobile&m=login&a=%s";
+	private static final String orderUri = Config.SERVER
+			+ "/index.php?g=mobile&m=order&a=%s";
+	private ResponseMsg responsMsg;
 
-    private WeakReference<Context> mContextRef;
+	private WeakReference<Context> mContextRef;
 
-    private RequestCallBack callBack;
-    private Method method;
-    private String paramsUri;
-    private Context context;
-    private HashMap<String, Object> paramsQuest;
+	private RequestCallBack callBack;
+	private Method method;
+	private String paramsUri;
+	private Context context;
+	private HashMap<String, Object> paramsQuest;
 
-    private Dialog dialog;
+	private Dialog dialog;
+	private int channelId;
+	private int gameId;
+	private int deviceType;
+	private String useragent;
+	private String deviceId;
 
-//    public ApiSdkRequest(Context context, String paramsUri, Method method, RequestCallBack callBack) {
-//        this.paramsUri = paramsUri;
-//        this.callBack = callBack;
-//        this.method = method;
-//        mContextRef = new WeakReference<>(context);
-//        this.context = mContextRef.get();
-//    }
+	// public ApiSdkRequest(Context context, String paramsUri, Method method,
+	// RequestCallBack callBack) {
+	// this.paramsUri = paramsUri;
+	// this.callBack = callBack;
+	// this.method = method;
+	// mContextRef = new WeakReference<>(context);
+	// this.context = mContextRef.get();
+	// }
 
-    public static ApiSdkRequest newApiSdkRequest(ResponseBean responseBean) {
-        if (responseBean == null) return null;
-        return new ApiSdkRequest(responseBean);
-    }
+	public static ApiSdkRequest newApiSdkRequest(ResponseBean responseBean) {
+		if (responseBean == null)
+			return null;
+		return new ApiSdkRequest(responseBean);
+	}
 
-    private ApiSdkRequest(ResponseBean responseBean) {
-        this.paramsUri = responseBean.getParamsUri();
-        this.callBack = responseBean.getCallBack();
-        this.method = responseBean.getMethod();
-        this.context = responseBean.getContext();
-    }
+	private ApiSdkRequest(ResponseBean responseBean) {
+		this.paramsUri = responseBean.getParamsUri();
+		this.callBack = responseBean.getCallBack();
+		this.method = responseBean.getMethod();
+		this.context = responseBean.getContext();
+	}
 
+	@Override
+	protected ResponseMsg doInBackground(String... params) {
 
-    @Override
-    protected ResponseMsg doInBackground(String... params) {
+		// int resultCode = 0;
+		String resultJson = null;
+		String tcsso = null;
 
-        int resultCode = 0;
-        String resultJson = null;
-        String tcsso = null;
+		if (paramsUri.equals(Config.REQUEST_PARAMS_AUTOLOGIN)) {
+			// paramsQuest.put("deviceid", params[0]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_LOGIN)
+				|| paramsUri.equals(Config.REQUEST_PARAMS_REGISTER)) {
+			paramsQuest.put("user_login", params[0]);
+			paramsQuest.put("user_pass", params[1]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_LOGIN_ROLE)) {
+			tcsso = (String) SharedPreferencesUtils.getParam(context,
+					Config.USER_TCSSO, "");
+			// if (tcsso != null && !tcsso.equals("")) {
+			// paramsQuest.put("tcsso", tcsso);
+			// } else {
+			// return Config.REQUEST_STATUS_CODE_TCSSO_ISNULL;
+			// }
+			paramsQuest.put("tcsso", tcsso);
+			paramsQuest.remove("useragent");
+			paramsQuest.remove("deviceid");
+			paramsQuest.put("cp_role", Integer.valueOf(params[0]));
+			paramsQuest.put("serverid", Integer.valueOf(params[1]));
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)
+				|| paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER)) {
+			tcsso = (String) SharedPreferencesUtils.getParam(context,
+					Config.USER_TCSSO, "");
+			// if (tcsso != null && !tcsso.equals("")) {
+			// paramsQuest.put("tcsso", tcsso);
+			// } else {
+			// //TODO 返回tcsso为空的response
+			// responsMsg = new ResponseMsg();
+			// responsMsg.setRetCode(Config.REQUEST_STATUS_CODE_TCSSO_ISNULL);
+			// return responsMsg;
+			// }
+			paramsQuest.put("tcsso", tcsso);
+			paramsQuest.remove("useragent");
+			paramsQuest.remove("deviceid");
+			paramsQuest.put("cp_role", Integer.valueOf(params[0]));
+			paramsQuest.put("cp_order", params[1]);
+			paramsQuest.put("serverid", params[2]);
+			paramsQuest.put("amount", Double.valueOf(params[3]));
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_GET_NUMBER)) {
+			paramsQuest.clear();
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("deviceid", deviceId);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_MOBILE_REGISTER)) {
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("user_pass", params[1]);
+			paramsQuest.put("code", params[2]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_USER_BIND)) {
+			paramsQuest.clear();
+			tcsso = (String) SharedPreferencesUtils.getParam(context,
+					Config.USER_TCSSO, "");
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("code", params[1]);
+			paramsQuest.put("tcsso", tcsso);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_FORGET_PASS)) {
+			paramsQuest.clear();
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("code", params[1]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_CHECK_BIND)) {
+			paramsQuest.clear();
+			paramsQuest.put("user_login", params[0]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_SET_PASS)) {
+			paramsQuest.clear();
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("code", params[1]);
+			paramsQuest.put("user_pass", params[2]);
+		}
+		String uri;
+		if (paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER)
+				|| paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)) {
+			uri = String.format(orderUri, paramsUri);
+		} else {
+			uri = String.format(loginUrl, paramsUri);
+		}
+		try {
+			if (method == Method.GET) {
+				resultJson = HttpUtil.doGet(uri, paramsQuest);
+			} else if (method == Method.POST) {
+				resultJson = HttpUtil.doPost(uri, paramsQuest);
+			} else if (method == Method.PUT) {
+				// HttpUtil.doPut(uri, paramsQuest);
+			} else if (method == Method.DELETE) {
+				// HttpUtil.doDelete(uri, paramsQuest);
+			}
 
-        if (paramsUri.equals(Config.REQUEST_PARAMS_AUTOLOGIN)) {
-            paramsQuest.put("deviceid", params[0]);
-        } else if (paramsUri.equals(Config.REQUEST_PARAMS_LOGIN) || paramsUri.equals(Config.REQUEST_PARAMS_REGISTER)) {
-            paramsQuest.put("user_login", params[0]);
-            paramsQuest.put("user_pass", params[1]);
-        } else if (paramsUri.equals(Config.REQUEST_PARAMS_LOGIN_ROLE)) {
-            tcsso = (String) SharedPreferencesUtils.getParam(context, Config.USER_TCSSO, "");
-//            if (tcsso != null && !tcsso.equals("")) {
-//                paramsQuest.put("tcsso", tcsso);
-//            } else {
-//                return Config.REQUEST_STATUS_CODE_TCSSO_ISNULL;
-//            }
-            paramsQuest.put("tcsso", tcsso);
-            paramsQuest.remove("useragent");
-            paramsQuest.remove("deviceid");
-            paramsQuest.put("cp_role", Integer.valueOf(params[0]));
-        } else if (paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER) ||
-                paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER)) {
-            tcsso = (String) SharedPreferencesUtils.getParam(context, Config.USER_TCSSO, "");
-//            if (tcsso != null && !tcsso.equals("")) {
-//                paramsQuest.put("tcsso", tcsso);
-//            } else {
-//                //TODO 返回tcsso为空的response
-//                responsMsg = new ResponseMsg();
-//                responsMsg.setRetCode(Config.REQUEST_STATUS_CODE_TCSSO_ISNULL);
-//                return responsMsg;
-//            }
-            paramsQuest.put("tcsso",tcsso);
-            paramsQuest.remove("useragent");
-            paramsQuest.remove("deviceid");
-            paramsQuest.put("cp_role", Integer.valueOf(params[0]));
-            paramsQuest.put("cp_order", params[1]);
-            paramsQuest.put("amount",Double.valueOf(params[2]));
-        }
-        String uri;
-        if (paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER) ||
-                paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)) {
-            uri = String.format(orderUri, paramsUri);
-        } else {
+			responsMsg = getJsonObjcet(resultJson);
+		} catch (Exception e) {
+			TCLogUtils.e(e.toString());
+			responsMsg = new ResponseMsg();
+			responsMsg.setRetMsg("网络访问错误");
+		}
+		return responsMsg;
+	}
 
-            uri = String.format(loginUrl, paramsUri);
-        }
-        try {
-            if (method == Method.GET) {
-                resultJson = HttpUtil.doGet(uri, paramsQuest);
-            } else if (method == Method.POST) {
-                resultJson = HttpUtil.doPost(uri, paramsQuest);
-            } else if (method == Method.PUT) {
-//               HttpUtil.doPut(uri, paramsQuest);
-            } else if (method == Method.DELETE) {
-//               HttpUtil.doDelete(uri, paramsQuest);
-            }
+	/**
+	 * 将结果码返回，如果result中包含tcsso字段，将其存储起来
+	 *
+	 * @param result
+	 *            服务器返回的json串
+	 * @return json串中的结果码
+	 * @throws Exception
+	 */
+	private ResponseMsg getJsonObjcet(String result) throws Exception {
+		responsMsg = new ResponseMsg();
 
-            responsMsg = getJsonObjcet(resultJson);
-        } catch (Exception e) {
-            TCLogUtils.e(e.toString());
-            responsMsg = new ResponseMsg();
-            responsMsg.setRetMsg("网络访问错误");
-        }
-        return responsMsg;
-    }
+		JSONObject jsonObject = new JSONObject(result);
 
-    /**
-     * 将结果码返回，如果result中包含tcsso字段，将其存储起来
-     *
-     * @param result 服务器返回的json串
-     * @return json串中的结果码
-     * @throws Exception
-     */
-    private ResponseMsg getJsonObjcet(String result) throws Exception {
-        responsMsg = new ResponseMsg();
+		if (result.contains("\"tcsso\"")) {
+			responsMsg.setTcsso(jsonObject.getString(Config.USER_TCSSO));
+			SharedPreferencesUtils.setParam(context, Config.USER_TCSSO,
+					jsonObject.getString(Config.USER_TCSSO));
+		}
+		if (result.contains("\"tc_order\"")) {
+			responsMsg.setOrderId(jsonObject.getInt("tc_order"));
+			SharedPreferencesUtils.setParam(context, Config.TC_ORDER_ID,
+					jsonObject.getInt(Config.TC_ORDER_ID));
+		}
+		if (result.contains("\"is_bind\"")) {
+			responsMsg.setBindCode(jsonObject.getInt("is_bind"));
+		}
+		if (result.contains("\"retcode\"")) {
+			responsMsg.setRetCode(jsonObject.getInt("retcode"));
+		}
+		if (result.contains("\"retmsg\"")) {
+			responsMsg.setRetMsg(jsonObject.getString("retmsg"));
+		}
+		return responsMsg;
+	}
 
-        JSONObject jsonObject = new JSONObject(result);
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
 
-        if (result.contains("\"tcsso\"")) {
-            responsMsg.setTcsso(jsonObject.getString(Config.USER_TCSSO));
-            SharedPreferencesUtils.setParam(context, Config.USER_TCSSO, jsonObject.getString(Config.USER_TCSSO));
-        }
-        if(result.contains("\"tc_order\"")){
-            responsMsg.setOrderId(jsonObject.getInt("tc_order"));
-            SharedPreferencesUtils.setParam(context, Config.TC_ORDER_ID, jsonObject.getInt(Config.TC_ORDER_ID));
-        }
-        responsMsg.setRetCode(jsonObject.getInt("retcode"));
-        responsMsg.setRetMsg(jsonObject.getString("retmsg"));
-        return responsMsg;
-    }
+		if (context != null) {
+			dialog = DialogUtils.createLoadingDialog(context);
+			dialog.show();
+		}
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+		channelId = (int) SharedPreferencesUtils.getParam(context,
+				Platform.TIANCI_CHANNEL_ID, 0);
+		gameId = (int) SharedPreferencesUtils.getParam(context,
+				Platform.TIANCI_GAME_ID, 0);
+		deviceType = (int) SharedPreferencesUtils.getParam(context,
+				Platform.TIANCI_DEVICE_TYPE, 0);
+		useragent = (String) SharedPreferencesUtils.getParam(context,
+				Platform.TIANCI_USER_AGENT, "");
+		deviceId = (String) SharedPreferencesUtils.getParam(context,
+				Platform.TIANCI_DEVICE_ID, "");
 
-        dialog = DialogUtils.createLoadingDialog(context);
-        dialog.show();
+		paramsQuest = new HashMap<>();
+		paramsQuest.put("deviceid", deviceId);
+		paramsQuest.put("gameid", gameId);
+		paramsQuest.put("channelid", channelId);
+		paramsQuest.put("useragent", useragent);
+		paramsQuest.put("device_type", deviceType);
+	}
 
-        int channelId = (int) SharedPreferencesUtils.getParam(context, Platform.TIANCI_CHANNEL_ID, 0);
-        int gameId = (int) SharedPreferencesUtils.getParam(context, Platform.TIANCI_GAME_ID, 0);
-        int deviceType = (int) SharedPreferencesUtils.getParam(context, Platform.TIANCI_DEVICE_TYPE, 0);
-        int serverId = (int) SharedPreferencesUtils.getParam(context, Platform.TIANCI_SERVER_ID, 0);
-        String useragent = (String) SharedPreferencesUtils.getParam(context, Platform.TIANCI_USER_AGENT, "");
-        String deviceId = (String) SharedPreferencesUtils.getParam(context, Platform.TIANCI_DEVICE_ID, "");
+	@SuppressLint("NewApi")
+	@Override
+	protected void onPostExecute(ResponseMsg msg) {
+		super.onPostExecute(msg);
+		if (msg.getRetCode() == Config.REQUEST_STATUS_CODE_SUC) {
+			callBack.onSuccessed(msg.getBindCode());
+		} else {
+			callBack.onFailure(msg);
+		}
+		if (dialog != null) {
+			dialog.dismiss();
+		}
+		paramsQuest.clear();
+		paramsQuest = null;
+	}
 
-        paramsQuest = new HashMap<>();
-        paramsQuest.put("deviceid", deviceId);
-        paramsQuest.put("gameid", gameId);
-        paramsQuest.put("serverid", serverId);
-        paramsQuest.put("channelid", channelId);
-        paramsQuest.put("useragent", useragent);
-        paramsQuest.put("device_type", deviceType);
-    }
-
-    @SuppressLint("NewApi") @Override
-    protected void onPostExecute(ResponseMsg msg) {
-        super.onPostExecute(msg);
-        if (msg.getRetCode() == Config.REQUEST_STATUS_CODE_SUC) {
-            callBack.onSuccessed();
-        } else {
-            callBack.onFailure(msg);
-        }
-        dialog.dismiss();
-        paramsQuest.clear();
-        paramsQuest = null;
-    }
-
-    @Override
-    protected void onCancelled() {
-        super.onCancelled();
-        if(dialog.isShowing()){
-            dialog.dismiss();
-        }
-    }
-
+	@Override
+	protected void onCancelled() {
+		super.onCancelled();
+		if (dialog.isShowing()) {
+			dialog.dismiss();
+		}
+	}
 
 }

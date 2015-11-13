@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">dialogActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="tcsdk_account_login">账号登录</string>
     <string name="tcsdk_fast_register">快速注册</string>
     <string name="tcsdk_immediately_login">立即登录</string>
     <string name="tcsdk_register_finish">完成注册</string>
+    <string name="tcsdk_check_finish">完成验证</string>
     <string name="tcsdk_account">账 号:</string>
     <string name="tcsdk_password">密 码:</string>
     <string name="tcsdk_new_psw">新密码:</string>
@@ -23,6 +21,16 @@
     <string name="tcsdk_captcha">发送验证码</string>
     <string name="tcsdk_check">验证</string>
     <string name="tcsdk_new_psw_setting">设置新密码</string>
+    <string name="tcsdk_phone_bind">绑定手机</string>
+    <string name="tcsdk_phone_bind_desc">你的账号安全级别很低，建议你绑定手机</string>
+    <string name="tcsdk_phone_bind_next">下次再说</string>
+    <string name="tcsdk_phone_bind_now">立即绑定</string>
     
+    <string name="tcsdk_customer_desc">您的账号未绑定，无法通过手机号找回，请通过以下方式联系我们：</string>
+    <string name="tcsdk_customer_mail">客服邮箱:kefu@gavegame.com</string>
+    <string name="tcsdk_customer_phone">客服电话:010-51727392</string>
+    <string name="tcsdk_customer_qq">客服QQ:800111308</string>
+    <string name="tcsdk_confirm">确 定</string>
+    <string name="tcsdk_find_psw_contact">若忘记账号，请联系客服:01051727392</string>
 
 </resources>

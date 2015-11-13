@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="fragment_title">
+        <item>账号登陆</item>
+        <item>快速账号注册</item>
+        <item>手机注册</item>
+        <item>修改密码</item>
+        <item>设置新密码</item>
+        <item>找回密码</item>
+    </string-array>
+
+</resources>

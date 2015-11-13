@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tcsdk_account_background"
+        android:padding="14dp" >
+
+        <TextView
+            android:id="@+id/tv_find_psw_username"
+            style="@style/tcsdk_text_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tcsdk_account" />
+
+        <EditText
+            android:id="@+id/et_find_psw_username"
+            style="@style/tcsdk_et_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_find_psw_username"
+            android:background="@null" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bt_find_psw_confirm"
+        style="@style/tcsdk_button_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tcsdk_buton_faster_register_selector"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/tcsdk_confirm" />
+
+    <TextView
+        android:paddingBottom="20dp"
+        style="@style/tcsdk_text_blue"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_find_psw_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tcsdk_find_psw_contact" />
+
+</LinearLayout>

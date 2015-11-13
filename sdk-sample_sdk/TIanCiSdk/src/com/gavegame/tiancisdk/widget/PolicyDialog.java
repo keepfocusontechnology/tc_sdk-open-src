@@ -34,7 +34,7 @@ public class PolicyDialog extends Dialog {
         tv_dismiss.setOnClickListener(clickListener);
         WebSettings wSet = webView.getSettings();
         wSet.setJavaScriptEnabled(true);
-        webView.loadUrl("file:///android_asset/index.html");
+        webView.loadUrl("file:///android_asset/tcsdk_user_need_know.html");
     }
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
