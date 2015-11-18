@@ -2,14 +2,14 @@
 <resources>
 
     <string name="tcsdk_account_login">账号登录</string>
-    <string name="tcsdk_fast_register">快速注册</string>
+    <string name="tcsdk_fast_register">账号注册</string>
     <string name="tcsdk_immediately_login">立即登录</string>
     <string name="tcsdk_register_finish">完成注册</string>
     <string name="tcsdk_check_finish">完成验证</string>
     <string name="tcsdk_account">账 号:</string>
     <string name="tcsdk_password">密 码:</string>
     <string name="tcsdk_new_psw">新密码:</string>
-    <string name="tcsdk_visitor_one_key_login">游客一键登录 ></string>
+    <string name="tcsdk_visitor_one_key_login">游客登录</string>
     <string name="tcsdk_password_retake">找回密码 ></string>
     <string name="tcsdk_user_protocol">已阅读和同意使用条款和隐私协议</string>
     <string name="tcsdk_u_can">你也可以选择使用</string>
@@ -25,6 +25,7 @@
     <string name="tcsdk_phone_bind_desc">你的账号安全级别很低，建议你绑定手机</string>
     <string name="tcsdk_phone_bind_next">下次再说</string>
     <string name="tcsdk_phone_bind_now">立即绑定</string>
+    <string name="tcsdk_customer_center">客服中心 ></string>
     
     <string name="tcsdk_customer_desc">您的账号未绑定，无法通过手机号找回，请通过以下方式联系我们：</string>
     <string name="tcsdk_customer_mail">客服邮箱:kefu@gavegame.com</string>

@@ -13,6 +13,11 @@ import com.gavegame.tiancisdk.utils.NormalUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.utils.TimerCount;
 
+/**
+ * 手机号码直接注册
+ * @author Tianci
+ *
+ */
 public class PhoneNumRegisterFragment extends TCBaseFragment {
 
 	private Button bt_captcha;

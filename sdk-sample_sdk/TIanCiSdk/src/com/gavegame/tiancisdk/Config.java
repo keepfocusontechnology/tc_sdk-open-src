@@ -56,4 +56,8 @@ public interface Config {
 	String USER_TCSSO = "tcsso";
 
 	String TC_ORDER_ID = "tc_order";
+
+	// 每隔一天提示一次号码未绑定
+//	int account_bind_time = 1000 * 60 * 60 * 24;
+	int account_bind_time = 1000 * 10;
 }

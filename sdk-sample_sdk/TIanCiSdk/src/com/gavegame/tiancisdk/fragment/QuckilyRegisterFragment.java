@@ -12,7 +12,9 @@ import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.utils.NormalUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
+import com.gavegame.tiancisdk.utils.TCSdkToast;
 import com.gavegame.tiancisdk.widget.PolicyDialog;
 
 public class QuckilyRegisterFragment extends TCBaseFragment {
@@ -54,35 +56,33 @@ public class QuckilyRegisterFragment extends TCBaseFragment {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						if (TextUtils.isEmpty(et_username.getText())
-								|| TextUtils.isEmpty(et_psw.getText())) {
-							TCLogUtils.toastShort(getActivity(), "账户或密码不能为空！");
-						} else {
-							TianCi.getInstance().register(
-									et_username.getText() + "",
-									et_psw.getText() + "",
-									new RequestCallBack() {
-
-										@Override
-										public void onSuccessed(int code) {
-											if (code != 1) {
-												callback.jumpNextPage(Config.DIALOG_BIND_FRAGMENT);
-											} else {
-												TCLogUtils.toastShort(
-														getActivity(), TianCi
-																.getInstance()
-																.getTcsso());
-											}
-										}
-
-										@Override
-										public void onFailure(ResponseMsg msg) {
-											TCLogUtils.toastShort(
-													getActivity(),
-													msg.getRetMsg());
-										}
-									});
+						if (!dataCheck(et_username.getText() + "",
+								et_psw.getText() + "")) {
+							return;
 						}
+						//普通账号注册
+						TianCi.getInstance().register(
+								et_username.getText() + "",
+								et_psw.getText() + "", new RequestCallBack() {
+
+									@Override
+									public void onSuccessed(int code) {
+										if (code != 1) {
+											callback.jumpNextPage(Config.DIALOG_BIND_FRAGMENT);
+										} else {
+											TCLogUtils.toastShort(
+													getActivity(), TianCi
+															.getInstance()
+															.getTcsso());
+										}
+									}
+
+									@Override
+									public void onFailure(ResponseMsg msg) {
+										TCLogUtils.toastShort(getActivity(),
+												msg.getRetMsg());
+									}
+								});
 					}
 				});
 		;
@@ -104,6 +104,32 @@ public class QuckilyRegisterFragment extends TCBaseFragment {
 	void popPolicyDialog() {
 		PolicyDialog policyDialog = new PolicyDialog(getActivity());
 		policyDialog.show();
+	}
+
+	// 检测用户名，密码是否合法
+	private boolean dataCheck(String... params) {
+		if (TextUtils.isEmpty(params[0]) || TextUtils.isEmpty(params[1])) {
+			TCSdkToast.show("不能为空", getActivity());
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			TCSdkToast.hide();
+			return false;
+		}
+
+		if (NormalUtils.isAllNum(params[0])) {
+			TCSdkToast.show("用户名不能为纯数字", getActivity());
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			TCSdkToast.hide();
+			return false;
+		}
+		return true;
 	}
 
 }

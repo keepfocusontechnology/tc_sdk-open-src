@@ -6,12 +6,15 @@ import java.util.List;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +30,7 @@ import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.FragmentChangedCallback;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
+import com.gavegame.tiancisdk.TianCiSDK;
 import com.gavegame.tiancisdk.fragment.FindPswFragment;
 import com.gavegame.tiancisdk.fragment.FinishCodeCheckFragment;
 import com.gavegame.tiancisdk.fragment.MakeNewPswFragment;
@@ -37,6 +41,9 @@ import com.gavegame.tiancisdk.fragment.PswRetakeFragment;
 import com.gavegame.tiancisdk.fragment.QuckilyLoginFragment;
 import com.gavegame.tiancisdk.fragment.QuckilyRegisterFragment;
 import com.gavegame.tiancisdk.fragment.TCBaseFragment;
+import com.gavegame.tiancisdk.network.RequestCallBack;
+import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class TCLoginActivity extends BaseActivity implements
 		FragmentChangedCallback {
@@ -51,24 +58,75 @@ public class TCLoginActivity extends BaseActivity implements
 	private View title;
 
 	private List<String> titleStack;
+	
+	private View mainView;
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.action_bar_activity);
+		mainView = (View) LayoutInflater.from(this).inflate(R.layout.action_bar_activity, null);
+		setContentView(mainView);
 		if (VERSION.SDK_INT >= 11)
 			TCLoginActivity.this.setFinishOnTouchOutside(false);
 		manager = getSupportFragmentManager();
-			titleStack = new ArrayList<String>();
+		titleStack = new ArrayList<String>();
 		initTitle();
 		switchFragment(0, savedInstanceState);
+	}
+
+	private boolean isFristLogin() {
+		String loginModel = TianCi.getInstance().getUserAccount("login_model");
+		if (TextUtils.isEmpty(loginModel)) {
+			return true;
+		} else {
+			if (loginModel.equals("visitor")) {
+				TianCi.getInstance().autoLogin(new RequestCallBack() {
+
+					@Override
+					public void onSuccessed(int userBindCode) {
+						TCLogUtils.toastShort(getApplicationContext(), "游客自动登陆成功");
+						finish();
+					}
+
+					@Override
+					public void onFailure(ResponseMsg msg) {
+						TCLogUtils.toastShort(getApplicationContext(), msg.getRetMsg());
+					}
+				});
+			} else if (loginModel.equals("account")) {
+				String username = TianCi.getInstance().getUserAccount(
+						"user_account");
+				String psw = TianCi.getInstance().getUserAccount(
+						"user_password");
+				TianCi.getInstance().login(username, psw, new RequestCallBack() {
+
+					@Override
+					public void onSuccessed(int userBindCode) {
+						finish();
+						TCLogUtils.toastShort(getApplicationContext(), "自动登陆成功");
+					}
+
+					@Override
+					public void onFailure(ResponseMsg msg) {
+
+					}
+				});
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * 设置窗口大小
+	 */
+	private void setWindowParams(double width) {
 		WindowManager m = getWindowManager();
 		Display d = m.getDefaultDisplay(); // 为获取屏幕宽、高
 		LayoutParams params = getWindow().getAttributes(); // 获取对话框当前的参数值
-		// params.height = (int) (d.getHeight() * 0.5); //高度设置为屏幕的1.0
-		params.width = (int) (d.getWidth() * 0.9); // 宽度设置为屏幕的0.8
+		// params.height = (int) (d.getHeight() * height); //高度设置为屏幕的1.0
+		params.width = (int) (d.getWidth() * width); // 宽度设置为屏幕的0.8
 		// params.alpha = 1.0f; //设置本身透明度
 		// params.dimAmount = 0.0f; //设置黑暗度
 		getWindow().setAttributes(params);
@@ -78,6 +136,18 @@ public class TCLoginActivity extends BaseActivity implements
 	protected void onResume() {
 		super.onResume();
 		TianCi.init(this);
+		if (TianCiSDK.getScreenState()) {
+			// 竖屏
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			setWindowParams(0.9);
+		} else {
+			// 横屏
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+			setWindowParams(0.6);
+		}
+		if(!isFristLogin()){
+			mainView.setVisibility(View.GONE);
+		}
 	}
 
 	private void initTitle() {
@@ -129,13 +199,13 @@ public class TCLoginActivity extends BaseActivity implements
 			contentFragment = new FinishCodeCheckFragment();
 			tag = "FinishCodeCheckFragment";
 			break;
-		case Config.DIALOG_BIND_FRAGMENT:
-			contentFragment = new PhoneBindFragment();
-			tag = "PhoneBindFragment";
-			break;
 		case Config.MOBILE_BIND_FRAGMENT:
 			contentFragment = new MobileBindFragment();
 			tag = "MobileBindFragment";
+			break;
+		case Config.DIALOG_BIND_FRAGMENT:
+			contentFragment = new PhoneBindFragment();
+			tag = "PhoneBindFragment";
 			break;
 		default:
 			break;
@@ -185,7 +255,7 @@ public class TCLoginActivity extends BaseActivity implements
 
 	@Override
 	public void jumpNextPage(int targetFragmentID) {
-		switchFragment(targetFragmentID, null, true);
+		switchFragment(targetFragmentID, null, false);
 	}
 
 	@Override
@@ -224,7 +294,8 @@ public class TCLoginActivity extends BaseActivity implements
 			titleStack.clear();
 			titleStack = null;
 		} else {
-			manager.popBackStack();
+			// manager.popBackStack();
+			removeFragment(R.anim.right_silde);
 			// Look ! ! : There is a illegalStateException
 			// if (titleStack.iterator().hasNext()) {
 			// titleStack.iterator().next();
@@ -242,6 +313,17 @@ public class TCLoginActivity extends BaseActivity implements
 		}
 	}
 
+	public void removeFragment(int outAnimId) {
+		// if (contentFragment == null) return;
+		// if (outAnimId != -1) {
+		// transaction.setCustomAnimations(0, outAnimId);
+		// }
+		// transaction.remove(contentFragment);
+		// transaction.commit();
+		manager.popBackStackImmediate();
+		// TCLogUtils.e("manager.getBackStackEntryCount() = "+manager.getBackStackEntryCount()+"");
+	}
+
 	@Override
 	public void back() {
 		goBack();
@@ -251,8 +333,8 @@ public class TCLoginActivity extends BaseActivity implements
 	public void jumpNextPage(int fragmentID, Bundle bundle) {
 		// 首先弹出栈中所有fragment
 		// manager.popBackStackImmediate(null, 1);
-//		titleStack.clear();
-		switchFragment(fragmentID, bundle, true);
+		// titleStack.clear();
+		switchFragment(fragmentID, bundle, false);
 	}
 
 }

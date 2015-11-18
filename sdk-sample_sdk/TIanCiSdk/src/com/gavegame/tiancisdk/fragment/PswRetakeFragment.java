@@ -15,6 +15,12 @@ import com.gavegame.tiancisdk.utils.NormalUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.utils.TimerCount;
 
+/**
+ * 验证手机是否绑定的界面
+ * @author Tianci
+ *
+ */
+
 public class PswRetakeFragment extends TCBaseFragment {
 
 	private TimerCount timer;
@@ -65,7 +71,7 @@ public class PswRetakeFragment extends TCBaseFragment {
 								Bundle bundle = new Bundle();
 								bundle.putString("account", et_phone_num.getText()+"");
 								bundle.putString("captcha", et_captcha.getText()+"");
-								callback.jumpNextPage(Config.MAKE_NEWPSW_FRAGMENT);
+								callback.jumpNextPage(Config.MAKE_NEWPSW_FRAGMENT,bundle);
 							}
 							
 							@Override

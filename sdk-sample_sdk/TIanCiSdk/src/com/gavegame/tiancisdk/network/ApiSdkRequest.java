@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
+
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.DialogUtils;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
+
 import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
@@ -121,6 +125,9 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 					Config.USER_TCSSO, "");
 			paramsQuest.put("mobile", params[0]);
 			paramsQuest.put("code", params[1]);
+			if(params.length == 3 && !TextUtils.isEmpty(params[2])){
+				paramsQuest.put("user_pass", params[2]);
+			}
 			paramsQuest.put("tcsso", tcsso);
 		} else if (paramsUri.equals(Config.REQUEST_PARAMS_FORGET_PASS)) {
 			paramsQuest.clear();
@@ -204,8 +211,6 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 		if (context != null) {
 			dialog = DialogUtils.createLoadingDialog(context);
 			dialog.show();
-		}else{
-			dialog.dismiss();
 		}
 
 		channelId = (int) SharedPreferencesUtils.getParam(context,

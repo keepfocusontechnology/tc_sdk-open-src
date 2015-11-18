@@ -1,5 +1,8 @@
 package com.gavegame.tiancisdk;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Context;
 
 import com.gavegame.tiancisdk.network.ApiSdkRequest;
@@ -7,6 +10,7 @@ import com.gavegame.tiancisdk.network.Method;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseBean;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 /**
  * Created by Tianci on 15/10/9.
@@ -196,7 +200,7 @@ public class TianCi {
 	}
 
 	/**
-	 * 用户绑定
+	 * 普通账户用户绑定
 	 * 
 	 * @param mobileNum
 	 *            手机号码
@@ -211,6 +215,24 @@ public class TianCi {
 				Config.REQUEST_PARAMS_USER_BIND, Method.POST, callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
 		apiSdkRequest.execute(mobileNum, captcha);
+	}
+
+	/**
+	 * 游客账户用户绑定
+	 * 
+	 * @param mobileNum
+	 *            手机号码
+	 * @param captcha
+	 *            验证码
+	 * @param callBack
+	 *            访问结果回调
+	 */
+	public void userBind(String mobileNum, String captcha, String psw,
+			RequestCallBack callBack) {
+		responseBean = new ResponseBean(mContext,
+				Config.REQUEST_PARAMS_USER_BIND, Method.POST, callBack);
+		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
+		apiSdkRequest.execute(mobileNum, captcha, psw);
 	}
 
 	/**
@@ -266,4 +288,84 @@ public class TianCi {
 		apiSdkRequest.execute(mobileNum, captcha, userPsw);
 	}
 
+	/**
+	 * 获取当前时间
+	 * 
+	 * @return
+	 */
+	public long getCurrentTime() {
+		return System.currentTimeMillis();
+	}
+
+	/**
+	 * 获取上次弹出的时间
+	 * 
+	 * @return
+	 */
+	public long getLastBindDialogPopTime() {
+		return (long) SharedPreferencesUtils.getParam(mContext, "currentTime",
+				0l);
+	}
+
+	/**
+	 * 保存当前时间
+	 */
+	public void saveCurrentTime() {
+		SharedPreferencesUtils.setParam(mContext, "currentTime",
+				getCurrentTime());
+	}
+
+	/**
+	 * 判断是否到提示的时间
+	 * 
+	 * @return
+	 */
+	public boolean isPopBindPage() {
+		// Date nowTime = new Date(getCurrentTime());
+		// SimpleDateFormat sdFormatter = new
+		// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		// String retStrFormatNowDate = sdFormatter.format(nowTime);
+		//
+		// TCLogUtils.e("当前:"+retStrFormatNowDate + "");
+		//
+		// nowTime = new Date(getLastBindDialogPopTime());
+		// retStrFormatNowDate = sdFormatter.format(nowTime);
+		// TCLogUtils.e("上次弹出，存储:"+retStrFormatNowDate + "");
+
+		return (getCurrentTime() - getLastBindDialogPopTime()) > Config.account_bind_time ? true
+				: false;
+	}
+
+	/**
+	 * 如果用户采用快速注册方式，将用户的账户跟密码记录在sp中
+	 * 
+	 */
+	public void saveAccountAndPsw(String account, String psw) {
+		SharedPreferencesUtils.setParam(mContext, "user_account", account);
+		SharedPreferencesUtils.setParam(mContext, "user_password", psw);
+	}
+
+	/**
+	 * 获取缓存的内容
+	 * 
+	 * @param key
+	 *            字段的key值
+	 * @return
+	 */
+	public String getUserAccount(String key) {
+		return (String) SharedPreferencesUtils.getParam(mContext, key, "");
+	}
+
+	/**
+	 * 将上次登录状态缓存为账户
+	 */
+	public void saveLoginModelIsAccount() {
+		SharedPreferencesUtils.setParam(mContext, "login_model", "account");
+	}
+	/**
+	 * 将上次登录状态缓存为游客
+	 */
+	public void saveLoginModelIsVisitor() {
+		SharedPreferencesUtils.setParam(mContext, "login_model", "visitor");
+	}
 }

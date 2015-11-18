@@ -7,12 +7,18 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 
+/**
+ * 账号已绑定，且验证码通过后，最后的设置新密码
+ * @author Tianci
+ *
+ */
 public class MakeNewPswFragment extends TCBaseFragment {
 
 	private EditText et_new_psw;
@@ -54,6 +60,9 @@ public class MakeNewPswFragment extends TCBaseFragment {
 								public void onSuccessed(int userBindCode) {
 									TCLogUtils.toastShort(getActivity(),
 											"修改密码成功");
+									Bundle data = new Bundle();
+									data.putString("account", mobileNum);
+									callback.jumpNextPage(Config.QUCKILY_LOGIN_FRAGMENT, data);
 								}
 
 								@Override

@@ -26,6 +26,8 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 public final class TianCiSDK {
 
     static TianCiSDK mTianCiSDK;
+    //默认为竖屏 false为横屏 true为竖屏
+    private static boolean screenIsPortrait = true;
 
     public static void init(Context context){
         if(mTianCiSDK == null){
@@ -36,6 +38,15 @@ public final class TianCiSDK {
             }
         }
     }
+    
+    public static void setScreenIsPortrait(boolean screenState){
+    	screenIsPortrait = screenState;
+    }
+    
+    public static boolean getScreenState(){
+    	return screenIsPortrait;
+    }
+    
 
     public static TianCiSDK getInstance(){
         if(mTianCiSDK == null){

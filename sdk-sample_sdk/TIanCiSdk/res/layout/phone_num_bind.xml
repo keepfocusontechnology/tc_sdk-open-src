@@ -9,7 +9,7 @@
         style="@style/tcsdk_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/tcsdk_top_bot_padding"
         android:text="@string/tcsdk_phone_bind" />
 
     <TextView
@@ -26,7 +26,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="18dp"
         android:orientation="horizontal"
-        android:paddingBottom="20dp" >
+        android:paddingBottom="@dimen/tcsdk_top_bot_padding" >
 
         <Button
             android:id="@+id/bt_tcsdk_phone_bind_next"

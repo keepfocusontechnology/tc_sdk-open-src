@@ -18,4 +18,15 @@ public class NormalUtils {
         Matcher m = p.matcher(mobiles);
         return m.matches();
     }
+    
+    /**
+     * 判断字符串是否为纯数字
+     * @param str
+     * @return true代表是，false代表不是
+     */
+    public static boolean isAllNum(String str){
+    	Pattern p = Pattern.compile("^\\d+$");
+    	Matcher m = p.matcher(str);
+        return m.matches();
+    }
 }

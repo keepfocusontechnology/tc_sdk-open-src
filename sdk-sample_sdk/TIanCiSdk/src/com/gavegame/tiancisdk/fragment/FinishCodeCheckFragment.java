@@ -16,6 +16,11 @@ import com.gavegame.tiancisdk.utils.NormalUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.utils.TimerCount;
 
+/**
+ * 已经用手机号来找回密码，直接输入验证码的页面
+ * @author Tianci
+ *
+ */
 public class FinishCodeCheckFragment extends TCBaseFragment {
 
 	private EditText et_check_captcha;
