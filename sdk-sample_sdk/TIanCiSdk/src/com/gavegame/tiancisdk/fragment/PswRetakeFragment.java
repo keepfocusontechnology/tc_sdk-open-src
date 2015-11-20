@@ -1,10 +1,13 @@
 package com.gavegame.tiancisdk.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
@@ -12,6 +15,7 @@ import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.NormalUtils;
+import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.utils.TimerCount;
 
@@ -30,8 +34,14 @@ public class PswRetakeFragment extends TCBaseFragment {
 
 	@Override
 	void initID() {
+		String phoneNum = (String)SharedPreferencesUtils.getParam(getActivity(), "mobile", "");
 		et_phone_num = (EditText) view.findViewById(R.id.et_bind_phone_num);
+		et_phone_num.setEnabled(false);
+		if(!TextUtils.isEmpty(phoneNum))
+			et_phone_num.setText(phoneNum);
 		et_captcha = (EditText)view.findViewById(R.id.et_mobile_bind_captcha);
+		//弹出数字键盘
+		et_captcha.setInputType(EditorInfo.TYPE_CLASS_PHONE); 
 		bt_captcha = (Button) view.findViewById(R.id.bt_captcha);
 		timer = new TimerCount(60000, 1000, bt_captcha);
 		bt_captcha.setOnClickListener(new OnClickListener() {

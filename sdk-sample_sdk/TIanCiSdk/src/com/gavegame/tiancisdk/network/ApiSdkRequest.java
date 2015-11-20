@@ -1,8 +1,15 @@
 package com.gavegame.tiancisdk.network;
 
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
@@ -11,11 +18,6 @@ import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.DialogUtils;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
-
-import org.json.JSONObject;
-
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
 
 /**
  * Created by Tianci on 15/9/22.
@@ -201,6 +203,10 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 		if (result.contains("\"retmsg\"")) {
 			responsMsg.setRetMsg(jsonObject.getString("retmsg"));
 		}
+		if (result.contains("\"mobile\"")) {
+//			responsMsg.setRetMsg(jsonObject.getString("retmsg"));
+			SharedPreferencesUtils.setParam(context, "mobile", jsonObject.getString("mobile"));
+		}
 		return responsMsg;
 	}
 
@@ -211,6 +217,14 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 		if (context != null) {
 			dialog = DialogUtils.createLoadingDialog(context);
 			dialog.show();
+			dialog.setCancelable(true);
+			dialog.setOnCancelListener(new OnCancelListener() {
+				
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					ApiSdkRequest.this.cancel(true);
+				}
+			});
 		}
 
 		channelId = (int) SharedPreferencesUtils.getParam(context,

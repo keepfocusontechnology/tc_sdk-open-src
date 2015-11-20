@@ -26,7 +26,6 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		context = getApplicationContext();
 		TianCiSDK.init(this);
-		TianCiSDK.setDebugModel(true);
 		TianCiSDK.setScreenIsPortrait(true);
 		findViewById(R.id.jump_login_page).setOnClickListener(
 				new OnClickListener() {

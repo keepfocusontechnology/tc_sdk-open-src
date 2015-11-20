@@ -116,13 +116,14 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 			@Override
 			public void onClick(View v) {
 				//记录为账户登录
-				TianCi.getInstance().saveLoginModelIsAccount();
+				
 				// TODO 登录
 				TianCi.getInstance().login(et_username.getText() + "",
 						et_psw.getText() + "", new RequestCallBack() {
 
 							@Override
 							public void onSuccessed(int code) {
+								TianCi.getInstance().saveLoginModelIsAccount();
 								if (code == 1) {// 账号已绑定
 									TCLogUtils.toastShort(getActivity(),
 											"登陆成功! tcsso:"
@@ -168,6 +169,7 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 							public void onFailure(ResponseMsg msg) {
 								TCLogUtils.toastShort(getActivity(),
 										msg.getRetMsg());
+//								TCSdkToast.show(msg.getRetMsg(), getActivity());
 							}
 						});
 			}

@@ -3,6 +3,7 @@ package com.gavegame.tiancisdk.fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -12,7 +13,6 @@ import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.NormalUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
-import com.gavegame.tiancisdk.utils.TCSdkToast;
 
 /**
  * 游客绑定手机号界面
@@ -31,6 +31,7 @@ public class PhoneNumBindFragment extends TCBaseFragment {
 		et_phone = (EditText) view.findViewById(R.id.et_username);
 		et_psw = (EditText) view.findViewById(R.id.et_psw);
 		et_code = (EditText) view.findViewById(R.id.et_captcha);
+		et_code.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 		TextView tv_confirm = (TextView) view
 				.findViewById(R.id.bt_mabile_reg_confirm);
 		tv_confirm.setText("绑定");
@@ -70,12 +71,12 @@ public class PhoneNumBindFragment extends TCBaseFragment {
 	private boolean dataCheck(String... params) {
 		if (TextUtils.isEmpty(params[0]) || TextUtils.isEmpty(params[1])
 				|| TextUtils.isEmpty(params[2])) {
-			TCSdkToast.show("不能为空", getActivity());
+//			TCSdkToast.show("不能为空", getActivity());
 			return false;
 		}
 
 		if (!NormalUtils.isMobile(params[0])) {
-			TCSdkToast.show("不是手机啊", getActivity());
+//			TCSdkToast.show("不是手机啊", getActivity());
 			return false;
 		}
 		return true;

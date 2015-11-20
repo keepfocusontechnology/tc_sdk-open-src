@@ -15,7 +15,6 @@ import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.NormalUtils;
-import com.gavegame.tiancisdk.utils.TCSdkToast;
 import com.gavegame.tiancisdk.widget.CustomerDialog;
 
 /**
@@ -37,7 +36,7 @@ public class FindPswFragment extends TCBaseFragment {
 					public void onClick(View v) {
 						if (TextUtils.isEmpty(et_username.getText())) {
 							// TODO 自定义吐司 判空
-							TCSdkToast.show("账号为空", getActivity());
+//							TCSdkToast.show("账号为空", getActivity());
 						} else {
 							if (NormalUtils.isMobile(et_username.getText() + "")) {
 								// TODO 是手机号直接跳转发送验证码界面
@@ -60,7 +59,7 @@ public class FindPswFragment extends TCBaseFragment {
 											public void onFailure(
 													ResponseMsg msg) {
 												if (msg.getBindCode() == 1) {
-													TCSdkToast.show("这里如果返回绑定，逻辑有问题哟", getActivity());
+//													TCSdkToast.show("这里如果返回绑定，逻辑有问题哟", getActivity());
 												} else {
 													// TODO 账号未绑定，跳转客服界面
 													CustomerDialog dialog = new CustomerDialog(

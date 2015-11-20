@@ -100,6 +100,8 @@ public class TCLoginActivity extends BaseActivity implements
 						"user_account");
 				String psw = TianCi.getInstance().getUserAccount(
 						"user_password");
+				if(TextUtils.isEmpty(username) || TextUtils.isEmpty(psw))
+					return true;
 				TianCi.getInstance().login(username, psw, new RequestCallBack() {
 
 					@Override

@@ -25,8 +25,10 @@
             style="@style/tcsdk_et_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/tv_find_psw_username"
-            android:background="@null" />
+            android:background="@null"
+            android:hint="@string/tcsdk_plz_print_account" />
     </RelativeLayout>
 
     <Button
@@ -43,13 +45,13 @@
         android:text="@string/tcsdk_confirm" />
 
     <TextView
-        android:paddingBottom="@dimen/tcsdk_top_bot_padding"
-        style="@style/tcsdk_text_blue"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
         android:id="@+id/tv_find_psw_contact"
+        style="@style/tcsdk_text_blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="@dimen/tcsdk_top_bot_padding"
         android:text="@string/tcsdk_find_psw_contact" />
 
 </LinearLayout>

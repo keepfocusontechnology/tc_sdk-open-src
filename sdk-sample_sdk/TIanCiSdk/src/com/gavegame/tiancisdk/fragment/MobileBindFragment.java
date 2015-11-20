@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -25,7 +26,7 @@ public class MobileBindFragment extends TCBaseFragment {
 	void initID() {
 		et_mobile_num = (EditText) view.findViewById(R.id.et_bind_phone_num);
 		et_captcha = (EditText) view.findViewById(R.id.et_mobile_bind_captcha);
-
+		et_captcha.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 		Button bt_bind = (Button) view.findViewById(R.id.bt_check);
 		bt_bind.setText("绑定");
 		view.findViewById(R.id.bt_mobile_back).setOnClickListener(

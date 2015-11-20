@@ -26,8 +26,10 @@
             style="@style/tcsdk_et_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/tv_username"
-            android:background="@null" />
+            android:background="@null"
+            android:hint="请输入手机号" />
     </RelativeLayout>
 
     <LinearLayout
@@ -38,13 +40,14 @@
         android:layout_marginTop="20dp" >
 
         <EditText
-            android:gravity="center"
             android:id="@+id/et_captcha"
             style="@style/tcsdk_et_normal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.55"
-            android:background="@drawable/tcsdk_account_background" />
+            android:background="@drawable/tcsdk_account_background"
+            android:gravity="center"
+            android:hint="验证码" />
 
         <View
             android:layout_width="0dp"
@@ -53,13 +56,13 @@
             android:background="@color/tcsdk_main_background" />
 
         <Button
-            style="@style/tcsdk_button_text"
             android:id="@+id/bt_captcha"
-            android:text="@string/tcsdk_captcha"
+            style="@style/tcsdk_button_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.35"
-            android:background="@drawable/tcsdk_buton_login_selector" />
+            android:background="@drawable/tcsdk_buton_login_selector"
+            android:text="@string/tcsdk_captcha" />
     </LinearLayout>
 
     <RelativeLayout
@@ -83,8 +86,10 @@
             style="@style/tcsdk_et_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/tv_psw"
-            android:background="@null" />
+            android:background="@null"
+            android:hint="请输入密码" />
     </RelativeLayout>
 
     <LinearLayout

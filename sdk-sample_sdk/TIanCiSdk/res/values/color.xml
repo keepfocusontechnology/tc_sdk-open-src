@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="tcsdk_text_account_login">#f55000</color>
     <color name="white">#ffffff</color>
     <color name="tcsdk_main_background">#ececea</color>
@@ -8,5 +9,7 @@
     <color name="tcsdk_button_immediately_login">#ff7200</color>
     <color name="tcsdk_button_immediately_login_pressed">#ff8b2d</color>
     <color name="tcsdk_text_password_retake">#57acfb</color>
-    
+    <color name="tcsdk_text_hint">#d0d0d0</color>
+    <color name="transparent">#00000000</color>
+
 </resources>

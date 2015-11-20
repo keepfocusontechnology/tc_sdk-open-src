@@ -2,6 +2,7 @@ package com.gavegame.tiancisdk.fragment;
 
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -31,6 +32,7 @@ public class PhoneNumRegisterFragment extends TCBaseFragment {
 		et_phone = (EditText) view.findViewById(R.id.et_username);
 		et_psw = (EditText) view.findViewById(R.id.et_psw);
 		et_code = (EditText) view.findViewById(R.id.et_captcha);
+		et_code.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 		view.findViewById(R.id.bt_mabile_reg_confirm).setOnClickListener(
 				new OnClickListener() {
 

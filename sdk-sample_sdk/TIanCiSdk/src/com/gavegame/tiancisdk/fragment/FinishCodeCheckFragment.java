@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -12,7 +13,6 @@ import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
-import com.gavegame.tiancisdk.utils.NormalUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.utils.TimerCount;
 
@@ -39,6 +39,7 @@ public class FinishCodeCheckFragment extends TCBaseFragment {
 	void initID() {
 		et_check_captcha = (EditText) view
 				.findViewById(R.id.et_finish_check_captcha);
+		et_check_captcha.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 		bt_send_check_code = (Button) view.findViewById(R.id.bt_send_captcha);
 		bt_confirm_check = (Button) view.findViewById(R.id.bt_finish_check);
 
