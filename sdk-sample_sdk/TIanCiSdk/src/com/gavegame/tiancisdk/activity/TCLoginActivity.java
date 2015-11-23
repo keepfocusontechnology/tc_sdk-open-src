@@ -58,24 +58,10 @@ public class TCLoginActivity extends BaseActivity implements
 	private View title;
 
 	private List<String> titleStack;
-	
+
 	private View mainView;
 
 	@SuppressLint("NewApi")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		mainView = (View) LayoutInflater.from(this).inflate(R.layout.action_bar_activity, null);
-		setContentView(mainView);
-		if (VERSION.SDK_INT >= 11)
-			TCLoginActivity.this.setFinishOnTouchOutside(false);
-		manager = getSupportFragmentManager();
-		titleStack = new ArrayList<String>();
-		initTitle();
-		switchFragment(0, savedInstanceState);
-	}
-
 	private boolean isFristLogin() {
 		String loginModel = TianCi.getInstance().getUserAccount("login_model");
 		if (TextUtils.isEmpty(loginModel)) {
@@ -86,13 +72,15 @@ public class TCLoginActivity extends BaseActivity implements
 
 					@Override
 					public void onSuccessed(int userBindCode) {
-						TCLogUtils.toastShort(getApplicationContext(), "游客自动登陆成功");
+						TCLogUtils.toastShort(getApplicationContext(),
+								"游客自动登陆成功");
 						finish();
 					}
 
 					@Override
 					public void onFailure(ResponseMsg msg) {
-						TCLogUtils.toastShort(getApplicationContext(), msg.getRetMsg());
+						TCLogUtils.toastShort(getApplicationContext(),
+								msg.getRetMsg());
 					}
 				});
 			} else if (loginModel.equals("account")) {
@@ -100,21 +88,23 @@ public class TCLoginActivity extends BaseActivity implements
 						"user_account");
 				String psw = TianCi.getInstance().getUserAccount(
 						"user_password");
-				if(TextUtils.isEmpty(username) || TextUtils.isEmpty(psw))
+				if (TextUtils.isEmpty(username) || TextUtils.isEmpty(psw))
 					return true;
-				TianCi.getInstance().login(username, psw, new RequestCallBack() {
+				TianCi.getInstance().login(username, psw,
+						new RequestCallBack() {
 
-					@Override
-					public void onSuccessed(int userBindCode) {
-						finish();
-						TCLogUtils.toastShort(getApplicationContext(), "自动登陆成功");
-					}
+							@Override
+							public void onSuccessed(int userBindCode) {
+								finish();
+								TCLogUtils.toastShort(getApplicationContext(),
+										"自动登陆成功");
+							}
 
-					@Override
-					public void onFailure(ResponseMsg msg) {
+							@Override
+							public void onFailure(ResponseMsg msg) {
 
-					}
-				});
+							}
+						});
 			}
 		}
 		return false;
@@ -147,7 +137,7 @@ public class TCLoginActivity extends BaseActivity implements
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			setWindowParams(0.6);
 		}
-		if(!isFristLogin()){
+		if (!isFristLogin()) {
 			mainView.setVisibility(View.GONE);
 		}
 	}
@@ -337,6 +327,36 @@ public class TCLoginActivity extends BaseActivity implements
 		// manager.popBackStackImmediate(null, 1);
 		// titleStack.clear();
 		switchFragment(fragmentID, bundle, false);
+	}
+
+	@Override
+	void initId() {
+
+	}
+
+	@SuppressLint("NewApi")
+	@Override
+	void initData(Bundle savedInstanceState) {
+		mainView = (View) LayoutInflater.from(this).inflate(
+				R.layout.action_bar_activity, null);
+		setContentView(mainView);
+		if (VERSION.SDK_INT >= 11)
+			TCLoginActivity.this.setFinishOnTouchOutside(false);
+
+		manager = getSupportFragmentManager();
+		titleStack = new ArrayList<String>();
+		initTitle();
+		switchFragment(0, savedInstanceState);
+	}
+
+	@Override
+	int initView() {
+		return R.layout.action_bar_activity;
+	}
+
+	@Override
+	boolean hasActionBar() {
+		return false;
 	}
 
 }
