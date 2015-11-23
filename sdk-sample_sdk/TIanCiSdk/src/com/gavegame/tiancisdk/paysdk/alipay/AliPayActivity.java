@@ -16,29 +16,30 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.gavegame.tiancisdk.R;
 
 @SuppressLint("NewApi")
-public class AliPayActivity extends FragmentActivity{
+public class AliPayActivity extends FragmentActivity {
 
 	// 商户PID
 	public static final String PARTNER = "2088911821839844";
 	// 商户收款账号
 	public static final String SELLER = "xujieying@gavegame.com";
 	// 商户私钥，pkcs8格式
-	public static final String RSA_PRIVATE ="MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAK0reEWA+sdnx0orFsJX3Tt+2nwNbkBOktVeOmwyXVJHPmNL3MDqupgSR76zL1kW/3Fp9iGeXKAgQCaKNk5O/RtuMu2Q/XIWzgQk6e6eizbCI//rJF/kdW2TXrqD/viKbOlf/Zc155+UPOlNg+2ByNRbAQD2PFSKahYcSzpfQMxLAgMBAAECgYEApDL5wf3AzN9Mirk8xV6G+ekYxlP93KAkfojwoLNI5cGEGKdQVOS9tYBv4xUIqlMyN5oftlTwwyyRZ3nacHpZZ9/LJtLub+3aoN3DNyCvSd41mHaSSXmaugiBxHIGi1udisJTEgNKX8zTpLlB4NV1vEQilSnOYlNoTJEUt5e/ZIECQQDVg0cdhBnpa6lZr9/l7O5ULnSKpFtwb+IONZQz129JX6rQqJTW+jbu2o5I3As4u8MUC62kwRAvnYLX7My3tzdhAkEAz6EMPNwDc9O2+we+zSgp31dGZdHKjHEZ1sM13pskj/A1ObYIWdm2bWSXGDzlyixgp3PGd7iyqXCNQ2QvTF3fKwJAWIUz373cDFVxgdiT6Dyh1s7nzG815djNDP0Ts6aW4gHCzP2Hr9VPHxoHsZdhI6VczJvG4y6T6lnQXHs1qNlSIQJBALiJYt8UjNz9ZrxmfebJs62VXDRS6bs5KsX+anqXWT+1Nxk7+OAi6EkCBmi8d1/hYWZzOApgVirSpjsnaAJvzFECQHxh2plT9wwUyHfZj3gtWGOXvPtt906olSthnv5bbj/+6xVMuoRRYwmLVpl5ah6mdqSdzFrzKjsjuVsWPSmbdLQ=";			
+	public static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAK0reEWA+sdnx0orFsJX3Tt+2nwNbkBOktVeOmwyXVJHPmNL3MDqupgSR76zL1kW/3Fp9iGeXKAgQCaKNk5O/RtuMu2Q/XIWzgQk6e6eizbCI//rJF/kdW2TXrqD/viKbOlf/Zc155+UPOlNg+2ByNRbAQD2PFSKahYcSzpfQMxLAgMBAAECgYEApDL5wf3AzN9Mirk8xV6G+ekYxlP93KAkfojwoLNI5cGEGKdQVOS9tYBv4xUIqlMyN5oftlTwwyyRZ3nacHpZZ9/LJtLub+3aoN3DNyCvSd41mHaSSXmaugiBxHIGi1udisJTEgNKX8zTpLlB4NV1vEQilSnOYlNoTJEUt5e/ZIECQQDVg0cdhBnpa6lZr9/l7O5ULnSKpFtwb+IONZQz129JX6rQqJTW+jbu2o5I3As4u8MUC62kwRAvnYLX7My3tzdhAkEAz6EMPNwDc9O2+we+zSgp31dGZdHKjHEZ1sM13pskj/A1ObYIWdm2bWSXGDzlyixgp3PGd7iyqXCNQ2QvTF3fKwJAWIUz373cDFVxgdiT6Dyh1s7nzG815djNDP0Ts6aW4gHCzP2Hr9VPHxoHsZdhI6VczJvG4y6T6lnQXHs1qNlSIQJBALiJYt8UjNz9ZrxmfebJs62VXDRS6bs5KsX+anqXWT+1Nxk7+OAi6EkCBmi8d1/hYWZzOApgVirSpjsnaAJvzFECQHxh2plT9wwUyHfZj3gtWGOXvPtt906olSthnv5bbj/+6xVMuoRRYwmLVpl5ah6mdqSdzFrzKjsjuVsWPSmbdLQ=";
 	// 支付宝公钥
 	public static final String RSA_PUBLIC = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
-	
+
 	private static final int SDK_PAY_FLAG = 1;
 
 	private static final int SDK_CHECK_FLAG = 2;
-	
+
 	private static final int PAY_RESULT = 2233;
 
 	private Handler mHandler = new Handler() {
@@ -77,7 +78,7 @@ public class AliPayActivity extends FragmentActivity{
 						setResult(PAY_RESULT, data);
 					}
 				}
-				
+
 				break;
 			}
 			case SDK_CHECK_FLAG: {
@@ -101,12 +102,21 @@ public class AliPayActivity extends FragmentActivity{
 		setContentView(R.layout.pay_main);
 		initData();
 	}
-	
-	private void initData(){
+
+	private void initData() {
 		Intent data = getIntent();
 		subject = data.getStringExtra("subject");
 		subject_desc = data.getStringExtra("subject_desc");
 		price = data.getStringExtra("price");
+
+//		final Button bt_pay = (Button) findViewById(R.id.pay);
+//		bt_pay.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				pay(bt_pay);
+//			}
+//		});
 	}
 
 	/**
@@ -124,16 +134,14 @@ public class AliPayActivity extends FragmentActivity{
 								public void onClick(
 										DialogInterface dialoginterface, int i) {
 									//
-//									finish();
+									// finish();
 								}
 							}).show();
 			return;
 		}
-		
-		
+
 		// 订单
 		String orderInfo = getOrderInfo(subject, subject_desc, price);
-	
 
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo);

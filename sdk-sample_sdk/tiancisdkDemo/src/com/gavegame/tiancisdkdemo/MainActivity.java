@@ -137,8 +137,8 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,
 						AliPayActivity.class);
-				intent.putExtra("subject", "商品名称");
-				intent.putExtra("subject_desc", "商品详情");
+				intent.putExtra("subject", "啊，谁冲了一分钱？");
+				intent.putExtra("subject_desc", "支付宝支付测试");
 				intent.putExtra("price", "0.01");
 				startActivityForResult(intent, 0);
 			}
