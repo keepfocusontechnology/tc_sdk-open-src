@@ -11,24 +11,10 @@
         android:text="login" />
     
      <Button
-        android:id="@+id/bt_auto_login"
+        android:id="@+id/switch_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="autoLogin" />
-      <Button
-        android:id="@+id/bt_create_role"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="createRole" />
-       <Button
-        android:id="@+id/bt_create_order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="createOrder" />
-        <Button
-        android:id="@+id/bt_finish_order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="finishOrder" />
+        android:text="Switch Account" />
+    
 
 </LinearLayout>

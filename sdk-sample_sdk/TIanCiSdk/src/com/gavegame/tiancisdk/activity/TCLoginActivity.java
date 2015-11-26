@@ -3,7 +3,6 @@ package com.gavegame.tiancisdk.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -19,10 +18,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -128,6 +125,14 @@ public class TCLoginActivity extends BaseActivity implements
 	protected void onResume() {
 		super.onResume();
 		TianCi.init(this);
+		// 点击切换账号会恒定显示登录界面
+		String userAction = getIntent().getAction();
+		if (TextUtils.isEmpty(userAction)
+				|| !userAction.equals("switch_account")) {
+			if (!isFristLogin()) {
+				mainView.setVisibility(View.GONE);
+			}
+		}
 		if (TianCiSDK.getScreenState()) {
 			// 竖屏
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -136,9 +141,6 @@ public class TCLoginActivity extends BaseActivity implements
 			// 横屏
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			setWindowParams(0.6);
-		}
-		if (!isFristLogin()) {
-			mainView.setVisibility(View.GONE);
 		}
 	}
 

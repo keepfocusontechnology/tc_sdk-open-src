@@ -35,9 +35,19 @@ public class MainActivity extends Activity {
 								TCLoginActivity.class), 0);
 					}
 				});
+		findViewById(R.id.switch_account).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(MainActivity.this,
+								TCLoginActivity.class);
+						intent.setAction("switch_account");
+						startActivity(intent);
+					}
+				});
 	}
 
-	
 	// findViewById(R.id.bt_auto_login).setOnClickListener(
 	// new OnClickListener() {
 	//
