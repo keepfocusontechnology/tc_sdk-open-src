@@ -12,6 +12,6 @@ public class MyAppliction extends Application{
 		// TODO Auto-generated method stub
 		super.onCreate();
 		TianCiSDK.init(this);
-		TianCiSDK.setDebugModel(false);
+		TianCiSDK.setDebugModel(true);
 	}
 }

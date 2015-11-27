@@ -12,6 +12,7 @@ import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.TianCiSDK;
 import com.gavegame.tiancisdk.activity.TCLoginActivity;
+import com.gavegame.tiancisdk.activity.TCPayActivity;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
@@ -46,6 +47,16 @@ public class MainActivity extends Activity {
 						startActivity(intent);
 					}
 				});
+		
+		findViewById(R.id.pay).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,TCPayActivity.class);
+				
+				startActivity(intent);
+			}
+		});;
 	}
 
 	// findViewById(R.id.bt_auto_login).setOnClickListener(

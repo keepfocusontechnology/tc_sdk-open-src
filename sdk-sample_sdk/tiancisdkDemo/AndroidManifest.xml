@@ -29,7 +29,12 @@
         <activity
             android:name="com.gavegame.tiancisdk.activity.TCLoginActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/dialog" >
+            android:theme="@style/login_dialog" >
+        </activity>
+        <activity
+            android:name="com.gavegame.tiancisdk.activity.TCPayActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/pay_dialog" >
         </activity>
 
         <meta-data

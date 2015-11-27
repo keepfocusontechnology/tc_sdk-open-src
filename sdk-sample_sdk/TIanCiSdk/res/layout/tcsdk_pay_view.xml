@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:radio_image="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="5dp" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/tcsdk_main_background"
-        android:gravity="center_vertical"
+        android:background="@drawable/tcsdk_pay_bg_title_bar"
         android:orientation="horizontal"
         android:padding="10dp" >
 
@@ -16,24 +17,116 @@
             android:id="@+id/iv_pay_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:src="@drawable/tcsdk_back" />
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/icon_pay_back" />
 
         <TextView
             android:id="@+id/tv_pay_title"
-            style="@style/tcsdk_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:gravity="center"
-            android:text="@string/tcsdk_rechange_center" />
+            android:layout_centerInParent="true"
+            android:text="@string/tcsdk_rechange_center"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
 
         <ImageView
-           android:id="@+id/iv_pay_rechange_notes"
+            android:id="@+id/iv_pay_rechange_notes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:src="@drawable/tcsdk_back" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_pay_money" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp" >
+
+        <TextView
+            android:id="@+id/tv_game_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tcsdk_pay_game_name"
+            android:textColor="@color/tcsdk_text_account_login" />
+
+        <TextView
+            android:id="@+id/tv_pay_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/tcsdk_pay_amount"
+            android:textColor="@color/tcsdk_text_account_login" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp" >
+
+        <com.gavegame.tiancisdk.widget.ImageRadiobutton
+            android:id="@+id/pay_alipay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            radio_image:image="@drawable/icon_alipay" />
+
+        <com.gavegame.tiancisdk.widget.ImageRadiobutton
+            android:id="@+id/pay_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            radio_image:image="@drawable/icon_wechat" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp" >
+
+        <com.gavegame.tiancisdk.widget.ImageRadiobutton
+            android:id="@+id/pay_bank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            radio_image:image="@drawable/icon_bank" />
+
+        <com.gavegame.tiancisdk.widget.ImageRadiobutton
+            android:id="@+id/pay_cht"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            radio_image:image="@drawable/icon_caihutong" />
+    </RelativeLayout>
+
+    <!--
+    <com.gavegame.tiancisdk.widget.CustomViewGroup
+        android:layout_width="200dp"
+        android:layout_height="100dp" >
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             />
+
+        <ImageView
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_logo" />
+    </com.gavegame.tiancisdk.widget.CustomViewGroup>
+    -->
+
+    <Button
+        android:id="@+id/bt_immediately_login"
+        style="@style/tcsdk_button_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tcsdk_buton_faster_register_selector"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/tcsdk_pay_immediately" />
 
 </LinearLayout>

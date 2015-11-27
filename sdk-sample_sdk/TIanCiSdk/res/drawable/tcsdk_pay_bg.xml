@@ -1,0 +1,9 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <solid android:color="@color/tcsdk_main_background" />
+
+    <corners android:radius="5dp" />
+
+    <padding android:bottom="3dp" />
+
+</shape>

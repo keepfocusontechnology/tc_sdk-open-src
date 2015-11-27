@@ -26,6 +26,12 @@
     <string name="tcsdk_phone_bind_next">下次再说</string>
     <string name="tcsdk_phone_bind_now">立即绑定</string>
     <string name="tcsdk_customer_center">客服中心 ></string>
+   <!--  pay page string -->
+    
+    <string name="tcsdk_pay_game_name">游戏名称:部落战争</string>
+    <string name="tcsdk_pay_amount">支付金额:100.00</string>
+    <string name="tcsdk_pay_immediately">立即支付</string>
+    
     <!-- hint -->
     <string name="tcsdk_plz_print_account">请输入账号</string>
     <string name="tcsdk_customer_desc">您的账号未绑定，无法通过手机号找回，请通过以下方式联系我们：</string>

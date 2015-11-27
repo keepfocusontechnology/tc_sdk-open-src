@@ -60,14 +60,35 @@ public class TCLogUtils {
 			Log.i(tag, msg);
 	}
 
+	public static void showToast(Context context, String msg) {
+		if (isDebug)
+			Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+	}
+
+	/**
+	 * 正式吐司，恒定显示
+	 * 
+	 * @param context
+	 * @param msg
+	 */
 	public static void toastShort(Context context, String msg) {
 		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
 
+	/**
+	 * 正式吐司，恒定显示
+	 * 
+	 * @param context
+	 * @param msg
+	 */
 	public static void toastLong(Context context, String msg) {
-		if (isDebug)
-			Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+		// if (isDebug)
+		// Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+
+		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
 	}
 }

@@ -16,14 +16,25 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
-
-    <style name="dialog" parent="@android:style/Theme.Dialog">
+    <!-- 登陆activity的dialog风格 -->
+    <style name="login_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:windowBackground">@drawable/tcsdk_main_bg</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    
+    <!-- 支付activity的dialog风格 -->
+    <style name="pay_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:windowBackground">@drawable/tcsdk_pay_bg</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
@@ -49,29 +60,26 @@
         <item name="android:textColor">#57acfb</item>
         <item name="android:textSize">15sp</item>
     </style>
-    
+
     <style name="tcsdk_et_normal">
         <item name="android:background">@null</item>
         <item name="android:singleLine">true</item>
     </style>
-    
-        <style name="MyDialogStyle">
+
+    <style name="MyDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>
-        <!--背景透明-->
+        <!-- 背景透明 -->
         <item name="android:windowFrame">@null</item>
-        <!--边框-->
+        <!-- 边框 -->
         <item name="android:windowNoTitle">true</item>
-        <!--无标题-->
+        <!-- 无标题 -->
         <item name="android:windowIsFloating">true</item>
-        <!--是否浮现在activity之上-->
+        <!-- 是否浮现在activity之上 -->
         <item name="android:windowIsTranslucent">true</item>
-        <!--半透明-->
+        <!-- 半透明 -->
         <item name="android:windowContentOverlay">@null</item>
-        <!--内容覆盖 -->
+        <!-- 内容覆盖 -->
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
-        
-       
     </style>
-    
 
 </resources>
