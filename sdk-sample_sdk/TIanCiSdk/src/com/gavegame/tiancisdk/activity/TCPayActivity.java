@@ -18,6 +18,8 @@ public class TCPayActivity extends BaseActivity {
 	private ImageRadiobutton pay_bank;
 	private ImageRadiobutton pay_cht;
 
+	private ImageRadiobutton cache;
+
 	private PayWay payWay = PayWay.alipay;
 
 	@Override
@@ -29,13 +31,16 @@ public class TCPayActivity extends BaseActivity {
 		final ImageRadiobutton irbs[] = { pay_alipay, pay_wechat, pay_bank,
 				pay_cht };
 		pay_alipay.setChecked();
+		cache = pay_alipay;
 		pay_alipay.setCheckListener(new RadioButtonCheckedListener() {
 			@Override
 			public void onCheckedChanged(boolean isChecked) {
-				setAllUnChecked(irbs);
-				pay_alipay.setChecked();
+				// setAllUnChecked(irbs);
 				payWay = PayWay.alipay;
-				TCLogUtils.e("alipay");
+				pay_alipay.setChecked();
+				if (cache != null && cache != pay_alipay)
+					cache.setUnChecked();
+				cache = pay_alipay;
 			}
 		});
 
@@ -44,9 +49,11 @@ public class TCPayActivity extends BaseActivity {
 			@Override
 			public void onCheckedChanged(boolean isChecked) {
 				payWay = PayWay.wechat;
-				setAllUnChecked(irbs);
+//				setAllUnChecked(irbs);
 				pay_wechat.setChecked();
-				TCLogUtils.e("wechat");
+				if (cache != null && cache != pay_wechat)
+					cache.setUnChecked();
+				cache = pay_wechat;
 			}
 		});
 
@@ -54,10 +61,12 @@ public class TCPayActivity extends BaseActivity {
 
 			@Override
 			public void onCheckedChanged(boolean isChecked) {
-				setAllUnChecked(irbs);
+//				setAllUnChecked(irbs);
 				payWay = PayWay.bank;
 				pay_bank.setChecked();
-				TCLogUtils.e("bank");
+				if (cache != null && cache != pay_bank)
+					cache.setUnChecked();
+				cache = pay_bank;
 			}
 		});
 
@@ -65,16 +74,17 @@ public class TCPayActivity extends BaseActivity {
 
 			@Override
 			public void onCheckedChanged(boolean isChecked) {
-				setAllUnChecked(irbs);
-				pay_cht.setChecked();
+//				setAllUnChecked(irbs);
 				payWay = PayWay.caihutong;
-				TCLogUtils.e("caihutong");
+				pay_cht.setChecked();
+				if (cache != null && cache != pay_cht)
+					cache.setUnChecked();
+				cache = pay_cht;
 			}
 		});
 
 		findViewById(R.id.bt_immediately_login).setOnClickListener(
 				new OnClickListener() {
-
 					@Override
 					public void onClick(View v) {
 						TCLogUtils.showToast(getApplicationContext(), "支付方式为："

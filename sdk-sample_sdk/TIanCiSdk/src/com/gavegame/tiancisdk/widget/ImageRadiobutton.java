@@ -7,13 +7,17 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
 import com.gavegame.tiancisdk.R;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class ImageRadiobutton extends LinearLayout {
 
@@ -132,7 +136,7 @@ public class ImageRadiobutton extends LinearLayout {
 		;
 		radioButton.setLayoutParams(bt_lp);
 		radioButton.setGravity(Gravity.CENTER_VERTICAL);
-		radioButton.setEnabled(false);
+//		 radioButton.setEnabled(false);
 		addView(radioButton);
 		RelativeLayout.LayoutParams img_lp = new RelativeLayout.LayoutParams(
 				drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -140,40 +144,7 @@ public class ImageRadiobutton extends LinearLayout {
 		bt_lp.setMargins(maginWidth, 0, 0, 0);
 		if (image != null)
 			addView(image, img_lp);
-		this.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (isChecked) {
-					setUnChecked();
-				} else {
-					setChecked();
-				}
-				if (listener != null)
-					listener.onCheckedChanged(isChecked);
-			}
-		});
-		//
-		// radioButton.setOnCheckedChangeListener(new OnCheckedChangeListener()
-		// {
-		//
-		// @Override
-		// public void onCheckedChanged(CompoundButton buttonView,
-		// boolean isChecked) {
-		// // if (isChecked) {
-		// // setUnChecked();
-		// // listener.unChecked();
-		// //
-		// // } else {
-		// // setChecked();
-		// // listener.isChecked();
-		// // }
-		// if (listener != null)
-		// listener.onCheckedChanged(isChecked);
-		// }
-		// });
-		//
-		// image.setOnClickListener(new OnClickListener() {
+		// this.setOnClickListener(new OnClickListener() {
 		//
 		// @Override
 		// public void onClick(View v) {
@@ -186,6 +157,54 @@ public class ImageRadiobutton extends LinearLayout {
 		// listener.onCheckedChanged(isChecked);
 		// }
 		// });
+		setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				
+				TCLogUtils.e(TAG, "View touched!!!!!");
+				if (isChecked) {
+					setUnChecked();
+				} else {
+					setChecked();
+				}
+				if (listener != null)
+					listener.onCheckedChanged(isChecked);
+				return true;
+			}
+		});
+		//
+//		radioButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//
+//			@Override
+//			public void onCheckedChanged(CompoundButton buttonView,
+//					boolean isChecked) {
+//				TCLogUtils.e(TAG, "radioButton checked!!!!!");
+//			}
+//		});
+		radioButton.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				TCLogUtils.e(TAG, "radioButton touched!!!!!");
+				if (isChecked) {
+					setUnChecked();
+				} else {
+					setChecked();
+				}
+				if (listener != null)
+					listener.onCheckedChanged(isChecked);
+				return true;
+			}
+		});
+//		radioButton.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				TCLogUtils.e(TAG, "radioButton clicked!!!!!");
+//			}
+//		});
+		
 	}
 
 	/**
