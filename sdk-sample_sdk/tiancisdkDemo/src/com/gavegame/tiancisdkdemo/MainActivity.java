@@ -6,31 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.TianCi;
-<<<<<<< HEAD
 import com.gavegame.tiancisdk.TianCiSDK;
 import com.gavegame.tiancisdk.activity.TCLoginActivity;
 import com.gavegame.tiancisdk.activity.TCPayActivity;
-=======
-import com.gavegame.tiancisdk.activity.LoginPageActivity;
 import com.gavegame.tiancisdk.alipay.AliPayActivity;
->>>>>>> alipay_branch
-import com.gavegame.tiancisdk.network.RequestCallBack;
-import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class MainActivity extends Activity {
 
 	private Context context;
-<<<<<<< HEAD
 
-=======
 	private static final int PAY_RESULT = 2233;
->>>>>>> alipay_branch
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,12 +53,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,TCPayActivity.class);
-				
 				startActivity(intent);
 			}
-<<<<<<< HEAD
-		});;
-=======
 		});
 		
 		findViewById(R.id.bt_alipay).setOnClickListener(new OnClickListener() {
@@ -83,10 +68,8 @@ public class MainActivity extends Activity {
 				startActivityForResult(intent,0);
 			}
 		});
->>>>>>> alipay_branch
 	}
 
-<<<<<<< HEAD
 	// findViewById(R.id.bt_auto_login).setOnClickListener(
 	// new OnClickListener() {
 	//
@@ -210,34 +193,26 @@ public class MainActivity extends Activity {
 		super.onResume();
 		TianCi.init(this);
 	}
-=======
-        if (resultCode == Config.REQUEST_STATUS_CODE_SUC) {
-            String tcsso = data.getStringExtra("tcsso");
-            TCLogUtils.toastShort(context, "tcsso=" +tcsso);
-        } else if (resultCode == Config.REQUEST_STATUS_CODE_FAILURE) {
-            TCLogUtils.toastShort(context, data.getExtras().getSerializable("result").toString());
-        }else if(resultCode == PAY_RESULT){
-        	int payResultCode = data.getExtras().getInt("pay_resultcode");
-        	if(payResultCode == 200){
-        		Toast.makeText(MainActivity.this, "支付成功",
-						Toast.LENGTH_SHORT).show();
-        	}else if(payResultCode == 300){
-        		Toast.makeText(MainActivity.this, "支付中",
-						Toast.LENGTH_SHORT).show();
-        	}else if(payResultCode == 400){
-        		Toast.makeText(MainActivity.this, "支付失败",
-						Toast.LENGTH_SHORT).show();
-        	}
-        	
-        }
-    }
+//        if (resultCode == Config.REQUEST_STATUS_CODE_SUC) {
+//            String tcsso = data.getStringExtra("tcsso");
+//            TCLogUtils.toastShort(context, "tcsso=" +tcsso);
+//        } else if (resultCode == Config.REQUEST_STATUS_CODE_FAILURE) {
+//            TCLogUtils.toastShort(context, data.getExtras().getSerializable("result").toString());
+//        }else if(resultCode == PAY_RESULT){
+//        	int payResultCode = data.getExtras().getInt("pay_resultcode");
+//        	if(payResultCode == 200){
+//        		Toast.makeText(MainActivity.this, "支付成功",
+//						Toast.LENGTH_SHORT).show();
+//        	}else if(payResultCode == 300){
+//        		Toast.makeText(MainActivity.this, "支付中",
+//						Toast.LENGTH_SHORT).show();
+//        	}else if(payResultCode == 400){
+//        		Toast.makeText(MainActivity.this, "支付失败",
+//						Toast.LENGTH_SHORT).show();
+//        	}
+//        	
+//        }
+//    }
 	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		TianCi.init(this);
-	}
 
->>>>>>> alipay_branch
 }

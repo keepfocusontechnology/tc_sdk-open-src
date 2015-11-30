@@ -37,7 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity
             android:name="com.gavegame.tiancisdk.activity.TCLoginActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -49,9 +48,8 @@
             android:theme="@style/pay_dialog" >
         </activity>
 
-=======
-        <activity android:name="com.gavegame.tiancisdk.activity.LoginPageActivity" />
-        <activity android:name="com.gavegame.tiancisdk.activity.RegisterPageActivity" />
+       <!--  <activity android:name="com.gavegame.tiancisdk.activity.LoginPageActivity" />
+        <activity android:name="com.gavegame.tiancisdk.activity.RegisterPageActivity" /> -->
         <activity android:name="com.gavegame.tiancisdk.alipay.AliPayActivity" />
 		
         <!-- alipay sdk begin -->
@@ -62,7 +60,6 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
->>>>>>> alipay_branch
         <meta-data
             android:name="TIANCI_GAME_ID"
             android:value="410" />
