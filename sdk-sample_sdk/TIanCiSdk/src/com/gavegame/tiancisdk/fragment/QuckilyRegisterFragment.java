@@ -1,5 +1,6 @@
 package com.gavegame.tiancisdk.fragment;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,15 +60,27 @@ public class QuckilyRegisterFragment extends TCBaseFragment {
 								et_psw.getText() + "")) {
 							return;
 						}
-						//普通账号注册
+						// 普通账号注册
 						TianCi.getInstance().register(
 								et_username.getText() + "",
 								et_psw.getText() + "", new RequestCallBack() {
 
 									@Override
 									public void onSuccessed(int code) {
+										// 普通账号注册，如果未绑定，则提示绑定
 										if (code != 1) {
+											TianCi.getInstance()
+													.saveLoginModelIsAccount();
+											TianCi.getInstance()
+													.saveAccountAndPsw(
+															et_username
+																	.getText()
+																	+ "",
+															et_psw.getText()
+																	+ "");
 											callback.jumpNextPage(Config.DIALOG_BIND_FRAGMENT);
+											// callback.jumpNextPage(Config.DIALOG_BIND_FRAGMENT,
+											// bundle);
 										} else {
 											TCLogUtils.toastShort(
 													getActivity(), TianCi

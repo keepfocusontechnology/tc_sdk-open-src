@@ -1,6 +1,7 @@
 package com.gavegame.tiancisdk.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,8 +21,10 @@ import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.widget.CustomerDialog;
+
 /**
  * 登陆主要界面
+ * 
  * @author Tianci
  *
  */
@@ -63,32 +66,37 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 				TianCi.getInstance().autoLogin(new RequestCallBack() {
 					@Override
 					public void onSuccessed(int code) {
-						//记录为游客登录
+						// 记录为游客登录
 						TianCi.getInstance().saveLoginModelIsVisitor();
 						// 未绑定
-						//第一次进入提示绑定
+						// 第一次进入提示绑定
 						if (TianCi.getInstance().getLastBindDialogPopTime() == 0) {
 							callback.jumpNextPage(Config.DIALOG_BIND_FRAGMENT);
 							TianCi.getInstance().saveCurrentTime();
 						} else {
-							//间隔上次弹出提示框24小时候再次弹出
+							// 间隔上次弹出提示框24小时候再次弹出
 							if (TianCi.getInstance().isPopBindPage()) {
 								callback.jumpNextPage(Config.DIALOG_BIND_FRAGMENT);
 								TianCi.getInstance().saveCurrentTime();
 							} else {
-								TCLogUtils.toastShort(getActivity(),
-										"游客登陆成功! tcsso:"
-												+ TianCi.getInstance()
-														.getTcsso());
-								getActivity().finish();
+								TCLogUtils.showToast(getActivity(), "游客登陆成功!");
 							}
 						}
-
+						Intent data = new Intent();
+						data.putExtra("tcsso", TianCi.getInstance().getTcsso());
+						getActivity().setResult(Config.REQUEST_STATUS_CODE_SUC,
+								data);
+						getActivity().finish();
 					}
 
 					@Override
 					public void onFailure(ResponseMsg msg) {
 						TCLogUtils.toastShort(getActivity(), msg.getRetMsg());
+						// Intent data = new Intent();
+						// data.putExtra("result", msg.getRetMsg());
+						// getActivity().setResult(
+						// Config.REQUEST_STATUS_CODE_FAILURE, data);
+						// getActivity().finish();
 					}
 				});
 
@@ -115,14 +123,15 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				//记录为账户登录
-				
+				// 记录为账户登录
+
 				// TODO 登录
 				TianCi.getInstance().login(et_username.getText() + "",
 						et_psw.getText() + "", new RequestCallBack() {
 
 							@Override
 							public void onSuccessed(int code) {
+
 								TianCi.getInstance().saveLoginModelIsAccount();
 								if (code == 1) {// 账号已绑定
 									TCLogUtils.toastShort(getActivity(),
@@ -132,7 +141,6 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 									TianCi.getInstance().saveAccountAndPsw(
 											et_username.getText() + "",
 											et_psw.getText() + "");
-									getActivity().finish();
 								} else {
 									// 未绑定
 									if (TianCi.getInstance()
@@ -159,17 +167,30 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 																	+ "",
 															et_psw.getText()
 																	+ "");
-											getActivity().finish();
 										}
 									}
 								}
+								Intent data = new Intent();
+								data.putExtra("tcsso", TianCi.getInstance()
+										.getTcsso());
+								getActivity().setResult(
+										Config.REQUEST_STATUS_CODE_SUC, data);
+								getActivity().finish();
 							}
 
 							@Override
 							public void onFailure(ResponseMsg msg) {
 								TCLogUtils.toastShort(getActivity(),
 										msg.getRetMsg());
-//								TCSdkToast.show(msg.getRetMsg(), getActivity());
+								// TCLogUtils.showToast(getActivity(),
+								// msg.getRetMsg());
+								// Intent data = new Intent();
+								// data.putExtra("result", msg.getRetMsg());
+								// getActivity().setResult(
+								// Config.REQUEST_STATUS_CODE_FAILURE, data);
+								// getActivity().finish();
+								// TCSdkToast.show(msg.getRetMsg(),
+								// getActivity());
 							}
 						});
 			}

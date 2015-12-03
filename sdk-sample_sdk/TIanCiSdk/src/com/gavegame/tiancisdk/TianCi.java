@@ -344,6 +344,15 @@ public class TianCi {
 		SharedPreferencesUtils.setParam(mContext, "user_account", account);
 		SharedPreferencesUtils.setParam(mContext, "user_password", psw);
 	}
+	
+//	/**
+//	 * 如果用户采用快速注册方式，将用户的账户跟密码记录在sp中
+//	 * 
+//	 */
+//	public void saveAccountAndPsw(Char account, String psw) {
+//		SharedPreferencesUtils.setParam(mContext, "user_account", account);
+//		SharedPreferencesUtils.setParam(mContext, "user_password", psw);
+//	}
 
 	/**
 	 * 获取缓存的内容

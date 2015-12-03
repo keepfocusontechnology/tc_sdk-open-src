@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build.VERSION;
 import android.os.Bundle;
@@ -71,6 +72,9 @@ public class TCLoginActivity extends BaseActivity implements
 					public void onSuccessed(int userBindCode) {
 						TCLogUtils.toastShort(getApplicationContext(),
 								"游客自动登陆成功");
+						Intent data = new Intent();
+						data.putExtra("tcsso", TianCi.getInstance().getTcsso());
+						setResult(Config.REQUEST_STATUS_CODE_SUC, data);
 						finish();
 					}
 
@@ -92,6 +96,10 @@ public class TCLoginActivity extends BaseActivity implements
 
 							@Override
 							public void onSuccessed(int userBindCode) {
+								Intent data = new Intent();
+								data.putExtra("tcsso", TianCi.getInstance()
+										.getTcsso());
+								setResult(Config.REQUEST_STATUS_CODE_SUC, data);
 								finish();
 								TCLogUtils.toastShort(getApplicationContext(),
 										"自动登陆成功");
@@ -106,7 +114,6 @@ public class TCLoginActivity extends BaseActivity implements
 		}
 		return false;
 	}
-
 
 	@Override
 	public void onResume() {

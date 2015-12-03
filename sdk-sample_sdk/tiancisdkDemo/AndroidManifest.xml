@@ -9,12 +9,12 @@
     <!-- 支付宝去重后所需权限 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="21" />
-    
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -47,12 +47,14 @@
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/pay_dialog" >
         </activity>
+        <activity
+            android:name="com.gavegame.tiancisdk.activity.TCOrderActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/pay_dialog" >
+        </activity>
 
-       <!--  <activity android:name="com.gavegame.tiancisdk.activity.LoginPageActivity" />
-        <activity android:name="com.gavegame.tiancisdk.activity.RegisterPageActivity" /> -->
-        <activity android:name="com.gavegame.tiancisdk.alipay.AliPayActivity" />
-		
         <!-- alipay sdk begin -->
+        <activity android:name="com.gavegame.tiancisdk.alipay.AliPayActivity" />
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -60,6 +62,7 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
+
         <meta-data
             android:name="TIANCI_GAME_ID"
             android:value="410" />

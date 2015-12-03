@@ -22,10 +22,4 @@
         android:layout_height="wrap_content"
         android:text="Pay way" />
 
-    <Button
-        android:id="@+id/bt_alipay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="alipay_button" />
-
 </LinearLayout>

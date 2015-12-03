@@ -41,5 +41,6 @@
     <string name="tcsdk_confirm">确 定</string>
     <string name="tcsdk_find_psw_contact">若忘记账号，请联系客服:01051727392</string>
     <string name="tcsdk_rechange_center">充值中心</string>
+    <string name="tcsdk_rechange_record">充值记录</string>
 
 </resources>
