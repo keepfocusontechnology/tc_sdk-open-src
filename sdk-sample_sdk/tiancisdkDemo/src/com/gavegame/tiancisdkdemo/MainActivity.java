@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
 				intent.putExtra("subject", "支付宝测试名称");
 				intent.putExtra("body", "测试：描述信息");
 				intent.putExtra("price", "0.01");
-				startActivity(intent);
+				startActivityForResult(intent, 0);
 			}
 		});
 		findViewById(R.id.login_role).setOnClickListener(new OnClickListener() {
@@ -94,11 +94,11 @@ public class MainActivity extends Activity {
 		if (data != null) {
 			int aliCode = data.getIntExtra("pay_resultcode", 0);
 			if (aliCode == 200) {
-
+				Toast.makeText(this, "alipay支付成功", 0).show();
 			} else if (aliCode == 300) {
-
+				Toast.makeText(this, "alipay支付中", 0).show();
 			} else if (aliCode == 400) {
-
+				Toast.makeText(this, "alipay支付失败", 0).show();
 			}
 		}
 

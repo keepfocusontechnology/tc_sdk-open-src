@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.alipay.sdk.app.PayTask;
+import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.alipay.AliPayActivity;
@@ -210,6 +211,12 @@ public class TCPayActivity extends BaseActivity {
 								public void onFailure(String msg) {
 									TCLogUtils.toastShort(
 											getApplicationContext(), msg);
+									Intent data = new Intent();
+									data.putExtra("result", msg);
+									setResult(
+											Config.REQUEST_STATUS_CODE_FAILURE,
+											data);
+									finish();
 								}
 							});
 					// startActivityForResult(getIntent(), 0);
@@ -282,7 +289,7 @@ public class TCPayActivity extends BaseActivity {
 
 		// 订单
 		String orderInfo = getOrderInfo(subject, body, price);
-		TCLogUtils.e(TAG,orderInfo);
+		TCLogUtils.e(TAG, orderInfo);
 
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo);
