@@ -74,7 +74,7 @@ public class PhoneNumRegisterFragment extends TCBaseFragment {
 													.setResult(
 															Config.REQUEST_STATUS_CODE_FAILURE,
 															data);
-											getActivity().finish();
+//											getActivity().finish();
 										}
 									});
 						}

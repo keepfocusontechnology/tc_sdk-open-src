@@ -41,8 +41,11 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 	@Override
 	public void initData(Bundle data) {
 		super.initData(data);
-		accountCache = (String) data.get("user_account");
-		pswCache = (String) data.get("user_password");
+		// accountCache = (String) data.get("user_account");
+		// pswCache = (String) data.get("user_password");
+
+		accountCache = TianCi.getInstance().getUserAccount("user_account");
+		pswCache = TianCi.getInstance().getUserAccount("user_password");
 
 		TCLogUtils.e(TAG, "account = " + accountCache + ",psw = " + pswCache);
 	}
@@ -51,6 +54,9 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 	public void onResume() {
 		super.onResume();
 		// TODO 判断最后登陆的账号是否登陆成功，显示最后登陆成功的账号，无成功账号显示为空
+		accountCache = TianCi.getInstance().getUserAccount("user_account");
+		pswCache = TianCi.getInstance().getUserAccount("user_password");
+
 		if (!TextUtils.isEmpty(accountCache))
 			et_username.setText(accountCache);
 		if (!TextUtils.isEmpty(pswCache))
@@ -205,7 +211,7 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 								getActivity().setResult(
 										Config.REQUEST_STATUS_CODE_FAILURE,
 										data);
-								getActivity().finish();
+//								getActivity().finish();
 								// TCLogUtils.showToast(getActivity(),
 								// msg.getRetMsg());
 								// Intent data = new Intent();

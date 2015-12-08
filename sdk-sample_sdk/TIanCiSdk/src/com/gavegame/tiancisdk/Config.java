@@ -23,6 +23,7 @@ public interface Config {
 	String REQUEST_PARAMS_GET_NUMBER = "get_number";
 
 	int REQUEST_STATUS_CODE_SUC = 200;
+	int BIND_SUC = 300;
 	int REQUEST_STATUS_CODE_FAILURE = 400;
 
 	int QUCKILY_LOGIN_FRAGMENT = 0;

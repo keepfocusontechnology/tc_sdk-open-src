@@ -1,5 +1,6 @@
 package com.gavegame.tiancisdk.fragment;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -7,6 +8,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.network.RequestCallBack;
@@ -59,7 +61,11 @@ public class PhoneNumBindFragment extends TCBaseFragment {
 
 							@Override
 							public void onSuccessed(ResponseMsg msg) {
-								TCLogUtils.toastShort(getActivity(), "绑定成功");
+								// TCLogUtils.toastShort(getActivity(), "绑定成功");
+								Intent data = new Intent();
+								data.putExtra("result", msg.getRetMsg());
+								getActivity().setResult(Config.BIND_SUC, data);
+								getActivity().finish();
 							}
 
 							@Override

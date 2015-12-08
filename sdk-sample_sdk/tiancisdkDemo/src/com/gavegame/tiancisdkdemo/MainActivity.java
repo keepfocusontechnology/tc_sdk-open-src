@@ -3,6 +3,7 @@ package com.gavegame.tiancisdkdemo;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +14,6 @@ import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.TianCiSDK;
 import com.gavegame.tiancisdk.activity.TCLoginActivity;
 import com.gavegame.tiancisdk.activity.TCPayActivity;
-import com.gavegame.tiancisdk.alipay.AliPayActivity;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
@@ -28,9 +28,15 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+			// true为竖屏，false 为横屏
+			TianCiSDK.setScreenIsPortrait(true);
+		} else {
+			// true为竖屏，false 为横屏
+			TianCiSDK.setScreenIsPortrait(false);
+		}
 		setContentView(R.layout.activity_main);
 		context = getApplicationContext();
-		
 		findViewById(R.id.jump_login_page).setOnClickListener(
 				new OnClickListener() {
 					@Override
@@ -104,6 +110,10 @@ public class MainActivity extends Activity {
 			String tcsso = data.getStringExtra("tcsso");
 			Toast.makeText(this, tcsso, 0).show();
 		} else if (resultCode == Config.REQUEST_STATUS_CODE_FAILURE) {
+			Toast.makeText(this,
+					data.getExtras().getSerializable("result").toString(), 0)
+					.show();
+		} else if(resultCode == Config.BIND_SUC){
 			Toast.makeText(this,
 					data.getExtras().getSerializable("result").toString(), 0)
 					.show();

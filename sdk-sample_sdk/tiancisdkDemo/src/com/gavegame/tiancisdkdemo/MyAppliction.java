@@ -16,7 +16,7 @@ public class MyAppliction extends Application {
 		TianCiSDK.init(this);
 		TianCiSDK.setDebugModel(true);
 		// true为竖屏，false 为横屏
-		TianCiSDK.setScreenIsPortrait(false);
+		// TianCiSDK.setScreenIsPortrait(false);
 		TCLogUtils.e(TAG, TianCiSDK.getScreenState() + "");
 	}
 }
