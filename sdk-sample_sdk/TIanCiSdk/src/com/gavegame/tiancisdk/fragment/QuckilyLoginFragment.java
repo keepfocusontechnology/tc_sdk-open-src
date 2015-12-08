@@ -121,7 +121,7 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 						String tcsso = TianCi.getInstance().getTcsso();
 						if (loginModel.equals("visitor")
 								&& !TextUtils.isEmpty(tcsso)) {
-							callback.jumpNextPage(Config.PHONE_NUM_REGISTER_FRAGMENT);
+							callback.jumpNextPage(Config.VIESITOR_UPDATE_FRAGMENT);
 						} else {
 							callback.jumpNextPage(Config.FIND_PSW_FRAGMENT);
 						}

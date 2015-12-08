@@ -160,7 +160,7 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 		if (context != null) {
 			dialog = DialogUtils.createLoadingDialog(context);
 			dialog.show();
-			dialog.setCancelable(true);
+			dialog.setCancelable(false);
 			dialog.setOnCancelListener(new OnCancelListener() {
 
 				@Override

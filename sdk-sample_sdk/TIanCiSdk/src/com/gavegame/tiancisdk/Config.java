@@ -34,6 +34,7 @@ public interface Config {
 	int FINISH_CODE_CHECK_FRAGMENT = 6;
 	int MOBILE_BIND_FRAGMENT = 7;
 	int DIALOG_BIND_FRAGMENT = 8;
+	int VIESITOR_UPDATE_FRAGMENT = 9;
 
 	// String STATUS_SUCCESSD = "成功";
 	// String STATUS_USERNAME_ILLEGAL = "用户名不合法";

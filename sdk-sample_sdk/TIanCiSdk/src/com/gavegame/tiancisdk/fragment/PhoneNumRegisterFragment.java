@@ -1,6 +1,7 @@
 package com.gavegame.tiancisdk.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -29,7 +30,7 @@ public class PhoneNumRegisterFragment extends TCBaseFragment {
 	private EditText et_phone;
 	private EditText et_psw;
 	private EditText et_code;
-
+	
 	@Override
 	void initID() {
 		et_phone = (EditText) view.findViewById(R.id.et_username);

@@ -39,6 +39,7 @@ import com.gavegame.tiancisdk.fragment.PswRetakeFragment;
 import com.gavegame.tiancisdk.fragment.QuckilyLoginFragment;
 import com.gavegame.tiancisdk.fragment.QuckilyRegisterFragment;
 import com.gavegame.tiancisdk.fragment.TCBaseFragment;
+import com.gavegame.tiancisdk.fragment.VisitorUpdateFragment;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
@@ -166,46 +167,60 @@ public class TCLoginActivity extends BaseActivity implements
 		switchFragment(fragmentID, bundle, false);
 	}
 
+	private String titleStr;
+
 	private void switchFragment(int fragmentID, Bundle bundle,
 			boolean isHaveAnimation) {
-
+		titleStr = null;
 		switch (fragmentID) {
 		case Config.QUCKILY_LOGIN_FRAGMENT:
 			contentFragment = new QuckilyLoginFragment();
 			tag = "QuckilyLoginFragment";
+			titleStr = "账号登陆";
 			break;
 		case Config.QUCKILY_REGISTER_FRAGMENT:
 			contentFragment = new QuckilyRegisterFragment();
 			tag = "QuckilyRegisterFragment";
+			titleStr = "快速账号注册";
 			break;
 		case Config.PHONE_NUM_REGISTER_FRAGMENT:
 			contentFragment = new PhoneNumRegisterFragment();
 			tag = "PhoneNumRegisterFragment";
+			titleStr = "手机注册";
 			break;
 		case Config.PSW_RETAKE_FRAGMENT:
 			contentFragment = new PswRetakeFragment();
 			tag = "PswRetakeFragment";
+			titleStr = "修改密码";
 			break;
 		case Config.MAKE_NEWPSW_FRAGMENT:
 			contentFragment = new MakeNewPswFragment();
 			tag = "MakeNewPswFragment";
+			titleStr = "设置新密码";
 			break;
 		case Config.FIND_PSW_FRAGMENT:
 			contentFragment = new FindPswFragment();
 			tag = "FindPswFragment";
+			titleStr = "找回密码";
 			break;
 		case Config.FINISH_CODE_CHECK_FRAGMENT:
 			contentFragment = new FinishCodeCheckFragment();
 			tag = "FinishCodeCheckFragment";
+			titleStr = "找回密码";
 			break;
 		case Config.MOBILE_BIND_FRAGMENT:
 			contentFragment = new MobileBindFragment();
 			tag = "MobileBindFragment";
+			titleStr = "账号绑定";
 			break;
 		case Config.DIALOG_BIND_FRAGMENT:
 			contentFragment = new PhoneBindFragment();
 			tag = "PhoneBindFragment";
 			break;
+		case Config.VIESITOR_UPDATE_FRAGMENT:
+			contentFragment = new VisitorUpdateFragment();
+			tag = "VisitorUpdateFragment";
+			titleStr = "游客账号升级";
 		default:
 			break;
 		}
@@ -234,12 +249,6 @@ public class TCLoginActivity extends BaseActivity implements
 		transaction.replace(R.id.fl_content, fragment, tag);
 		if (!tag.equals("QuckilyLoginFragment")) {
 			transaction.addToBackStack(tag);
-		}
-		String titleStr = null;
-		try {
-			titleStr = getResources().getStringArray(R.array.fragment_title)[fragmentID];
-		} catch (IndexOutOfBoundsException e) {
-			titleStr = null;
 		}
 		if (titleStr == null) {
 			title.setVisibility(View.GONE);
