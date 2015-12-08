@@ -12,6 +12,15 @@ public class ResponseMsg implements Serializable {
 	private String tcsso;
 	private int orderId;
 	private int bindCode;
+	private BaseOrder baseOrder;
+
+	public BaseOrder getBaseOrder() {
+		return baseOrder;
+	}
+
+	public void setBaseOrder(BaseOrder baseOrder) {
+		this.baseOrder = baseOrder;
+	}
 
 	public void setBindCode(int bindCode) {
 		this.bindCode = bindCode;

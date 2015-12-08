@@ -46,6 +46,8 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 public class TCLoginActivity extends BaseActivity implements
 		FragmentChangedCallback {
 
+	private final String TAG = "TCLoginActivity";
+
 	private FragmentManager manager;
 	private FragmentTransaction transaction;
 	private TCBaseFragment contentFragment;
@@ -55,13 +57,14 @@ public class TCLoginActivity extends BaseActivity implements
 	private ImageView iv_back;
 	private View title;
 
+	private String loginModel;
+
 	private List<String> titleStack;
 
 	private View mainView;
 
 	@SuppressLint("NewApi")
 	private boolean isFristLogin() {
-		String loginModel = TianCi.getInstance().getUserAccount("login_model");
 		if (TextUtils.isEmpty(loginModel)) {
 			return true;
 		} else {
@@ -69,7 +72,7 @@ public class TCLoginActivity extends BaseActivity implements
 				TianCi.getInstance().autoLogin(new RequestCallBack() {
 
 					@Override
-					public void onSuccessed(int userBindCode) {
+					public void onSuccessed(ResponseMsg responseMsg) {
 						TCLogUtils.toastShort(getApplicationContext(),
 								"游客自动登陆成功");
 						Intent data = new Intent();
@@ -79,9 +82,8 @@ public class TCLoginActivity extends BaseActivity implements
 					}
 
 					@Override
-					public void onFailure(ResponseMsg msg) {
-						TCLogUtils.toastShort(getApplicationContext(),
-								msg.getRetMsg());
+					public void onFailure(String msg) {
+						TCLogUtils.toastShort(getApplicationContext(), msg);
 					}
 				});
 			} else if (loginModel.equals("account")) {
@@ -95,7 +97,7 @@ public class TCLoginActivity extends BaseActivity implements
 						new RequestCallBack() {
 
 							@Override
-							public void onSuccessed(int userBindCode) {
+							public void onSuccessed(ResponseMsg responseMsg) {
 								Intent data = new Intent();
 								data.putExtra("tcsso", TianCi.getInstance()
 										.getTcsso());
@@ -106,7 +108,7 @@ public class TCLoginActivity extends BaseActivity implements
 							}
 
 							@Override
-							public void onFailure(ResponseMsg msg) {
+							public void onFailure(String msg) {
 
 							}
 						});
@@ -121,10 +123,28 @@ public class TCLoginActivity extends BaseActivity implements
 		TianCi.init(this);
 		// 点击切换账号会恒定显示登录界面
 		String userAction = getIntent().getAction();
-		if (TextUtils.isEmpty(userAction)
-				|| !userAction.equals("switch_account")) {
+		// 如果是正常登陆，则判断是否为首次登陆
+		if (TextUtils.isEmpty(userAction)) {
 			if (!isFristLogin()) {
 				mainView.setVisibility(View.GONE);
+			} else {
+				switchFragment(0, null);
+			}
+			// 切换账号，如果最近一次登陆为普通登陆，则记录账户信息
+		} else {
+			if (userAction.equals("switch_account")
+					&& loginModel.equals("account")) {
+				String username = TianCi.getInstance().getUserAccount(
+						"user_account");
+				String psw = TianCi.getInstance().getUserAccount(
+						"user_password");
+
+				Bundle bundle = new Bundle();
+				bundle.putString("user_account", username);
+				bundle.putString("user_password", psw);
+				switchFragment(0, bundle);
+			} else {
+				switchFragment(0, null);
 			}
 		}
 	}
@@ -324,6 +344,7 @@ public class TCLoginActivity extends BaseActivity implements
 	@SuppressLint("NewApi")
 	@Override
 	void initData(Bundle savedInstanceState) {
+		loginModel = TianCi.getInstance().getUserAccount("login_model");
 		mainView = (View) LayoutInflater.from(this).inflate(
 				R.layout.action_bar_activity, null);
 		setContentView(mainView);
@@ -333,7 +354,7 @@ public class TCLoginActivity extends BaseActivity implements
 		manager = getSupportFragmentManager();
 		titleStack = new ArrayList<String>();
 		initTitle();
-		switchFragment(0, savedInstanceState);
+		// switchFragment(0, savedInstanceState);
 	}
 
 	@Override

@@ -10,13 +10,14 @@ public interface Config {
 	String REQUEST_PARAMS_LOGIN = "name_login_post";
 	String REQUEST_PARAMS_AUTOLOGIN = "login_auto";
 	String REQUEST_PARAMS_LOGIN_ROLE = "login_role";
-	String REQUEST_PARAMS_CREATE_ORDER = "get_order";
+	String REQUEST_PARAMS_CREATE_ORDER = "create_order";
 	String REQUEST_PARAMS_FINISH_ORDER = "finish_order";
 	String REQUEST_PARAMS_MOBILE_REGISTER = "mobile_reg_post";
 	String REQUEST_PARAMS_USER_BIND = "user_bind";
 	String REQUEST_PARAMS_CHECK_BIND = "check_bind";
 	String REQUEST_PARAMS_FORGET_PASS = "forget_pass";
 	String REQUEST_PARAMS_SET_PASS = "set_pass";
+	String REQUEST_PARAMS_REQUEST_ORDER = "get_order";
 	// 2015 11 10 新增接口
 	// 获取验证码
 	String REQUEST_PARAMS_GET_NUMBER = "get_number";
@@ -58,6 +59,6 @@ public interface Config {
 	String TC_ORDER_ID = "tc_order";
 
 	// 每隔一天提示一次号码未绑定
-//	int account_bind_time = 1000 * 60 * 60 * 24;
+	// int account_bind_time = 1000 * 60 * 60 * 24;
 	int account_bind_time = 1000 * 10;
 }

@@ -165,6 +165,23 @@ public class TianCi {
 	}
 
 	/**
+	 * 获取订单（支付宝）
+	 * @param roleId
+	 * @param orderId
+	 * @param serverId
+	 * @param amount
+	 * @param payType
+	 * @param callBack
+	 */
+	public void getOrder(String roleId, String orderId, String serverId,
+			String amount, String payType, RequestCallBack callBack) {
+		responseBean = new ResponseBean(mContext,
+				Config.REQUEST_PARAMS_REQUEST_ORDER, Method.POST, callBack);
+		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
+		apiSdkRequest.execute(roleId, orderId, serverId, amount, payType);
+	}
+
+	/**
 	 * 获取验证码
 	 * 
 	 * @param phoneNum
@@ -288,6 +305,7 @@ public class TianCi {
 		apiSdkRequest.execute(mobileNum, captcha, userPsw);
 	}
 
+
 	/**
 	 * 获取当前时间
 	 * 
@@ -344,15 +362,6 @@ public class TianCi {
 		SharedPreferencesUtils.setParam(mContext, "user_account", account);
 		SharedPreferencesUtils.setParam(mContext, "user_password", psw);
 	}
-	
-//	/**
-//	 * 如果用户采用快速注册方式，将用户的账户跟密码记录在sp中
-//	 * 
-//	 */
-//	public void saveAccountAndPsw(Char account, String psw) {
-//		SharedPreferencesUtils.setParam(mContext, "user_account", account);
-//		SharedPreferencesUtils.setParam(mContext, "user_password", psw);
-//	}
 
 	/**
 	 * 获取缓存的内容
@@ -371,6 +380,7 @@ public class TianCi {
 	public void saveLoginModelIsAccount() {
 		SharedPreferencesUtils.setParam(mContext, "login_model", "account");
 	}
+
 	/**
 	 * 将上次登录状态缓存为游客
 	 */

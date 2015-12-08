@@ -117,7 +117,7 @@
     -->
 
     <Button
-        android:id="@+id/bt_immediately_login"
+        android:id="@+id/bt_earn"
         style="@style/tcsdk_button_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

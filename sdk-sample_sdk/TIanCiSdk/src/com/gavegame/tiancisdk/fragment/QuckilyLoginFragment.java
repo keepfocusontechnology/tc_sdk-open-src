@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.gavegame.tiancisdk.Config;
@@ -30,15 +32,19 @@ import com.gavegame.tiancisdk.widget.CustomerDialog;
  */
 public class QuckilyLoginFragment extends TCBaseFragment {
 
-	private final String ACCOUNT = "username";
+	private final String TAG = "QuckilyLoginFragment";
 	EditText et_username;
 	EditText et_psw;
 	private String accountCache;
+	private String pswCache;
 
 	@Override
 	public void initData(Bundle data) {
 		super.initData(data);
-		accountCache = (String) data.get("account");
+		accountCache = (String) data.get("user_account");
+		pswCache = (String) data.get("user_password");
+
+		TCLogUtils.e(TAG, "account = " + accountCache + ",psw = " + pswCache);
 	}
 
 	@Override
@@ -47,7 +53,8 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 		// TODO 判断最后登陆的账号是否登陆成功，显示最后登陆成功的账号，无成功账号显示为空
 		if (!TextUtils.isEmpty(accountCache))
 			et_username.setText(accountCache);
-		// et_username.setText(psw);
+		if (!TextUtils.isEmpty(pswCache))
+			et_psw.setText(pswCache);
 	}
 
 	@SuppressLint("InflateParams")
@@ -65,7 +72,7 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 			public void onClick(View v) {
 				TianCi.getInstance().autoLogin(new RequestCallBack() {
 					@Override
-					public void onSuccessed(int code) {
+					public void onSuccessed(ResponseMsg msg) {
 						// 记录为游客登录
 						TianCi.getInstance().saveLoginModelIsVisitor();
 						// 未绑定
@@ -90,13 +97,13 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 					}
 
 					@Override
-					public void onFailure(ResponseMsg msg) {
-						TCLogUtils.toastShort(getActivity(), msg.getRetMsg());
-						// Intent data = new Intent();
-						// data.putExtra("result", msg.getRetMsg());
-						// getActivity().setResult(
-						// Config.REQUEST_STATUS_CODE_FAILURE, data);
-						// getActivity().finish();
+					public void onFailure(String msg) {
+						TCLogUtils.toastShort(getActivity(), msg);
+						Intent data = new Intent();
+						data.putExtra("result", msg);
+						getActivity().setResult(
+								Config.REQUEST_STATUS_CODE_FAILURE, data);
+						getActivity().finish();
 					}
 				});
 
@@ -109,7 +116,15 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						callback.jumpNextPage(Config.FIND_PSW_FRAGMENT);
+						String loginModel = TianCi.getInstance()
+								.getUserAccount("login_model");
+						String tcsso = TianCi.getInstance().getTcsso();
+						if (loginModel.equals("visitor")
+								&& !TextUtils.isEmpty(tcsso)) {
+							callback.jumpNextPage(Config.PHONE_NUM_REGISTER_FRAGMENT);
+						} else {
+							callback.jumpNextPage(Config.FIND_PSW_FRAGMENT);
+						}
 					}
 				});
 
@@ -124,16 +139,19 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 			@Override
 			public void onClick(View v) {
 				// 记录为账户登录
-
+				if (TextUtils.isEmpty(et_username.getText())
+						|| TextUtils.isEmpty(et_psw.getText())) {
+					return;
+				}
 				// TODO 登录
 				TianCi.getInstance().login(et_username.getText() + "",
 						et_psw.getText() + "", new RequestCallBack() {
 
 							@Override
-							public void onSuccessed(int code) {
+							public void onSuccessed(ResponseMsg msg) {
 
 								TianCi.getInstance().saveLoginModelIsAccount();
-								if (code == 1) {// 账号已绑定
+								if (msg.getBindCode() == 1) {// 账号已绑定
 									TCLogUtils.toastShort(getActivity(),
 											"登陆成功! tcsso:"
 													+ TianCi.getInstance()
@@ -179,9 +197,15 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 							}
 
 							@Override
-							public void onFailure(ResponseMsg msg) {
-								TCLogUtils.toastShort(getActivity(),
-										msg.getRetMsg());
+							public void onFailure(String msg) {
+								TCLogUtils.toastShort(getActivity(), msg);
+
+								Intent data = new Intent();
+								data.putExtra("result", msg);
+								getActivity().setResult(
+										Config.REQUEST_STATUS_CODE_FAILURE,
+										data);
+								getActivity().finish();
 								// TCLogUtils.showToast(getActivity(),
 								// msg.getRetMsg());
 								// Intent data = new Intent();
@@ -197,9 +221,6 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 		});
 		view.findViewById(R.id.tv_customer_center).setOnClickListener(
 				new OnClickListener() {
-
-					@SuppressWarnings("deprecation")
-					@SuppressLint("ResourceAsColor")
 					@Override
 					public void onClick(View v) {
 						View dialogView = LayoutInflater.from(getActivity())
@@ -218,12 +239,18 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 								R.color.tcsdk_button_immediately_login));
 						tv_qq.setTextColor(getResources().getColor(
 								R.color.tcsdk_button_immediately_login));
+						// int width = (int)
+						// (getActivity().getWindow().getWindowManager().getDefaultDisplay().getWidth()
+						// * 0.6);
+						LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+								LayoutParams.WRAP_CONTENT,
+								LayoutParams.WRAP_CONTENT);
 						CustomerDialog dialog = new CustomerDialog(
-								getActivity(), dialogView, 500, 300);
+								getActivity(), dialogView, layoutParams.width,
+								layoutParams.height);
 						dialog.show();
 					}
 				});
-		;
 	}
 
 	@Override

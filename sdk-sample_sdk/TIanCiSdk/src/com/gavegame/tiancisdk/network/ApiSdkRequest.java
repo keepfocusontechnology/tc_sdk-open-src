@@ -3,6 +3,7 @@ package com.gavegame.tiancisdk.network;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
@@ -25,6 +26,8 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 @SuppressLint("NewApi")
 public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 
+	private final String TAG = "ApiSdkRequest";
+
 	private static final String loginUrl = Config.SERVER
 			+ "/index.php?g=mobile&m=login&a=%s";
 	private static final String orderUri = Config.SERVER
@@ -46,15 +49,6 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 	private String useragent;
 	private String deviceId;
 
-	// public ApiSdkRequest(Context context, String paramsUri, Method method,
-	// RequestCallBack callBack) {
-	// this.paramsUri = paramsUri;
-	// this.callBack = callBack;
-	// this.method = method;
-	// mContextRef = new WeakReference<>(context);
-	// this.context = mContextRef.get();
-	// }
-
 	public static ApiSdkRequest newApiSdkRequest(ResponseBean responseBean) {
 		if (responseBean == null)
 			return null;
@@ -62,10 +56,11 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 	}
 
 	private ApiSdkRequest(ResponseBean responseBean) {
+		mContextRef = new WeakReference<Context>(responseBean.getContext());
 		this.paramsUri = responseBean.getParamsUri();
 		this.callBack = responseBean.getCallBack();
 		this.method = responseBean.getMethod();
-		this.context = responseBean.getContext();
+		this.context = mContextRef.get();
 	}
 
 	@Override
@@ -73,80 +68,11 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 
 		// int resultCode = 0;
 		String resultJson = null;
-		String tcsso = null;
-
-		if (paramsUri.equals(Config.REQUEST_PARAMS_AUTOLOGIN)) {
-			// paramsQuest.put("deviceid", params[0]);
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_LOGIN)
-				|| paramsUri.equals(Config.REQUEST_PARAMS_REGISTER)) {
-			paramsQuest.put("user_login", params[0]);
-			paramsQuest.put("user_pass", params[1]);
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_LOGIN_ROLE)) {
-			tcsso = (String) SharedPreferencesUtils.getParam(context,
-					Config.USER_TCSSO, "");
-			// if (tcsso != null && !tcsso.equals("")) {
-			// paramsQuest.put("tcsso", tcsso);
-			// } else {
-			// return Config.REQUEST_STATUS_CODE_TCSSO_ISNULL;
-			// }
-			paramsQuest.put("tcsso", tcsso);
-			paramsQuest.remove("useragent");
-			paramsQuest.remove("deviceid");
-			paramsQuest.put("cp_role", Integer.valueOf(params[0]));
-			paramsQuest.put("serverid", Integer.valueOf(params[1]));
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)
-				|| paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER)) {
-			tcsso = (String) SharedPreferencesUtils.getParam(context,
-					Config.USER_TCSSO, "");
-			// if (tcsso != null && !tcsso.equals("")) {
-			// paramsQuest.put("tcsso", tcsso);
-			// } else {
-			// //TODO 返回tcsso为空的response
-			// responsMsg = new ResponseMsg();
-			// responsMsg.setRetCode(Config.REQUEST_STATUS_CODE_TCSSO_ISNULL);
-			// return responsMsg;
-			// }
-			paramsQuest.put("tcsso", tcsso);
-			paramsQuest.remove("useragent");
-			paramsQuest.remove("deviceid");
-			paramsQuest.put("cp_role", Integer.valueOf(params[0]));
-			paramsQuest.put("cp_order", params[1]);
-			paramsQuest.put("serverid", params[2]);
-			paramsQuest.put("amount", Double.valueOf(params[3]));
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_GET_NUMBER)) {
-			paramsQuest.clear();
-			paramsQuest.put("mobile", params[0]);
-			paramsQuest.put("deviceid", deviceId);
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_MOBILE_REGISTER)) {
-			paramsQuest.put("mobile", params[0]);
-			paramsQuest.put("user_pass", params[1]);
-			paramsQuest.put("code", params[2]);
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_USER_BIND)) {
-			paramsQuest.clear();
-			tcsso = (String) SharedPreferencesUtils.getParam(context,
-					Config.USER_TCSSO, "");
-			paramsQuest.put("mobile", params[0]);
-			paramsQuest.put("code", params[1]);
-			if(params.length == 3 && !TextUtils.isEmpty(params[2])){
-				paramsQuest.put("user_pass", params[2]);
-			}
-			paramsQuest.put("tcsso", tcsso);
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_FORGET_PASS)) {
-			paramsQuest.clear();
-			paramsQuest.put("mobile", params[0]);
-			paramsQuest.put("code", params[1]);
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_CHECK_BIND)) {
-			paramsQuest.clear();
-			paramsQuest.put("user_login", params[0]);
-		} else if (paramsUri.equals(Config.REQUEST_PARAMS_SET_PASS)) {
-			paramsQuest.clear();
-			paramsQuest.put("mobile", params[0]);
-			paramsQuest.put("code", params[1]);
-			paramsQuest.put("user_pass", params[2]);
-		}
+		setParams(params);
 		String uri;
 		if (paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER)
-				|| paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)) {
+				|| paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)
+				|| paramsUri.equals(Config.REQUEST_PARAMS_REQUEST_ORDER)) {
 			uri = String.format(orderUri, paramsUri);
 		} else {
 			uri = String.format(loginUrl, paramsUri);
@@ -180,6 +106,8 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 	 * @throws Exception
 	 */
 	private ResponseMsg getJsonObjcet(String result) throws Exception {
+		TCLogUtils.e(TAG, result);
+
 		responsMsg = new ResponseMsg();
 
 		JSONObject jsonObject = new JSONObject(result);
@@ -204,8 +132,23 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 			responsMsg.setRetMsg(jsonObject.getString("retmsg"));
 		}
 		if (result.contains("\"mobile\"")) {
-//			responsMsg.setRetMsg(jsonObject.getString("retmsg"));
-			SharedPreferencesUtils.setParam(context, "mobile", jsonObject.getString("mobile"));
+			// responsMsg.setRetMsg(jsonObject.getString("retmsg"));
+			SharedPreferencesUtils.setParam(context, "mobile",
+					jsonObject.getString("mobile"));
+		}
+		if (result.contains("\"pay_info\"") && result.contains("tc_order")) {
+			JSONObject pay_info = jsonObject.getJSONObject("pay_info");
+
+			AlipayEntity entity = new AlipayEntity();
+			entity.pantner = pay_info.getString("partner");
+			entity.seller = pay_info.getString("seller");
+			entity.rsa_public = pay_info.getString("rsa_public");
+			entity.rsa_private = pay_info.getString("rsa_private");
+			entity.notify_url = pay_info.getString("notify_url");
+			entity.orderId = jsonObject.getString("tc_order");
+
+			responsMsg.setBaseOrder(entity);
+			pay_info = null;
 		}
 		return responsMsg;
 	}
@@ -219,7 +162,7 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 			dialog.show();
 			dialog.setCancelable(true);
 			dialog.setOnCancelListener(new OnCancelListener() {
-				
+
 				@Override
 				public void onCancel(DialogInterface dialog) {
 					ApiSdkRequest.this.cancel(true);
@@ -227,6 +170,13 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 			});
 		}
 
+		preParams();
+	}
+
+	/**
+	 * 准备参数
+	 */
+	private void preParams() {
 		channelId = (int) SharedPreferencesUtils.getParam(context,
 				Platform.TIANCI_CHANNEL_ID, 0);
 		gameId = (int) SharedPreferencesUtils.getParam(context,
@@ -251,9 +201,9 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 	protected void onPostExecute(ResponseMsg msg) {
 		super.onPostExecute(msg);
 		if (msg.getRetCode() == Config.REQUEST_STATUS_CODE_SUC) {
-			callBack.onSuccessed(msg.getBindCode());
+			callBack.onSuccessed(msg);
 		} else {
-			callBack.onFailure(msg);
+			callBack.onFailure(msg.getRetMsg());
 		}
 		if (dialog != null) {
 			dialog.dismiss();
@@ -270,4 +220,83 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 		}
 	}
 
+	/**
+	 * 参数规则匹配 前期各个接口的参数都差不多，都会有几个固定的参数，所以想到直接封装到底层，外面只需要关系不一样的
+	 * 其实这种方法我感觉有点日了狗了，还是放在外层传吧，然后再封装一次，让用户只关系他需要用到的
+	 * 
+	 * @param params
+	 */
+	private void setParams(String... params) {
+
+		String tcsso = null;
+		if (paramsUri.equals(Config.REQUEST_PARAMS_AUTOLOGIN)) {
+			// paramsQuest.put("deviceid", params[0]);
+			// 这一句可以看出统一加几个参数的好处，这句啥都不用写，可是后面要去掉一些无用的参数啊喂
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_LOGIN)
+				|| paramsUri.equals(Config.REQUEST_PARAMS_REGISTER)) {
+			paramsQuest.put("user_login", params[0]);
+			paramsQuest.put("user_pass", params[1]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_LOGIN_ROLE)) {
+			tcsso = (String) SharedPreferencesUtils.getParam(context,
+					Config.USER_TCSSO, "");
+			paramsQuest.put("tcsso", tcsso);
+			paramsQuest.remove("useragent");
+			paramsQuest.remove("deviceid");
+			paramsQuest.put("cp_role", Integer.valueOf(params[0]));
+			paramsQuest.put("serverid", Integer.valueOf(params[1]));
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)
+				|| paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER)) {
+			tcsso = (String) SharedPreferencesUtils.getParam(context,
+					Config.USER_TCSSO, "");
+			paramsQuest.put("tcsso", tcsso);
+			paramsQuest.remove("useragent");
+			paramsQuest.remove("deviceid");
+			paramsQuest.put("cp_role", Integer.valueOf(params[0]));
+			paramsQuest.put("cp_order", params[1]);
+			paramsQuest.put("serverid", params[2]);
+			paramsQuest.put("amount", Double.valueOf(params[3]));
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_GET_NUMBER)) {
+			paramsQuest.clear();
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("deviceid", deviceId);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_MOBILE_REGISTER)) {
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("user_pass", params[1]);
+			paramsQuest.put("code", params[2]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_USER_BIND)) {
+			paramsQuest.clear();
+			tcsso = (String) SharedPreferencesUtils.getParam(context,
+					Config.USER_TCSSO, "");
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("code", params[1]);
+			if (params.length > 2 && !TextUtils.isEmpty(params[2])) {
+				paramsQuest.put("user_pass", params[2]);
+				paramsQuest.put("tcsso", tcsso);
+			}
+			paramsQuest.put("tcsso", tcsso);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_FORGET_PASS)) {
+			paramsQuest.clear();
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("code", params[1]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_CHECK_BIND)) {
+			paramsQuest.clear();
+			paramsQuest.put("user_login", params[0]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_SET_PASS)) {
+			paramsQuest.clear();
+			paramsQuest.put("mobile", params[0]);
+			paramsQuest.put("code", params[1]);
+			paramsQuest.put("user_pass", params[2]);
+		} else if (paramsUri.equals(Config.REQUEST_PARAMS_REQUEST_ORDER)) {
+			paramsQuest.remove("deviceid");
+			paramsQuest.remove("useragent");
+			tcsso = (String) SharedPreferencesUtils.getParam(context,
+					Config.USER_TCSSO, "");
+			paramsQuest.put("cp_role", Integer.valueOf(params[0]));
+			paramsQuest.put("cp_order", params[1]);
+			paramsQuest.put("serverid", params[2]);
+			paramsQuest.put("amount", params[3]);
+			paramsQuest.put("pay_type", params[4]);
+			paramsQuest.put("tcsso", tcsso);
+		}
+	}
 }

@@ -59,14 +59,14 @@ public class FinishCodeCheckFragment extends TCBaseFragment {
 							new RequestCallBack() {
 
 								@Override
-								public void onSuccessed(int userBindCode) {
+								public void onSuccessed(ResponseMsg msg) {
 									TianCi.getInstance().forgetPsw(mobileNum,
 											et_check_captcha.getText() + "",
 											new RequestCallBack() {
 
 												@Override
 												public void onSuccessed(
-														int userBindCode) {
+														ResponseMsg msg) {
 													Bundle bundle = new Bundle();
 													bundle.putString("account",
 															mobileNum);
@@ -82,14 +82,14 @@ public class FinishCodeCheckFragment extends TCBaseFragment {
 
 												@Override
 												public void onFailure(
-														ResponseMsg msg) {
+														String msg) {
 
 												}
 											});
 								}
 
 								@Override
-								public void onFailure(ResponseMsg msg) {
+								public void onFailure(String msg) {
 
 								}
 							});
@@ -107,14 +107,14 @@ public class FinishCodeCheckFragment extends TCBaseFragment {
 						new RequestCallBack() {
 
 							@Override
-							public void onSuccessed(int code) {
+							public void onSuccessed(ResponseMsg msg) {
 								TCLogUtils.toastShort(getActivity(), "获取成功");
 							}
 
 							@Override
-							public void onFailure(ResponseMsg msg) {
+							public void onFailure(String msg) {
 								TCLogUtils.toastShort(getActivity(),
-										msg.getRetMsg());
+										msg);
 							}
 						});
 				timer.start();

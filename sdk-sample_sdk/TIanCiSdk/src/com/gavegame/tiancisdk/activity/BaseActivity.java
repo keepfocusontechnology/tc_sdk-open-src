@@ -1,5 +1,6 @@
 package com.gavegame.tiancisdk.activity;
 
+import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.TianCiSDK;
 
 import android.annotation.SuppressLint;
@@ -37,6 +38,7 @@ public abstract class BaseActivity extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		TianCi.init(this);
 		if (TianCiSDK.getScreenState()) {
 			// 竖屏
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);

@@ -60,7 +60,7 @@ public class MobileBindFragment extends TCBaseFragment {
 						et_captcha.getText() + "", new RequestCallBack() {
 
 							@Override
-							public void onSuccessed(int userBindCode) {
+							public void onSuccessed(ResponseMsg msg) {
 								// TODO 自定义吐司，绑定成功
 								TCLogUtils.toastShort(getActivity(), "手机绑定成功");
 								// 绑定成功，将当前手机号码带入第一个登陆页面显示出来
@@ -72,10 +72,9 @@ public class MobileBindFragment extends TCBaseFragment {
 							}
 
 							@Override
-							public void onFailure(ResponseMsg msg) {
+							public void onFailure(String msg) {
 								// 绑定不成功，留在此页面
-								TCLogUtils.toastShort(getActivity(),
-										msg.getRetMsg());
+								TCLogUtils.toastShort(getActivity(), msg);
 
 							}
 						});
@@ -92,15 +91,14 @@ public class MobileBindFragment extends TCBaseFragment {
 							new RequestCallBack() {
 
 								@Override
-								public void onSuccessed(int code) {
+								public void onSuccessed(ResponseMsg msg) {
 									TCLogUtils
 											.toastShort(getActivity(), "获取成功");
 								}
 
 								@Override
-								public void onFailure(ResponseMsg msg) {
-									TCLogUtils.toastShort(getActivity(),
-											msg.getRetMsg());
+								public void onFailure(String msg) {
+									TCLogUtils.toastShort(getActivity(), msg);
 								}
 							});
 					timer.start();

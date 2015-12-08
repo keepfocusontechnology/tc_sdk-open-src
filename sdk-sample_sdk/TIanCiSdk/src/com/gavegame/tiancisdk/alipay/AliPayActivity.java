@@ -95,7 +95,7 @@ public class AliPayActivity extends FragmentActivity {
 		};
 	};
 	private String subject;
-	private String subject_desc;
+	private String body;
 	private String price;
 
 	@Override
@@ -107,9 +107,17 @@ public class AliPayActivity extends FragmentActivity {
 
 	private void initData() {
 		Intent data = getIntent();
-		subject = data.getStringExtra("subject");
-		subject_desc = data.getStringExtra("subject_desc");
-		price = data.getStringExtra("price");
+		// subject = data.getStringExtra("subject");
+		// subject_desc = data.getStringExtra("subject_desc");
+		// price = data.getStringExtra("price");
+
+		// subject = data.getStringExtra("subject");
+		// body = data.getStringExtra("body");
+		// price = data.getStringExtra("price");
+
+		subject = "123123";
+		body = "21321312";
+		price = "0.01";
 	}
 
 	/**
@@ -134,7 +142,7 @@ public class AliPayActivity extends FragmentActivity {
 		}
 
 		// 订单
-		String orderInfo = getOrderInfo(subject, subject_desc, price);
+		String orderInfo = getOrderInfo(subject, body, price);
 
 		// 对订单做RSA 签名
 		String sign = sign(orderInfo);

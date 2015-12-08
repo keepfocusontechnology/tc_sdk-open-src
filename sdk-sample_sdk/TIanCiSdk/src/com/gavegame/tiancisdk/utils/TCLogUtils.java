@@ -72,9 +72,11 @@ public class TCLogUtils {
 	 * @param msg
 	 */
 	public static void toastShort(Context context, String msg) {
-		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
-		toast.setGravity(Gravity.CENTER, 0, 0);
-		toast.show();
+		if (isDebug) {
+			Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
 	}
 
 	/**
@@ -84,11 +86,10 @@ public class TCLogUtils {
 	 * @param msg
 	 */
 	public static void toastLong(Context context, String msg) {
-		// if (isDebug)
-		// Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-
-		Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
-		toast.setGravity(Gravity.CENTER, 0, 0);
-		toast.show();
+		if (isDebug) {
+			Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
 	}
 }

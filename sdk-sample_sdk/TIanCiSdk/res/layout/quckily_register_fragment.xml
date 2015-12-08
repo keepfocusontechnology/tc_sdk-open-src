@@ -22,7 +22,7 @@
             android:text="@string/tcsdk_account" />
 
         <EditText
-            android:hint="至少输入一个英文字母"
+            android:hint="6-20位的字母和数字"
             android:id="@+id/et_quckily_reg_username"
             style="@style/tcsdk_et_normal"
             android:layout_width="fill_parent"

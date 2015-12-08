@@ -1,6 +1,6 @@
 package com.gavegame.tiancisdk.fragment;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,9 +66,9 @@ public class QuckilyRegisterFragment extends TCBaseFragment {
 								et_psw.getText() + "", new RequestCallBack() {
 
 									@Override
-									public void onSuccessed(int code) {
+									public void onSuccessed(ResponseMsg msg) {
 										// 普通账号注册，如果未绑定，则提示绑定
-										if (code != 1) {
+										if (msg.getBindCode() != 1) {
 											TianCi.getInstance()
 													.saveLoginModelIsAccount();
 											TianCi.getInstance()
@@ -87,12 +87,25 @@ public class QuckilyRegisterFragment extends TCBaseFragment {
 															.getInstance()
 															.getTcsso());
 										}
+										Intent data = new Intent();
+										data.putExtra("tcsso", msg);
+										getActivity().setResult(
+												Config.REQUEST_STATUS_CODE_SUC,
+												data);
+										getActivity().finish();
 									}
 
 									@Override
-									public void onFailure(ResponseMsg msg) {
+									public void onFailure(String msg) {
 										TCLogUtils.toastShort(getActivity(),
-												msg.getRetMsg());
+												msg);
+										Intent data = new Intent();
+										data.putExtra("result", msg);
+										getActivity()
+												.setResult(
+														Config.REQUEST_STATUS_CODE_FAILURE,
+														data);
+										getActivity().finish();
 									}
 								});
 					}

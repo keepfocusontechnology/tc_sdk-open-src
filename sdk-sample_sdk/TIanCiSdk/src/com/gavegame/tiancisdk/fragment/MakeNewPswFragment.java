@@ -16,6 +16,7 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 /**
  * 账号已绑定，且验证码通过后，最后的设置新密码
+ * 
  * @author Tianci
  *
  */
@@ -57,18 +58,19 @@ public class MakeNewPswFragment extends TCBaseFragment {
 							et_new_psw.getText() + "", new RequestCallBack() {
 
 								@Override
-								public void onSuccessed(int userBindCode) {
+								public void onSuccessed(ResponseMsg msg) {
 									TCLogUtils.toastShort(getActivity(),
 											"修改密码成功");
 									Bundle data = new Bundle();
 									data.putString("account", mobileNum);
-									callback.jumpNextPage(Config.QUCKILY_LOGIN_FRAGMENT, data);
+									callback.jumpNextPage(
+											Config.QUCKILY_LOGIN_FRAGMENT, data);
 								}
 
 								@Override
-								public void onFailure(ResponseMsg msg) {
+								public void onFailure(String msg) {
 									TCLogUtils.toastShort(getActivity(),
-											msg.getRetMsg());
+											msg);
 								}
 							});
 

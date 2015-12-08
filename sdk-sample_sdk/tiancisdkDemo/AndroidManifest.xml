@@ -65,11 +65,11 @@
 
         <meta-data
             android:name="TIANCI_GAME_ID"
-            android:value="410" />
+            android:value="152" />
         <!-- 天赐分配的游戏ID -->
         <meta-data
             android:name="TIANCI_CHANNEL_ID"
-            android:value="12" />
+            android:value="5" />
         <!-- 天赐分配的渠道ID -->
     </application>
 

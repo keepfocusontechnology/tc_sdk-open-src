@@ -21,6 +21,7 @@ import com.gavegame.tiancisdk.utils.TimerCount;
 
 /**
  * 验证手机是否绑定的界面
+ * 
  * @author Tianci
  *
  */
@@ -34,14 +35,15 @@ public class PswRetakeFragment extends TCBaseFragment {
 
 	@Override
 	void initID() {
-		String phoneNum = (String)SharedPreferencesUtils.getParam(getActivity(), "mobile", "");
+		String phoneNum = (String) SharedPreferencesUtils.getParam(
+				getActivity(), "mobile", "");
 		et_phone_num = (EditText) view.findViewById(R.id.et_bind_phone_num);
 		et_phone_num.setEnabled(false);
-		if(!TextUtils.isEmpty(phoneNum))
+		if (!TextUtils.isEmpty(phoneNum))
 			et_phone_num.setText(phoneNum);
-		et_captcha = (EditText)view.findViewById(R.id.et_mobile_bind_captcha);
-		//弹出数字键盘
-		et_captcha.setInputType(EditorInfo.TYPE_CLASS_PHONE); 
+		et_captcha = (EditText) view.findViewById(R.id.et_mobile_bind_captcha);
+		// 弹出数字键盘
+		et_captcha.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 		bt_captcha = (Button) view.findViewById(R.id.bt_captcha);
 		timer = new TimerCount(60000, 1000, bt_captcha);
 		bt_captcha.setOnClickListener(new OnClickListener() {
@@ -55,15 +57,14 @@ public class PswRetakeFragment extends TCBaseFragment {
 							et_phone_num.getText() + "", new RequestCallBack() {
 
 								@Override
-								public void onSuccessed(int code) {
+								public void onSuccessed(ResponseMsg msg) {
 									TCLogUtils.toastShort(getActivity(),
 											"获取成功!");
 								}
 
 								@Override
-								public void onFailure(ResponseMsg msg) {
-									TCLogUtils.toastShort(getActivity(),
-											msg.getRetMsg());
+								public void onFailure(String msg) {
+									TCLogUtils.toastShort(getActivity(), msg);
 								}
 							});
 				}
@@ -74,31 +75,40 @@ public class PswRetakeFragment extends TCBaseFragment {
 
 					@Override
 					public void onClick(View v) {
-						TianCi.getInstance().forgetPsw(et_phone_num.getText()+"", et_captcha.getText()+"", new RequestCallBack() {
-							
-							@Override
-							public void onSuccessed(int userBindCode) {
-								Bundle bundle = new Bundle();
-								bundle.putString("account", et_phone_num.getText()+"");
-								bundle.putString("captcha", et_captcha.getText()+"");
-								callback.jumpNextPage(Config.MAKE_NEWPSW_FRAGMENT,bundle);
-							}
-							
-							@Override
-							public void onFailure(ResponseMsg msg) {
-								TCLogUtils.toastShort(getActivity(), msg.getRetMsg());
-							}
-						});
-						
+						TianCi.getInstance().forgetPsw(
+								et_phone_num.getText() + "",
+								et_captcha.getText() + "",
+								new RequestCallBack() {
+
+									@Override
+									public void onSuccessed(ResponseMsg msg) {
+										Bundle bundle = new Bundle();
+										bundle.putString("account",
+												et_phone_num.getText() + "");
+										bundle.putString("captcha",
+												et_captcha.getText() + "");
+										callback.jumpNextPage(
+												Config.MAKE_NEWPSW_FRAGMENT,
+												bundle);
+									}
+
+									@Override
+									public void onFailure(String msg) {
+										TCLogUtils.toastShort(getActivity(),
+												msg);
+									}
+								});
+
 					}
 				});
-		view.findViewById(R.id.bt_mobile_back).setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				callback.back();
-			}
-		});
+		view.findViewById(R.id.bt_mobile_back).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						callback.back();
+					}
+				});
 	}
 
 	@Override

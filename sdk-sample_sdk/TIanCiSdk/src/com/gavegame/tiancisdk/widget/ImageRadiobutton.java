@@ -76,44 +76,46 @@ public class ImageRadiobutton extends LinearLayout {
 		switch (widthMode) {
 		// wrap
 		case MeasureSpec.AT_MOST:
-			Log.e(TAG, " width onMeasure mode is AT_MOST width = " + width);
+			// TCLogUtils.e(TAG, " width onMeasure mode is AT_MOST width = " +
+			// width);
 			// here we must confirm mini size
 			if (width > defaultWidthSize) {
 				width = defaultWidthSize;
 			}
-			Log.e(TAG, " width onMeasure mode is AT_MOST");
+			// TCLogUtils.e(TAG, " width onMeasure mode is AT_MOST");
 
 			break;
 
 		case MeasureSpec.UNSPECIFIED:
-			Log.e(TAG, "width onMeasure mode is UNSPECIFIED");
+			// TCLogUtils.e(TAG, "width onMeasure mode is UNSPECIFIED");
 			break;
 		// match
 		case MeasureSpec.EXACTLY:
 			// match_parent and with confirmed size
-			Log.e(TAG, "width onMeasure mode is EXACTLY");
+			// TCLogUtils.e(TAG, "width onMeasure mode is EXACTLY");
 			break;
 		}
 
 		switch (heightMode) {
 		// wrap
 		case MeasureSpec.AT_MOST:
-			Log.e(TAG, " width onMeasure mode is AT_MOST width = " + width);
+			// TCLogUtils.e(TAG, " height onMeasure mode is AT_MOST width = " +
+			// height);
 			// here we must confirm mini size
 			if (height > defaultHeightSize) {
 				height = defaultHeightSize;
 			}
-			Log.e(TAG, " width onMeasure mode is AT_MOST");
+			// TCLogUtils.e(TAG, " height onMeasure mode is AT_MOST");
 
 			break;
 
 		case MeasureSpec.UNSPECIFIED:
-			Log.e(TAG, "width onMeasure mode is UNSPECIFIED");
+			// TCLogUtils.e(TAG, "height onMeasure mode is UNSPECIFIED");
 			break;
 		// match
 		case MeasureSpec.EXACTLY:
 			// match_parent and with confirmed size
-			Log.e(TAG, "width onMeasure mode is EXACTLY");
+			// TCLogUtils.e(TAG, "height onMeasure mode is EXACTLY");
 			break;
 		}
 		setMeasuredDimension(width, height);
@@ -136,7 +138,7 @@ public class ImageRadiobutton extends LinearLayout {
 		;
 		radioButton.setLayoutParams(bt_lp);
 		radioButton.setGravity(Gravity.CENTER_VERTICAL);
-//		 radioButton.setEnabled(false);
+		// radioButton.setEnabled(false);
 		addView(radioButton);
 		RelativeLayout.LayoutParams img_lp = new RelativeLayout.LayoutParams(
 				drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -161,7 +163,7 @@ public class ImageRadiobutton extends LinearLayout {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				
+
 				TCLogUtils.e(TAG, "View touched!!!!!");
 				if (isChecked) {
 					setUnChecked();
@@ -174,16 +176,17 @@ public class ImageRadiobutton extends LinearLayout {
 			}
 		});
 		//
-//		radioButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//
-//			@Override
-//			public void onCheckedChanged(CompoundButton buttonView,
-//					boolean isChecked) {
-//				TCLogUtils.e(TAG, "radioButton checked!!!!!");
-//			}
-//		});
+		// radioButton.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		// {
+		//
+		// @Override
+		// public void onCheckedChanged(CompoundButton buttonView,
+		// boolean isChecked) {
+		// TCLogUtils.e(TAG, "radioButton checked!!!!!");
+		// }
+		// });
 		radioButton.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				TCLogUtils.e(TAG, "radioButton touched!!!!!");
@@ -197,14 +200,14 @@ public class ImageRadiobutton extends LinearLayout {
 				return true;
 			}
 		});
-//		radioButton.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				TCLogUtils.e(TAG, "radioButton clicked!!!!!");
-//			}
-//		});
-		
+		// radioButton.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// TCLogUtils.e(TAG, "radioButton clicked!!!!!");
+		// }
+		// });
+
 	}
 
 	/**

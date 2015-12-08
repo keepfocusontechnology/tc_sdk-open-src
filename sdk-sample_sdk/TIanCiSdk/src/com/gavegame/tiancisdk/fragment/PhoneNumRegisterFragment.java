@@ -1,11 +1,13 @@
 package com.gavegame.tiancisdk.fragment;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.network.RequestCallBack;
@@ -16,6 +18,7 @@ import com.gavegame.tiancisdk.utils.TimerCount;
 
 /**
  * 手机号码直接注册
+ * 
  * @author Tianci
  *
  */
@@ -46,16 +49,31 @@ public class PhoneNumRegisterFragment extends TCBaseFragment {
 									new RequestCallBack() {
 
 										@Override
-										public void onSuccessed(int code) {
+										public void onSuccessed(ResponseMsg msg) {
 											TCLogUtils.toastShort(
 													getActivity(), "注册成功");
+											Intent data = new Intent();
+											data.putExtra("tcsso",
+													msg.getTcsso());
+											getActivity()
+													.setResult(
+															Config.REQUEST_STATUS_CODE_SUC,
+															data);
+											getActivity().finish();
 										}
 
 										@Override
-										public void onFailure(ResponseMsg msg) {
+										public void onFailure(String msg) {
 											TCLogUtils.toastShort(
-													getActivity(),
-													msg.getRetMsg());
+													getActivity(), msg);
+
+											Intent data = new Intent();
+											data.putExtra("result", msg);
+											getActivity()
+													.setResult(
+															Config.REQUEST_STATUS_CODE_FAILURE,
+															data);
+											getActivity().finish();
 										}
 									});
 						}
@@ -63,7 +81,14 @@ public class PhoneNumRegisterFragment extends TCBaseFragment {
 				});
 		;
 
-		view.findViewById(R.id.bt_mobile_reg_back);
+		Button bt_back = (Button) view.findViewById(R.id.bt_mobile_reg_back);
+		bt_back.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				callback.back();
+			}
+		});
 		bt_captcha = (Button) view.findViewById(R.id.bt_captcha);
 		bt_captcha.setOnClickListener(new OnClickListener() {
 
@@ -75,15 +100,14 @@ public class PhoneNumRegisterFragment extends TCBaseFragment {
 							new RequestCallBack() {
 
 								@Override
-								public void onSuccessed(int code) {
+								public void onSuccessed(ResponseMsg msg) {
 									TCLogUtils
 											.toastShort(getActivity(), "获取成功");
 								}
 
 								@Override
-								public void onFailure(ResponseMsg msg) {
-									TCLogUtils.toastShort(getActivity(),
-											msg.getRetMsg());
+								public void onFailure(String msg) {
+									TCLogUtils.toastShort(getActivity(), msg);
 								}
 							});
 					timer.start();

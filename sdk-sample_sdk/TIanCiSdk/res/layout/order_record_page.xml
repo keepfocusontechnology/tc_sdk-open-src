@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tcsdk_pay_bg_title_bar"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/iv_pay_closed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/icon_pay_back" />
+
+        <TextView
+            android:id="@+id/tv_pay_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/tcsdk_rechange_record"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_order_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tcsdk_main_background"
+        android:divider="#00000000"
+        android:dividerHeight="18dp"
+        android:padding="20dp" />
+
+</LinearLayout>
