@@ -87,12 +87,6 @@ public class QuckilyRegisterFragment extends TCBaseFragment {
 															.getInstance()
 															.getTcsso());
 										}
-										Intent data = new Intent();
-										data.putExtra("tcsso", msg);
-										getActivity().setResult(
-												Config.REQUEST_STATUS_CODE_SUC,
-												data);
-										getActivity().finish();
 									}
 
 									@Override

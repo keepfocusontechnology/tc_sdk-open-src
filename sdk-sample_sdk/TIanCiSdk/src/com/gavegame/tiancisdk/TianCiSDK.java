@@ -22,53 +22,52 @@ import android.content.Context;
 
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 
-
 public final class TianCiSDK {
 
-    static TianCiSDK mTianCiSDK;
-    //默认为竖屏 false为横屏 true为竖屏
-    private static boolean screenIsPortrait = true;
+	static TianCiSDK mTianCiSDK;
+	// 默认为竖屏 false为横屏 true为竖屏
+	private static boolean screenIsPortrait;
 
-    public static void init(Context context){
-        if(mTianCiSDK == null){
-            synchronized (TianCiSDK.class){
-                if(mTianCiSDK == null){
-                    mTianCiSDK = new TianCiSDK(context);
-                }
-            }
-        }
-    }
-    
-    public static void setScreenIsPortrait(boolean screenState){
-    	screenIsPortrait = screenState;
-    }
-    
-    public static boolean getScreenState(){
-    	return screenIsPortrait;
-    }
-    
+	public static void init(Context context) {
+		if (mTianCiSDK == null) {
+			synchronized (TianCiSDK.class) {
+				if (mTianCiSDK == null) {
+					mTianCiSDK = new TianCiSDK(context);
+				}
+			}
+		}
+	}
 
-    public static TianCiSDK getInstance(){
-        if(mTianCiSDK == null){
-            throw new IllegalStateException("The TianCiSDK is not initialize!");
-        }
-        return mTianCiSDK;
-    }
+	public static void setScreenIsPortrait(boolean screenState) {
+		screenIsPortrait = screenState;
+	}
 
-    private Platform mPlatform;
+	public static boolean getScreenState() {
+		return screenIsPortrait;
+	}
 
-    private TianCiSDK(Context context) {
-        mPlatform = Platform.fromMetaData(context);
-//        HttpConfiguration configuration = HttpConfiguration.create(context)
-//                .setServer(Config.SERVER).setRequestInterceptor(new HttpRequestInterceptor());
-//        HttpClient.init(configuration);
-    }
+	public static TianCiSDK getInstance() {
+		if (mTianCiSDK == null) {
+			throw new IllegalStateException("The TianCiSDK is not initialize!");
+		}
+		return mTianCiSDK;
+	}
 
-    public Platform getPlatform() {
-        return mPlatform;
-    }
+	private Platform mPlatform;
 
-    public static void setDebugModel(boolean isDebug){
-        TCLogUtils.isDebug = isDebug;
-    }
+	private TianCiSDK(Context context) {
+		mPlatform = Platform.fromMetaData(context);
+		// HttpConfiguration configuration = HttpConfiguration.create(context)
+		// .setServer(Config.SERVER).setRequestInterceptor(new
+		// HttpRequestInterceptor());
+		// HttpClient.init(configuration);
+	}
+
+	public Platform getPlatform() {
+		return mPlatform;
+	}
+
+	public static void setDebugModel(boolean isDebug) {
+		TCLogUtils.isDebug = isDebug;
+	}
 }

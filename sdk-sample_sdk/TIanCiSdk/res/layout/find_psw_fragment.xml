@@ -52,6 +52,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:paddingBottom="@dimen/tcsdk_top_bot_padding"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:text="@string/tcsdk_find_psw_contact" />
 
 </LinearLayout>

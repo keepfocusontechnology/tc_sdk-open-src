@@ -30,9 +30,7 @@ public class MainActivity extends Activity {
 
 		setContentView(R.layout.activity_main);
 		context = getApplicationContext();
-		TianCiSDK.init(this);
-		// true为竖屏，false 为横屏
-		TianCiSDK.setScreenIsPortrait(true);
+		
 		findViewById(R.id.jump_login_page).setOnClickListener(
 				new OnClickListener() {
 					@Override
