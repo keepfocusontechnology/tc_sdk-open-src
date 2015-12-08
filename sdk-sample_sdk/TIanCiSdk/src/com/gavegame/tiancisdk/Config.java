@@ -62,5 +62,5 @@ public interface Config {
 
 	// 每隔一天提示一次号码未绑定
 	// int account_bind_time = 1000 * 60 * 60 * 24;
-	int account_bind_time = 1000 * 10;
+	int account_bind_time = 10 * 1000;
 }

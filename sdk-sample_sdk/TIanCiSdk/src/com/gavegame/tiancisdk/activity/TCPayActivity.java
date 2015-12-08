@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -20,7 +22,6 @@ import com.alipay.sdk.app.PayTask;
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
-import com.gavegame.tiancisdk.alipay.AliPayActivity;
 import com.gavegame.tiancisdk.alipay.PayResult;
 import com.gavegame.tiancisdk.alipay.SignUtils;
 import com.gavegame.tiancisdk.enums.PayWay;
@@ -109,6 +110,37 @@ public class TCPayActivity extends BaseActivity {
 		};
 	};
 
+	private void back() {
+
+		new AlertDialog.Builder(this).setTitle("支付未完成")
+				.setMessage("支付未完成，确定退出本次支付吗？")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				})
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				}).show();
+		// new AlertDialog.Builder(getApplicationContext())
+		// .setTitle("支付未完成")
+		// .setMessage("支付未完成，确定退出本次支付吗？")
+		// .setPositiveButton("确定",
+		// new DialogInterface.OnClickListener() {
+		// public void onClick(
+		// DialogInterface dialoginterface, int i) {
+		// //
+		// // finish();
+		// }
+		// }).show();
+	}
+
 	@Override
 	void initId() {
 		pay_alipay = (ImageRadiobutton) findViewById(R.id.pay_alipay);
@@ -120,7 +152,7 @@ public class TCPayActivity extends BaseActivity {
 		iv_back.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				finish();
+				back();
 			}
 		});
 		// final ImageRadiobutton irbs[] = { pay_alipay, pay_wechat, pay_bank,
@@ -400,4 +432,15 @@ public class TCPayActivity extends BaseActivity {
 	public String sign(String content) {
 		return SignUtils.sign(content, RSA_PRIVATE);
 	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			back();
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
+
 }

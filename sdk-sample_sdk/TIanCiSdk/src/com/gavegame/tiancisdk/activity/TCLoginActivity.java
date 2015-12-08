@@ -122,32 +122,6 @@ public class TCLoginActivity extends BaseActivity implements
 	public void onResume() {
 		super.onResume();
 		TianCi.init(this);
-		// 点击切换账号会恒定显示登录界面
-		String userAction = getIntent().getAction();
-		// 如果是正常登陆，则判断是否为首次登陆
-		if (TextUtils.isEmpty(userAction)) {
-			if (!isFristLogin()) {
-				mainView.setVisibility(View.GONE);
-			} else {
-				switchFragment(0, null);
-			}
-			// 切换账号，如果最近一次登陆为普通登陆，则记录账户信息
-		} else {
-			if (userAction.equals("switch_account")
-					&& loginModel.equals("account")) {
-				String username = TianCi.getInstance().getUserAccount(
-						"user_account");
-				String psw = TianCi.getInstance().getUserAccount(
-						"user_password");
-
-				Bundle bundle = new Bundle();
-				bundle.putString("user_account", username);
-				bundle.putString("user_password", psw);
-				switchFragment(0, bundle);
-			} else {
-				switchFragment(0, null);
-			}
-		}
 	}
 
 	private void initTitle() {
@@ -363,6 +337,32 @@ public class TCLoginActivity extends BaseActivity implements
 		manager = getSupportFragmentManager();
 		titleStack = new ArrayList<String>();
 		initTitle();
+		// 点击切换账号会恒定显示登录界面
+		String userAction = getIntent().getAction();
+		// 如果是正常登陆，则判断是否为首次登陆
+		if (TextUtils.isEmpty(userAction)) {
+			if (!isFristLogin()) {
+				mainView.setVisibility(View.GONE);
+			} else {
+				switchFragment(0, null);
+			}
+			// 切换账号，如果最近一次登陆为普通登陆，则记录账户信息
+		} else {
+			if (userAction.equals("switch_account")
+					&& loginModel.equals("account")) {
+				String username = TianCi.getInstance().getUserAccount(
+						"user_account");
+				String psw = TianCi.getInstance().getUserAccount(
+						"user_password");
+
+				Bundle bundle = new Bundle();
+				bundle.putString("user_account", username);
+				bundle.putString("user_password", psw);
+				switchFragment(0, bundle);
+			} else {
+				switchFragment(0, null);
+			}
+		}
 		// switchFragment(0, savedInstanceState);
 	}
 

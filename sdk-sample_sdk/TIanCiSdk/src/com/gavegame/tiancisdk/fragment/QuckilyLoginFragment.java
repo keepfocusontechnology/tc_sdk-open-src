@@ -79,6 +79,10 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 				TianCi.getInstance().autoLogin(new RequestCallBack() {
 					@Override
 					public void onSuccessed(ResponseMsg msg) {
+						Intent data = new Intent();
+						data.putExtra("tcsso", TianCi.getInstance().getTcsso());
+						getActivity().setResult(Config.REQUEST_STATUS_CODE_SUC,
+								data);
 						// 记录为游客登录
 						TianCi.getInstance().saveLoginModelIsVisitor();
 						// 未绑定
@@ -93,13 +97,10 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 								TianCi.getInstance().saveCurrentTime();
 							} else {
 								TCLogUtils.showToast(getActivity(), "游客登陆成功!");
+								getActivity().finish();
 							}
 						}
-						Intent data = new Intent();
-						data.putExtra("tcsso", TianCi.getInstance().getTcsso());
-						getActivity().setResult(Config.REQUEST_STATUS_CODE_SUC,
-								data);
-						getActivity().finish();
+
 					}
 
 					@Override
@@ -155,16 +156,21 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 
 							@Override
 							public void onSuccessed(ResponseMsg msg) {
-
+								Intent data = new Intent();
+								data.putExtra("tcsso", TianCi.getInstance()
+										.getTcsso());
+								getActivity().setResult(
+										Config.REQUEST_STATUS_CODE_SUC, data);
+								TianCi.getInstance().saveAccountAndPsw(
+										et_username.getText() + "",
+										et_psw.getText() + "");
 								TianCi.getInstance().saveLoginModelIsAccount();
 								if (msg.getBindCode() == 1) {// 账号已绑定
 									TCLogUtils.toastShort(getActivity(),
 											"登陆成功! tcsso:"
 													+ TianCi.getInstance()
 															.getTcsso());
-									TianCi.getInstance().saveAccountAndPsw(
-											et_username.getText() + "",
-											et_psw.getText() + "");
+									getActivity().finish();
 								} else {
 									// 未绑定
 									if (TianCi.getInstance()
@@ -178,28 +184,23 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 											TianCi.getInstance()
 													.saveCurrentTime();
 										} else {
-											TCLogUtils
-													.toastShort(
-															getActivity(),
-															"登陆成功! tcsso:"
-																	+ TianCi.getInstance()
-																			.getTcsso());
-											TianCi.getInstance()
-													.saveAccountAndPsw(
-															et_username
-																	.getText()
-																	+ "",
-															et_psw.getText()
-																	+ "");
+											// TCLogUtils
+											// .toastShort(
+											// getActivity(),
+											// "登陆成功! tcsso:"
+											// + TianCi.getInstance()
+											// .getTcsso());
+											// TianCi.getInstance()
+											// .saveAccountAndPsw(
+											// et_username
+											// .getText()
+											// + "",
+											// et_psw.getText()
+											// + "");
+											getActivity().finish();
 										}
 									}
 								}
-								Intent data = new Intent();
-								data.putExtra("tcsso", TianCi.getInstance()
-										.getTcsso());
-								getActivity().setResult(
-										Config.REQUEST_STATUS_CODE_SUC, data);
-								getActivity().finish();
 							}
 
 							@Override
@@ -211,7 +212,7 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 								getActivity().setResult(
 										Config.REQUEST_STATUS_CODE_FAILURE,
 										data);
-//								getActivity().finish();
+								// getActivity().finish();
 								// TCLogUtils.showToast(getActivity(),
 								// msg.getRetMsg());
 								// Intent data = new Intent();
