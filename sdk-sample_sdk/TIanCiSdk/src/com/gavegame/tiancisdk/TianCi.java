@@ -3,6 +3,7 @@ package com.gavegame.tiancisdk;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.gavegame.tiancisdk.network.ApiSdkRequest;
@@ -17,7 +18,7 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
  */
 public class TianCi {
 
-	private static Context mContext;
+	private static Activity mContext;
 
 	static TianCi mTianCi;
 
@@ -25,7 +26,7 @@ public class TianCi {
 
 	private ApiSdkRequest apiSdkRequest;
 
-	public static void init(Context context) {
+	public static void init(Activity context) {
 		if (mContext != context) {
 			mTianCi = null;
 		}
@@ -45,7 +46,7 @@ public class TianCi {
 		return mTianCi;
 	}
 
-	private TianCi(Context context) {
+	private TianCi(Activity context) {
 		this.mContext = context;
 	}
 
@@ -166,6 +167,7 @@ public class TianCi {
 
 	/**
 	 * 获取订单（支付宝）
+	 * 
 	 * @param roleId
 	 * @param orderId
 	 * @param serverId
@@ -304,7 +306,6 @@ public class TianCi {
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
 		apiSdkRequest.execute(mobileNum, captcha, userPsw);
 	}
-
 
 	/**
 	 * 获取当前时间

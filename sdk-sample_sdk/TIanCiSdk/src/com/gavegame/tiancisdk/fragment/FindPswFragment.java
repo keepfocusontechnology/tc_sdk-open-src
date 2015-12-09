@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
@@ -62,9 +65,21 @@ public class FindPswFragment extends TCBaseFragment {
 											@Override
 											public void onFailure(String msg) {
 												// TODO 账号未绑定，跳转客服界面
+
+												View dialogView = LayoutInflater
+														.from(getActivity())
+														.inflate(
+																R.layout.tcsdk_customer_service,
+																null);
+
+												LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+														LayoutParams.WRAP_CONTENT,
+														LayoutParams.WRAP_CONTENT);
 												CustomerDialog dialog = new CustomerDialog(
 														getActivity(),
-														R.layout.tcsdk_customer_service);
+														dialogView,
+														layoutParams.width,
+														layoutParams.height);
 												dialog.show();
 											}
 										});

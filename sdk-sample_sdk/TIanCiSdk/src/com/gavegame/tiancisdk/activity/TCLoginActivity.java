@@ -121,7 +121,7 @@ public class TCLoginActivity extends BaseActivity implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		TianCi.init(this);
+//		TianCi.init(this);
 	}
 
 	private void initTitle() {
