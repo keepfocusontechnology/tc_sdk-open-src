@@ -110,12 +110,14 @@ public class TianCi {
 	}
 
 	/**
-	 * 角色自动登陆
-	 *
+	 * 角色登陆
+	 * 
 	 * @param roleId
-	 *            CP创建的角色ID
+	 *            角色id
+	 * @param serverId
+	 *            角色所在服务器id
 	 * @param callBack
-	 *            访问结果回调
+	 *            访问接口回调
 	 */
 	public void roleAutoLogin(String roleId, String serverId,
 			RequestCallBack callBack) {
