@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.annotation.SuppressLint;
+import android.provider.ContactsContract.Data;
+
 /**
  * Created by Tianci on 15/9/29.
  */
@@ -37,25 +40,22 @@ public class NormalUtils {
 	}
 
 	/**
-	 * 字符串转化为时间戳
+	 * 秒数转化为时间
+	 * 
 	 * @param user_time
 	 * @return
 	 */
-	public static String getTime(String user_time) {
-		String re_time = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒");
-		Date d;
+	@SuppressLint("SimpleDateFormat")
+	public static String convert(String str) {
+		long mill = Long.valueOf(str);
+		Date date = new Date(mill*1000l);
+		String strs = "";
 		try {
-
-			d = sdf.parse(user_time);
-			long l = d.getTime();
-			String str = String.valueOf(l);
-			re_time = str.substring(0, 10);
-
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			strs = sdf.format(date);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return re_time;
+		return strs;
 	}
 }

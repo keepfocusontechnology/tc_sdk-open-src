@@ -66,6 +66,7 @@ public class TCLoginActivity extends BaseActivity implements
 
 	@SuppressLint("NewApi")
 	private boolean isFristLogin() {
+		final Intent data = new Intent();
 		if (TextUtils.isEmpty(loginModel)) {
 			return true;
 		} else {
@@ -76,7 +77,6 @@ public class TCLoginActivity extends BaseActivity implements
 					public void onSuccessed(ResponseMsg responseMsg) {
 						TCLogUtils.toastShort(getApplicationContext(),
 								"游客自动登陆成功");
-						Intent data = new Intent();
 						data.putExtra("tcsso", TianCi.getInstance().getTcsso());
 						setResult(Config.REQUEST_STATUS_CODE_SUC, data);
 						finish();
@@ -85,6 +85,9 @@ public class TCLoginActivity extends BaseActivity implements
 					@Override
 					public void onFailure(String msg) {
 						TCLogUtils.toastShort(getApplicationContext(), msg);
+						data.putExtra("result", msg);
+						setResult(Config.REQUEST_STATUS_CODE_FAILURE, data);
+						finish();
 					}
 				});
 			} else if (loginModel.equals("account")) {
@@ -99,7 +102,6 @@ public class TCLoginActivity extends BaseActivity implements
 
 							@Override
 							public void onSuccessed(ResponseMsg responseMsg) {
-								Intent data = new Intent();
 								data.putExtra("tcsso", TianCi.getInstance()
 										.getTcsso());
 								setResult(Config.REQUEST_STATUS_CODE_SUC, data);
@@ -110,7 +112,10 @@ public class TCLoginActivity extends BaseActivity implements
 
 							@Override
 							public void onFailure(String msg) {
-
+								data.putExtra("result", msg);
+								setResult(Config.REQUEST_STATUS_CODE_FAILURE,
+										data);
+								finish();
 							}
 						});
 			}
@@ -121,7 +126,7 @@ public class TCLoginActivity extends BaseActivity implements
 	@Override
 	public void onResume() {
 		super.onResume();
-//		TianCi.init(this);
+		// TianCi.init(this);
 	}
 
 	private void initTitle() {

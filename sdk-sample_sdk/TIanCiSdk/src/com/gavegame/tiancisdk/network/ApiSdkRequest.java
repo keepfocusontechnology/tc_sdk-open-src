@@ -165,7 +165,7 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 					JSONObject order = (JSONObject) order_list.get(i);
 					entity.setOrder_amount(order.getString("amount"));
 					entity.setOrder_time(order.getString("create_time"));
-					entity.orderId = order.getString("userid");
+					entity.orderId = order.getString("id");
 					entity.setPayway(PayWay.alipay);
 					entity.setSuccessed(true);
 					list.add(entity);

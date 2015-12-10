@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.gavegame.tiancisdk.Config;
@@ -272,21 +273,29 @@ public class TCPayActivity extends BaseActivity {
 											ResponseMsg responseMsg) {
 										List<BaseOrder> list = responseMsg
 												.getOrderList();
-										Intent intent = new Intent(
-												TCPayActivity.this,
-												TCOrderActivity.class);
-										intent.putExtra("order_list",
-												(Serializable) list);
-										startActivity(intent);
+										if (list != null && list.size() > 0) {
+											Intent intent = new Intent(
+													TCPayActivity.this,
+													TCOrderActivity.class);
+											intent.putExtra("order_list",
+													(Serializable) list);
+											startActivity(intent);
+										}
+										Toast.makeText(getApplicationContext(),
+												"此账号没有订单信息", 0)
+												.show();
 									}
 
 									@Override
 									public void onFailure(String msg) {
-										Intent data = new Intent();
-										data.putExtra("result", msg);
-										setResult(
-												Config.REQUEST_STATUS_CODE_FAILURE,
-												data);
+										// Intent data = new Intent();
+										// data.putExtra("result", msg);
+										// setResult(
+										// Config.REQUEST_STATUS_CODE_FAILURE,
+										// data);
+
+										Toast.makeText(getApplicationContext(),
+												msg, 0).show();
 									}
 								});
 

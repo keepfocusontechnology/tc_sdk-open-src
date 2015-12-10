@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -14,10 +15,14 @@ import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.enums.PayWay;
 import com.gavegame.tiancisdk.order.OrderManager;
 import com.gavegame.tiancisdk.order.entity.OrderEntity;
+import com.gavegame.tiancisdk.utils.NormalUtils;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.widget.CommonAdapter;
 import com.gavegame.tiancisdk.widget.ViewHolder;
 
 public class TCOrderActivity extends BaseActivity {
+
+	private final String TAG = "TCOrderActivity";
 
 	private ListView lv_order;
 
@@ -64,9 +69,9 @@ public class TCOrderActivity extends BaseActivity {
 						+ getPayWayDesc(t.getPayway()));
 				holder.setText(R.id.tv_order_status,
 						t.isSuccessed() ? ORDER_VALID : ORDER_INVALID);
-				holder.setText(R.id.tv_order_time, t.getOrder_time());
-				// holder.setText(R.id.tv_order_time,
-				// NormalUtils.getTime(t.getOrder_time()));
+				// holder.setText(R.id.tv_order_time, t.getOrder_time());
+				holder.setText(R.id.tv_order_time,
+						NormalUtils.convert(t.getOrder_time()));
 			}
 		};
 
