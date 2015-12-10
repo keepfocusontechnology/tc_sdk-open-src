@@ -3,6 +3,7 @@ package com.gavegame.tiancisdk.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,13 +42,16 @@ public class TCOrderActivity extends BaseActivity {
 		});
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	void initData(Bundle saveInstance) {
-		list = new ArrayList<OrderEntity>();
-		for (int i = 0; i < 10; i++) {
-			list.add(new OrderEntity("123451231211231" + i, "12" + i,
-					"2015-12-11-13:1" + i, PayWay.alipay, true));
-		}
+
+		Intent intent = getIntent();
+		list = (List<OrderEntity>) intent.getSerializableExtra("order_list");
+		// for (int i = 0; i < 10; i++) {
+		// list.add(new OrderEntity("123451231211231" + i, "12" + i,
+		// "2015-12-11-13:1" + i, PayWay.alipay, true));
+		// }
 		CommonAdapter<OrderEntity> adapter = new CommonAdapter<OrderEntity>(
 				this, list, R.layout.order_record_page_adapter) {
 
@@ -55,12 +59,14 @@ public class TCOrderActivity extends BaseActivity {
 			public void convert(ViewHolder holder, OrderEntity t) {
 				holder.setText(R.id.tv_order_amount,
 						ORDER_AMOUNT + t.getOrder_amount() + "元");
-				holder.setText(R.id.tv_order_id, ORDER_ID + t.getOrder_id());
+				holder.setText(R.id.tv_order_id, ORDER_ID + t.orderId);
 				holder.setText(R.id.tv_order_payway, ORDER_PAY_WAY
 						+ getPayWayDesc(t.getPayway()));
 				holder.setText(R.id.tv_order_status,
 						t.isSuccessed() ? ORDER_VALID : ORDER_INVALID);
 				holder.setText(R.id.tv_order_time, t.getOrder_time());
+				// holder.setText(R.id.tv_order_time,
+				// NormalUtils.getTime(t.getOrder_time()));
 			}
 		};
 

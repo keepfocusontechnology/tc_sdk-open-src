@@ -1,7 +1,9 @@
 package com.gavegame.tiancisdk.activity;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Random;
 
 import android.app.AlertDialog;
@@ -12,7 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.gavegame.tiancisdk.alipay.PayResult;
 import com.gavegame.tiancisdk.alipay.SignUtils;
 import com.gavegame.tiancisdk.enums.PayWay;
 import com.gavegame.tiancisdk.network.AlipayEntity;
+import com.gavegame.tiancisdk.network.BaseOrder;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
@@ -261,8 +263,35 @@ public class TCPayActivity extends BaseActivity {
 
 					@Override
 					public void onClick(View v) {
-						startActivity(new Intent(TCPayActivity.this,
-								TCOrderActivity.class));
+
+						TianCi.getInstance().getOrderList(
+								new RequestCallBack() {
+
+									@Override
+									public void onSuccessed(
+											ResponseMsg responseMsg) {
+										List<BaseOrder> list = responseMsg
+												.getOrderList();
+										Intent intent = new Intent(
+												TCPayActivity.this,
+												TCOrderActivity.class);
+										intent.putExtra("order_list",
+												(Serializable) list);
+										startActivity(intent);
+									}
+
+									@Override
+									public void onFailure(String msg) {
+										Intent data = new Intent();
+										data.putExtra("result", msg);
+										setResult(
+												Config.REQUEST_STATUS_CODE_FAILURE,
+												data);
+									}
+								});
+
+						// startActivity(new Intent(TCPayActivity.this,
+						// TCOrderActivity.class));
 					}
 				});
 

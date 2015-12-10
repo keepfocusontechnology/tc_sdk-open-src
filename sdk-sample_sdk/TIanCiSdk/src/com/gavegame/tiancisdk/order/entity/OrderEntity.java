@@ -1,11 +1,10 @@
 package com.gavegame.tiancisdk.order.entity;
 
 import com.gavegame.tiancisdk.enums.PayWay;
+import com.gavegame.tiancisdk.network.BaseOrder;
 
-public class OrderEntity {
+public class OrderEntity extends BaseOrder {
 
-	// 订单号
-	private String order_id;
 	// 订单金额
 	private String order_amount;
 	// 订单提交时间
@@ -18,10 +17,13 @@ public class OrderEntity {
 	// 订单支付是否成功
 	private boolean isSuccessed;
 
+	public OrderEntity() {
+	}
+
 	public OrderEntity(String order_id, String order_amount, String order_time,
 			PayWay payway, boolean isSuccessed) {
 		super();
-		this.order_id = order_id;
+		super.orderId = order_id;
 		this.order_time = order_time;
 		this.order_amount = order_amount;
 		this.payway = payway;
@@ -34,14 +36,6 @@ public class OrderEntity {
 
 	public void setOrder_amount(String order_amount) {
 		this.order_amount = order_amount;
-	}
-
-	public String getOrder_id() {
-		return order_id;
-	}
-
-	public void setOrder_id(String order_id) {
-		this.order_id = order_id;
 	}
 
 	public String getOrder_time() {
@@ -70,7 +64,7 @@ public class OrderEntity {
 
 	@Override
 	public String toString() {
-		return "OrderEntity [order_id=" + order_id + ", order_amount="
+		return "OrderEntity [order_id=" + orderId + ", order_amount="
 				+ order_amount + ", order_time=" + order_time + ", payway="
 				+ payway + ", isSuccessed=" + isSuccessed + "]";
 	}

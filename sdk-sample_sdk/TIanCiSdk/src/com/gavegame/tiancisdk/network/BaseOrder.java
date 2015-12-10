@@ -1,6 +1,8 @@
 package com.gavegame.tiancisdk.network;
 
-public class BaseOrder {
+import java.io.Serializable;
+
+public class BaseOrder implements Serializable {
 	// 订单号
 	public String orderId;
 	public String notify_url;

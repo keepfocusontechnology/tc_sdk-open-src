@@ -1,7 +1,9 @@
 package com.gavegame.tiancisdk.network;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,6 +18,8 @@ import android.text.TextUtils;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
+import com.gavegame.tiancisdk.enums.PayWay;
+import com.gavegame.tiancisdk.order.entity.OrderEntity;
 import com.gavegame.tiancisdk.utils.DialogUtils;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
@@ -72,7 +76,8 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 		String uri;
 		if (paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER)
 				|| paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)
-				|| paramsUri.equals(Config.REQUEST_PARAMS_REQUEST_ORDER)) {
+				|| paramsUri.equals(Config.REQUEST_PARAMS_REQUEST_ORDER)
+				|| paramsUri.equals(Config.REQUEST_GET_ORDER_LIST)) {
 			uri = String.format(orderUri, paramsUri);
 		} else {
 			uri = String.format(loginUrl, paramsUri);
@@ -149,6 +154,24 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 
 			responsMsg.setBaseOrder(entity);
 			pay_info = null;
+		}
+
+		if (result.contains("order_list")) {
+			JSONArray order_list = jsonObject.getJSONArray("order_list");
+			if (order_list.length() > 0) {
+				List<BaseOrder> list = new ArrayList<BaseOrder>();
+				for (int i = 0; i < order_list.length(); i++) {
+					OrderEntity entity = new OrderEntity();
+					JSONObject order = (JSONObject) order_list.get(i);
+					entity.setOrder_amount(order.getString("amount"));
+					entity.setOrder_time(order.getString("create_time"));
+					entity.orderId = order.getString("userid");
+					entity.setPayway(PayWay.alipay);
+					entity.setSuccessed(true);
+					list.add(entity);
+				}
+				responsMsg.setOrderList(list);
+			}
 		}
 		return responsMsg;
 	}
@@ -296,6 +319,11 @@ public class ApiSdkRequest extends AsyncTask<String, Void, ResponseMsg> {
 			paramsQuest.put("serverid", params[2]);
 			paramsQuest.put("amount", params[3]);
 			paramsQuest.put("pay_type", params[4]);
+			paramsQuest.put("tcsso", tcsso);
+		} else if (paramsUri.equals(Config.REQUEST_GET_ORDER_LIST)) {
+			paramsQuest.clear();
+			tcsso = (String) SharedPreferencesUtils.getParam(context,
+					Config.USER_TCSSO, "");
 			paramsQuest.put("tcsso", tcsso);
 		}
 	}

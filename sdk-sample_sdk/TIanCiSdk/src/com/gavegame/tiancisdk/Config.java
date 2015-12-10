@@ -18,6 +18,7 @@ public interface Config {
 	String REQUEST_PARAMS_FORGET_PASS = "forget_pass";
 	String REQUEST_PARAMS_SET_PASS = "set_pass";
 	String REQUEST_PARAMS_REQUEST_ORDER = "get_order";
+	String REQUEST_GET_ORDER_LIST = "order_list";
 	// 2015 11 10 新增接口
 	// 获取验证码
 	String REQUEST_PARAMS_GET_NUMBER = "get_number";

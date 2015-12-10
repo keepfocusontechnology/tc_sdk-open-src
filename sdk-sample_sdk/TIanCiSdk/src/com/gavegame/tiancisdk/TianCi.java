@@ -308,6 +308,18 @@ public class TianCi {
 	}
 
 	/**
+	 * 获取用户订单记录
+	 * 
+	 * @param callBack
+	 */
+	public void getOrderList(RequestCallBack callBack) {
+		responseBean = new ResponseBean(mContext,
+				Config.REQUEST_GET_ORDER_LIST, Method.POST, callBack);
+		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
+		apiSdkRequest.execute();
+	}
+
+	/**
 	 * 获取当前时间
 	 * 
 	 * @return

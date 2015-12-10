@@ -1,6 +1,7 @@
 package com.gavegame.tiancisdk.network;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Tianci on 15/9/24.
@@ -13,6 +14,15 @@ public class ResponseMsg implements Serializable {
 	private int orderId;
 	private int bindCode;
 	private BaseOrder baseOrder;
+	private List<BaseOrder> orderList;
+
+	public void setOrderList(List<BaseOrder> orderList) {
+		this.orderList = orderList;
+	}
+
+	public List<BaseOrder> getOrderList() {
+		return orderList;
+	}
 
 	public BaseOrder getBaseOrder() {
 		return baseOrder;
