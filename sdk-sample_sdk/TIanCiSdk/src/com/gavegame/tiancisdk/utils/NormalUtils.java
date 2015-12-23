@@ -48,7 +48,7 @@ public class NormalUtils {
 	@SuppressLint("SimpleDateFormat")
 	public static String convert(String str) {
 		long mill = Long.valueOf(str);
-		Date date = new Date(mill*1000l);
+		Date date = new Date(mill * 1000l);
 		String strs = "";
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -57,5 +57,15 @@ public class NormalUtils {
 			e.printStackTrace();
 		}
 		return strs;
+	}
+
+	/**
+	 * 字符串字数大于4，后续位数用小数点代理
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String getShoriStr(String str) {
+		return str.length() > 4 ? str.substring(0, 5) + "..." : str;
 	}
 }

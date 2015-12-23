@@ -28,8 +28,6 @@
     <string name="tcsdk_customer_center">客服中心 ></string>
    <!--  pay page string -->
     
-    <string name="tcsdk_pay_game_name">游戏名称:部落战争</string>
-    <string name="tcsdk_pay_amount">支付金额:100.00</string>
     <string name="tcsdk_pay_immediately">立即支付</string>
     
     <!-- hint -->

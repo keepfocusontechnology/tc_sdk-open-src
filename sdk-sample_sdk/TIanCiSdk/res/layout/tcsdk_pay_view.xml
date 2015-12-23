@@ -46,15 +46,13 @@
             android:id="@+id/tv_game_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tcsdk_pay_game_name"
             android:textColor="@color/tcsdk_text_account_login" />
 
         <TextView
-            android:id="@+id/tv_pay_amount"
             android:layout_width="wrap_content"
+            android:id="@+id/tv_pay_amount"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="@string/tcsdk_pay_amount"
             android:textColor="@color/tcsdk_text_account_login" />
     </RelativeLayout>
 
@@ -75,15 +73,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:visibility="invisible"
             radio_image:image="@drawable/icon_wechat" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:visibility="invisible" >
+        android:padding="5dp" >
 
         <com.gavegame.tiancisdk.widget.ImageRadiobutton
             android:id="@+id/pay_bank"

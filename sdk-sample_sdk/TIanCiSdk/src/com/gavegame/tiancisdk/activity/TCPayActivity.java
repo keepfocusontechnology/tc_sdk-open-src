@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Random;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
@@ -31,9 +31,13 @@ import com.gavegame.tiancisdk.network.AlipayEntity;
 import com.gavegame.tiancisdk.network.BaseOrder;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.utils.NormalUtils;
+import com.gavegame.tiancisdk.utils.OrderUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.widget.ImageRadiobutton;
 import com.gavegame.tiancisdk.widget.ImageRadiobutton.RadioButtonCheckedListener;
+import com.unionpay.UPPayAssistEx;
+import com.unionpay.uppay.PayActivity;
 
 public class TCPayActivity extends BaseActivity {
 
@@ -41,6 +45,14 @@ public class TCPayActivity extends BaseActivity {
 	private String subject;
 	private String body;
 	private String price;
+
+	// "123",
+	// new Random().nextInt(100000) + "", "152001", price,
+	// payWay.getPayway(), new RequestCallBack()
+
+	private String roleId;
+	private String serverId;
+	private String cp_orderId;
 
 	private ImageRadiobutton pay_alipay;
 	private ImageRadiobutton pay_wechat;
@@ -112,6 +124,8 @@ public class TCPayActivity extends BaseActivity {
 			finish();
 		};
 	};
+	private TextView tv_game_name;
+	private TextView tv_pay_amount;
 
 	private void back() {
 
@@ -131,21 +145,12 @@ public class TCPayActivity extends BaseActivity {
 						dialog.dismiss();
 					}
 				}).show();
-		// new AlertDialog.Builder(getApplicationContext())
-		// .setTitle("支付未完成")
-		// .setMessage("支付未完成，确定退出本次支付吗？")
-		// .setPositiveButton("确定",
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(
-		// DialogInterface dialoginterface, int i) {
-		// //
-		// // finish();
-		// }
-		// }).show();
 	}
 
 	@Override
 	void initId() {
+		tv_game_name = (TextView) findViewById(R.id.tv_game_name);
+		tv_pay_amount = (TextView) findViewById(R.id.tv_pay_amount);
 		pay_alipay = (ImageRadiobutton) findViewById(R.id.pay_alipay);
 		pay_wechat = (ImageRadiobutton) findViewById(R.id.pay_wechat);
 		pay_bank = (ImageRadiobutton) findViewById(R.id.pay_bank);
@@ -220,14 +225,8 @@ public class TCPayActivity extends BaseActivity {
 				TCLogUtils.showToast(getApplicationContext(),
 						"支付方式为：" + payWay.toString());
 				if (payWay == PayWay.alipay) {
-					// Intent intent = new Intent(TCPayActivity.this,
-					// AliPayActivity.class);
-					// intent.putExtra("subject", "商品名称");
-					// intent.putExtra("subject_desc", "商品详情");
-					// intent.putExtra("price", "0.01");
-					TianCi.getInstance().getOrder("123",
-							new Random().nextInt(100000) + "", "152001", price,
-							payWay.getPayway(), new RequestCallBack() {
+					TianCi.getInstance().getOrder(roleId, cp_orderId, serverId,
+							price, payWay.getPayway(), new RequestCallBack() {
 
 								@Override
 								public void onSuccessed(ResponseMsg responseMsg) {
@@ -254,7 +253,14 @@ public class TCPayActivity extends BaseActivity {
 									finish();
 								}
 							});
-					// startActivityForResult(getIntent(), 0);
+				} else if (payWay == PayWay.yinlian) {
+					// “00” – 银联正式环境
+					// “01” – 银联测试环境，该环境中不发生真实交易
+
+					String serverMode = "01";
+//					UPPayAssistEx.startPayByJAR(this, PayActivity.class, null,
+//							null, tn, serverMode);
+
 				}
 			}
 		});
@@ -282,8 +288,7 @@ public class TCPayActivity extends BaseActivity {
 											startActivity(intent);
 										}
 										Toast.makeText(getApplicationContext(),
-												"此账号没有订单信息", 0)
-												.show();
+												"此账号没有订单信息", 0).show();
 									}
 
 									@Override
@@ -334,6 +339,12 @@ public class TCPayActivity extends BaseActivity {
 		subject = intent.getStringExtra("subject");
 		body = intent.getStringExtra("body");
 		price = intent.getStringExtra("price");
+		roleId = intent.getStringExtra("roleId");
+		serverId = intent.getStringExtra("serverId");
+		cp_orderId = intent.getStringExtra("cp_orderId");
+
+		tv_game_name.setText("游戏名：" + NormalUtils.getShoriStr(subject));
+		tv_pay_amount.setText("支付金额：" + price + "元");
 	}
 
 	/**
@@ -358,7 +369,9 @@ public class TCPayActivity extends BaseActivity {
 		}
 
 		// 订单
-		String orderInfo = getOrderInfo(subject, body, price);
+		// String orderInfo = getOrderInfo(subject, body, price);
+		String orderInfo = OrderUtils.getAlipayOrderInfo(subject, body, price,
+				cp_orderId, PARTNER, SELLER, notify_url);
 		TCLogUtils.e(TAG, orderInfo);
 
 		// 对订单做RSA 签名
@@ -393,64 +406,6 @@ public class TCPayActivity extends BaseActivity {
 		// 必须异步调用
 		Thread payThread = new Thread(payRunnable);
 		payThread.start();
-	}
-
-	/**
-	 * create the order info. 创建订单信息
-	 * 
-	 */
-	public String getOrderInfo(String subject, String body, String price) {
-
-		// 签约合作者身份ID
-		String orderInfo = "partner=" + "\"" + PARTNER + "\"";
-
-		// 签约卖家支付宝账号
-		orderInfo += "&seller_id=" + "\"" + SELLER + "\"";
-
-		// 商户网站唯一订单号
-		orderInfo += "&out_trade_no=" + "\"" + orderId + "\"";
-
-		// 商品名称
-		orderInfo += "&subject=" + "\"" + subject + "\"";
-
-		// 商品详情
-		orderInfo += "&body=" + "\"" + body + "\"";
-
-		// 商品金额
-		orderInfo += "&total_fee=" + "\"" + price + "\"";
-
-		// // 服务器异步通知页面路径
-		// orderInfo += "&notify_url=" + "\"" +
-		// "http://notify.msp.hk/notify.htm"
-		// + "\"";
-		orderInfo += "&notify_url=" + "\"" + notify_url + "\"";
-
-		// 服务接口名称， 固定值
-		orderInfo += "&service=\"mobile.securitypay.pay\"";
-
-		// 支付类型， 固定值
-		orderInfo += "&payment_type=\"1\"";
-
-		// 参数编码， 固定值
-		orderInfo += "&_input_charset=\"utf-8\"";
-
-		// 设置未付款交易的超时时间
-		// 默认30分钟，一旦超时，该笔交易就会自动被关闭。
-		// 取值范围：1m～15d。
-		// m-分钟，h-小时，d-天，1c-当天（无论交易何时创建，都在0点关闭）。
-		// 该参数数值不接受小数点，如1.5h，可转换为90m。
-		orderInfo += "&it_b_pay=\"30m\"";
-
-		// extern_token为经过快登授权获取到的alipay_open_id,带上此参数用户将使用授权的账户进行支付
-		// orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
-
-		// 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
-		orderInfo += "&return_url=\"m.alipay.com\"";
-
-		// 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
-		// orderInfo += "&paymethod=\"expressGateway\"";
-
-		return orderInfo;
 	}
 
 	/**

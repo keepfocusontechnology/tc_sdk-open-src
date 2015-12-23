@@ -21,12 +21,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pay way" />
-    
-    <Button 
+
+    <Button
         android:id="@+id/login_role"
-         android:layout_width="wrap_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login role"
-        />
+        android:text="Login role" />
+
+    <Button
+        android:id="@+id/bt_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Download" />
 
 </LinearLayout>
