@@ -230,15 +230,20 @@ public class TCPayActivity extends BaseActivity {
 
 								@Override
 								public void onSuccessed(ResponseMsg responseMsg) {
-									AlipayEntity entity = (AlipayEntity) responseMsg
-											.getBaseOrder();
-									PARTNER = entity.pantner;
-									SELLER = entity.seller;
-									RSA_PRIVATE = entity.rsa_private;
-									RSA_PUBLIC = entity.rsa_public;
-									notify_url = entity.notify_url;
-									orderId = entity.orderId;
-									pay(bt_earn);
+									try{
+										AlipayEntity entity = (AlipayEntity) responseMsg
+												.getBaseOrder();
+										PARTNER = entity.pantner;
+										SELLER = entity.seller;
+										RSA_PRIVATE = entity.rsa_private;
+										RSA_PUBLIC = entity.rsa_public;
+										notify_url = entity.notify_url;
+										orderId = entity.orderId;
+										pay(bt_earn);
+									}catch(Exception e){
+										e.printStackTrace();
+										TCLogUtils.showToast(getApplicationContext(), "支付失败");
+									}
 								}
 
 								@Override
