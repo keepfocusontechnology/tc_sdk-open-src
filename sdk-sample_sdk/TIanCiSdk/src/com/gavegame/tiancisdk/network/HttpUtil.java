@@ -51,7 +51,7 @@ public class HttpUtil {
 		conn.setRequestMethod(SERVLET_POST);
 		String paramStr = prepareParam(paramMap);
 		TCLogUtils.e(TAG, "url:" + urlStr);
-		TCLogUtils.e(TAG, "request" + paramStr);
+		TCLogUtils.e(TAG, "request：" + paramStr);
 		conn.setDoInput(true);
 		conn.setDoOutput(true);
 		conn.setConnectTimeout(TIMEOUT);
