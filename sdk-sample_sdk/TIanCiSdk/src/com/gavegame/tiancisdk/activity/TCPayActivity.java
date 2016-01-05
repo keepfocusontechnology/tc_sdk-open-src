@@ -37,7 +37,6 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.widget.ImageRadiobutton;
 import com.gavegame.tiancisdk.widget.ImageRadiobutton.RadioButtonCheckedListener;
 import com.unionpay.UPPayAssistEx;
-import com.unionpay.uppay.PayActivity;
 
 public class TCPayActivity extends BaseActivity {
 
@@ -230,7 +229,7 @@ public class TCPayActivity extends BaseActivity {
 
 								@Override
 								public void onSuccessed(ResponseMsg responseMsg) {
-									try{
+									try {
 										AlipayEntity entity = (AlipayEntity) responseMsg
 												.getBaseOrder();
 										PARTNER = entity.pantner;
@@ -240,9 +239,12 @@ public class TCPayActivity extends BaseActivity {
 										notify_url = entity.notify_url;
 										orderId = entity.orderId;
 										pay(bt_earn);
-									}catch(Exception e){
+									} catch (Exception e) {
 										e.printStackTrace();
-										TCLogUtils.showToast(getApplicationContext(), "支付失败");
+										TCLogUtils
+												.showToast(
+														getApplicationContext(),
+														"支付失败");
 									}
 								}
 
@@ -259,12 +261,23 @@ public class TCPayActivity extends BaseActivity {
 								}
 							});
 				} else if (payWay == PayWay.yinlian) {
-					// “00” – 银联正式环境
-					// “01” – 银联测试环境，该环境中不发生真实交易
 
-					String serverMode = "01";
-//					UPPayAssistEx.startPayByJAR(this, PayActivity.class, null,
-//							null, tn, serverMode);
+					
+					TianCi.getInstance().testGetTn(new RequestCallBack() {
+
+						@Override
+						public void onSuccessed(ResponseMsg responseMsg) {
+							TCLogUtils.e(TAG, responseMsg.toString());
+						}
+
+						@Override
+						public void onFailure(String msg) {
+							// “00” – 银联正式环境
+							// “01” – 银联测试环境，该环境中不发生真实交易
+							String serverMode = "01";
+							 UPPayAssistEx.startPay(TCPayActivity.this, null, null, msg, serverMode);
+						}
+					});
 
 				}
 			}
@@ -439,6 +452,38 @@ public class TCPayActivity extends BaseActivity {
 		}
 
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (data == null) {
+			return;
+		}
+
+		String str = data.getExtras().getString("pay_result");
+		// if (str.equalsIgnoreCase(R_SUCCESS)) {
+		// // 支付成功后，extra中如果存在result_data，取出校验
+		// // result_data结构见c）result_data参数说明
+		// if (data.hasExtra("result_data")) {
+		// String sign = data.getExtras().getString("result_data");
+		// // 验签证书同后台验签证书
+		// // 此处的verify，商户需送去商户后台做验签
+		// if (verify(sign)) {
+		// // 验证通过后，显示支付结果
+		// showResultDialog(" 支付成功！ ");
+		// } else {
+		// // 验证不通过后的处理
+		// // 建议通过商户后台查询支付结果
+		// }
+		// } else {
+		// // 未收到签名信息
+		// // 建议通过商户后台查询支付结果
+		// }
+		// } else if (str.equalsIgnoreCase(R_FAIL)) {
+		// showResultDialog(" 支付失败！ ");
+		// } else if (str.equalsIgnoreCase(R_CANCEL)) {
+		// showResultDialog(" 你已取消了本次订单的支付！ ");
+		// }
 	}
 
 }

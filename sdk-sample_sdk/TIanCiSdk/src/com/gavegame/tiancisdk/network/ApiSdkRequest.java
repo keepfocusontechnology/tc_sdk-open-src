@@ -47,7 +47,7 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 	private String paramsUri;
 	private Context context;
 	private HashMap<String, Object> paramsQuest;
-
+	private String url;
 	private Dialog dialog;
 
 	// private int channelId;
@@ -64,37 +64,38 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 
 	private ApiSdkRequest(ResponseBean responseBean) {
 		mContextRef = new WeakReference<Context>(responseBean.getContext());
+		this.url = responseBean.getUrl();
 		this.paramsUri = responseBean.getParamsUri();
 		this.callBack = responseBean.getCallBack();
 		this.method = responseBean.getMethod();
 		this.context = mContextRef.get();
-		this.paramsQuest = responseBean.getStrategy().getParamsQuest();
+		if (null != responseBean.getStrategy()) {
+			this.paramsQuest = responseBean.getStrategy().getParamsQuest();
+		}
 	}
 
 	@Override
 	protected ResponseMsg doInBackground(Void... params) {
 
-		// int resultCode = 0;
 		String resultJson = null;
-		// setParams(params);
-		String uri = NetworkUtils.getUrl(paramsUri);
+
 		try {
 			if (method == Method.GET) {
-				resultJson = HttpUtil.doGet(uri, paramsQuest);
+				resultJson = HttpUtil.doGet(url, paramsQuest);
 			} else if (method == Method.POST) {
-				resultJson = HttpUtil.doPost(uri, paramsQuest);
+				resultJson = HttpUtil.doPost(url, paramsQuest);
 			} else if (method == Method.PUT) {
-				// HttpUtil.doPut(uri, paramsQuest);
+				// HttpUtil.doPut(url, paramsQuest);
 			} else if (method == Method.DELETE) {
-				// HttpUtil.doDelete(uri, paramsQuest);
+				// HttpUtil.doDelete(url, paramsQuest);
 			}
 
 			try {
 				responsMsg = NetworkUtils.getJsonObjcet(context, resultJson);
-			} catch (JSONException e) {
-				TCLogUtils.e(e.toString());
+			} catch (Exception e) {
+				TCLogUtils.e("返回的json数据解析出错");
 				responsMsg = new ResponseMsg();
-				responsMsg.setRetMsg("信息无效");
+				responsMsg.setRetMsg(resultJson);
 			}
 		} catch (Exception e) {
 			TCLogUtils.e(e.toString());
@@ -233,8 +234,12 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 		if (dialog != null) {
 			dialog.dismiss();
 		}
-		paramsQuest.clear();
-		paramsQuest = null;
+		if (paramsQuest != null) {
+			paramsQuest.clear();
+			paramsQuest = null;
+		}
+		// 此处存疑，是否手动调用性能更好
+		// onCancelled();
 	}
 
 	@Override

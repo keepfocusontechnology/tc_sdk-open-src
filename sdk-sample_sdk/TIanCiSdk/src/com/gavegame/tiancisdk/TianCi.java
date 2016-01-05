@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.gavegame.tiancisdk.network.ApiSdkRequest;
 import com.gavegame.tiancisdk.network.Method;
+import com.gavegame.tiancisdk.network.NetworkUtils;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseBean;
 import com.gavegame.tiancisdk.network.strategy.AutoLoginStrategy;
@@ -89,8 +90,9 @@ public class TianCi {
 	 */
 	public void login(String account, String psw, RequestCallBack callBack) {
 		strategy = new LoginStrategy(mContext, account, psw);
-		responseBean = new ResponseBean(mContext, Config.REQUEST_PARAMS_LOGIN,
-				Method.POST, strategy, callBack);
+		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_LOGIN),
+				Config.REQUEST_PARAMS_LOGIN, Method.POST, strategy, callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
 		apiSdkRequest.execute();
 	}
@@ -108,6 +110,7 @@ public class TianCi {
 	public void register(String account, String psw, RequestCallBack callBack) {
 		strategy = new RegisterStrategy(mContext, account, psw);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_REGISTER),
 				Config.REQUEST_PARAMS_REGISTER, Method.POST, strategy, callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
 		apiSdkRequest.execute();
@@ -124,6 +127,7 @@ public class TianCi {
 	public void autoLogin(RequestCallBack callBack) {
 		strategy = new AutoLoginStrategy(mContext);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_AUTOLOGIN),
 				Config.REQUEST_PARAMS_AUTOLOGIN, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -144,6 +148,7 @@ public class TianCi {
 			RequestCallBack callBack) {
 		strategy = new LoginRoleStrategy(mContext, roleId, serverId);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_LOGIN_ROLE),
 				Config.REQUEST_PARAMS_LOGIN_ROLE, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -167,6 +172,7 @@ public class TianCi {
 		strategy = new CreateOrderStrategy(mContext, roleId, orderId, serverId,
 				amount);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_CREATE_ORDER),
 				Config.REQUEST_PARAMS_CREATE_ORDER, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -190,6 +196,7 @@ public class TianCi {
 		strategy = new FinishOrderStrategy(mContext, roleId, orderId, serverId,
 				amount);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_FINISH_ORDER),
 				Config.REQUEST_PARAMS_FINISH_ORDER, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -211,6 +218,7 @@ public class TianCi {
 		strategy = new RequestOrderStrategy(mContext, roleId, orderId,
 				serverId, amount, payType);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_REQUEST_ORDER),
 				Config.REQUEST_PARAMS_REQUEST_ORDER, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -228,6 +236,7 @@ public class TianCi {
 	public void getCaptcha(String phoneNum, RequestCallBack callBack) {
 		strategy = new GetNumberStrategy(mContext, phoneNum);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_GET_NUMBER),
 				Config.REQUEST_PARAMS_GET_NUMBER, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -251,6 +260,7 @@ public class TianCi {
 		strategy = new MobileRegisterStrategy(mContext, mobileNum, psw,
 				captchaCode);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_MOBILE_REGISTER),
 				Config.REQUEST_PARAMS_MOBILE_REGISTER, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -271,6 +281,7 @@ public class TianCi {
 			RequestCallBack callBack) {
 		strategy = new UserBindStrategy(getTcsso(), mobileNum, captcha);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_USER_BIND),
 				Config.REQUEST_PARAMS_USER_BIND, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -291,6 +302,7 @@ public class TianCi {
 			RequestCallBack callBack) {
 		strategy = new UserBindStrategy(getTcsso(), mobileNum, captcha, psw);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_USER_BIND),
 				Config.REQUEST_PARAMS_USER_BIND, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -308,6 +320,7 @@ public class TianCi {
 	public void isBind(String userAccount, RequestCallBack callBack) {
 		strategy = new CheckBindStrategy(userAccount);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_CHECK_BIND),
 				Config.REQUEST_PARAMS_CHECK_BIND, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -328,6 +341,7 @@ public class TianCi {
 			RequestCallBack callBack) {
 		strategy = new ForgetPswStrategy(mobileNum, captcha);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_FORGET_PASS),
 				Config.REQUEST_PARAMS_FORGET_PASS, Method.POST, strategy,
 				callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
@@ -350,6 +364,7 @@ public class TianCi {
 			RequestCallBack callBack) {
 		strategy = new SetPswStrategy(mobileNum, captcha, userPsw);
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_PARAMS_SET_PASS),
 				Config.REQUEST_PARAMS_SET_PASS, Method.POST, strategy, callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
 		apiSdkRequest.execute();
@@ -363,7 +378,16 @@ public class TianCi {
 	public void getOrderList(RequestCallBack callBack) {
 		strategy = new GetOrderListStrategy(getTcsso());
 		responseBean = new ResponseBean(mContext,
+				NetworkUtils.getUrl(Config.REQUEST_GET_ORDER_LIST),
 				Config.REQUEST_GET_ORDER_LIST, Method.POST, strategy, callBack);
+		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
+		apiSdkRequest.execute();
+	}
+
+	public void testGetTn(RequestCallBack callBack) {
+		String TN_URL_01 = "http://101.231.204.84:8091/sim/getacptn";
+		responseBean = new ResponseBean(mContext, TN_URL_01, null, Method.GET,
+				null, callBack);
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
 		apiSdkRequest.execute();
 	}

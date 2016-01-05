@@ -74,8 +74,9 @@ public class ResponseMsg implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ResponseMsg{" + "retCode=" + retCode + ", retMsg='" + retMsg
-				+ '\'' + ", tcsso='" + tcsso + '\'' + ", orderId=" + orderId
-				+ ", bindCode=" + bindCode + '}';
+		return "ResponseMsg [retCode=" + retCode + ", retMsg=" + retMsg
+				+ ", tcsso=" + tcsso + ", orderId=" + orderId + ", bindCode="
+				+ bindCode + ", baseOrder=" + baseOrder + ", orderList="
+				+ orderList + "]";
 	}
 }

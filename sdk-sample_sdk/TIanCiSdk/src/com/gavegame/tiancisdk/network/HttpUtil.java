@@ -24,21 +24,40 @@ public class HttpUtil {
 	private static final String SERVLET_PUT = "PUT";
 	private static final int TIMEOUT = 10000;
 
-	private static String prepareParam(Map<String, Object> paramMap) {
-		StringBuffer sb = new StringBuffer();
-		if (paramMap.isEmpty()) {
-			return "";
+	public static String doGet(String urlStr, Map<String, Object> paramMap)
+			throws Exception {
+		String result = "";
+		HttpURLConnection conn = null;
+		// try {
+		String paramStr = prepareParam(paramMap);
+		if (paramStr == null || paramStr.trim().length() < 1) {
+
 		} else {
-			for (String key : paramMap.keySet()) {
-				Object value = (Object) paramMap.get(key);
-				if (sb.length() < 1) {
-					sb.append(key).append("=").append(value);
-				} else {
-					sb.append("&").append(key).append("=").append(value);
-				}
-			}
-			return sb.toString();
+			urlStr += "&" + paramStr;
 		}
+		TCLogUtils.e(TAG, "url:" + urlStr);
+		TCLogUtils.e(TAG, "request" + paramStr);
+		URL url = new URL(urlStr);
+		conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod(SERVLET_GET);
+		conn.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
+		conn.setConnectTimeout(TIMEOUT);
+		conn.setReadTimeout(TIMEOUT);
+		conn.connect();
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				conn.getInputStream()));
+		String line;
+		while ((line = br.readLine()) != null) {
+			result += line;
+		}
+		br.close();
+		/*
+		 * } catch (SocketTimeoutException ste) { TCLog.e(TAG, "连接超时"); } catch
+		 * (IOException ioe) { TCLog.e(TAG, "请求出错"); } catch (Exception e) {
+		 * TCLog.e(TAG, e.toString()); } finally { if (conn != null)
+		 * conn.disconnect(); }
+		 */
+		return result;
 	}
 
 	public static String doPost(String urlStr, Map<String, Object> paramMap)
@@ -88,40 +107,21 @@ public class HttpUtil {
 		return resultData;
 	}
 
-	public static String doGet(String urlStr, Map<String, Object> paramMap)
-			throws Exception {
-		String result = "";
-		HttpURLConnection conn = null;
-		// try {
-		String paramStr = prepareParam(paramMap);
-		if (paramStr == null || paramStr.trim().length() < 1) {
-
+	private static String prepareParam(Map<String, Object> paramMap) {
+		if (paramMap == null || paramMap.isEmpty()) {
+			return "";
 		} else {
-			urlStr += "&" + paramStr;
+			StringBuffer sb = new StringBuffer();
+			for (String key : paramMap.keySet()) {
+				Object value = (Object) paramMap.get(key);
+				if (sb.length() < 1) {
+					sb.append(key).append("=").append(value);
+				} else {
+					sb.append("&").append(key).append("=").append(value);
+				}
+			}
+			return sb.toString();
 		}
-		TCLogUtils.e(TAG, "url:" + urlStr);
-		TCLogUtils.e(TAG, "request" + paramStr);
-		URL url = new URL(urlStr);
-		conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod(SERVLET_GET);
-		conn.setRequestProperty("Content-Type", "text/html; charset=UTF-8");
-		conn.setConnectTimeout(TIMEOUT);
-		conn.setReadTimeout(TIMEOUT);
-		conn.connect();
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				conn.getInputStream()));
-		String line;
-		while ((line = br.readLine()) != null) {
-			result += line;
-		}
-		br.close();
-		/*
-		 * } catch (SocketTimeoutException ste) { TCLog.e(TAG, "连接超时"); } catch
-		 * (IOException ioe) { TCLog.e(TAG, "请求出错"); } catch (Exception e) {
-		 * TCLog.e(TAG, e.toString()); } finally { if (conn != null)
-		 * conn.disconnect(); }
-		 */
-		return result;
 	}
 
 	public static void doPut(String urlStr, Map<String, Object> paramMap)

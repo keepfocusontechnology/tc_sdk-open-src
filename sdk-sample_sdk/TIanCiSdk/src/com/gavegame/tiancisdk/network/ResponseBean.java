@@ -12,14 +12,7 @@ import com.gavegame.tiancisdk.network.strategy.ParamsStrategy;
  */
 public class ResponseBean {
 
-	public ParamsStrategy getStrategy() {
-		return strategy;
-	}
-
-	public void setStrategy(ParamsStrategy strategy) {
-		this.strategy = strategy;
-	}
-
+	private String url;
 	private WeakReference<Context> mContextRef;
 	private RequestCallBack callBack;
 	private Method method;
@@ -28,9 +21,11 @@ public class ResponseBean {
 	// private HashMap<String, Object> mHashmap;
 	private ParamsStrategy strategy;
 
-	public ResponseBean(Context context, String paramsUri, Method method,
-	// HashMap<String, Object> hashmap,
+	public ResponseBean(Context context, String url, String paramsUri,
+			Method method,
+			// HashMap<String, Object> hashmap,
 			ParamsStrategy strategy, RequestCallBack callBack) {
+		this.url = url;
 		this.paramsUri = paramsUri;
 		this.callBack = callBack;
 		this.method = method;
@@ -46,6 +41,22 @@ public class ResponseBean {
 	// public void setmHashmap(HashMap<String, Object> mHashmap) {
 	// this.mHashmap = mHashmap;
 	// }
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public ParamsStrategy getStrategy() {
+		return strategy;
+	}
+
+	public void setStrategy(ParamsStrategy strategy) {
+		this.strategy = strategy;
+	}
 
 	public RequestCallBack getCallBack() {
 		return callBack;
