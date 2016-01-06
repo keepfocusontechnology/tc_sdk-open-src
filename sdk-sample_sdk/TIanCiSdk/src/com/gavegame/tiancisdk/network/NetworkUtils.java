@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.enums.PayWay;
@@ -77,6 +78,16 @@ public class NetworkUtils {
 		}
 		if (result.contains("\"pay_info\"") && result.contains("tc_order")) {
 			JSONObject pay_info = jsonObject.getJSONObject("pay_info");
+
+			try {
+				String tn = pay_info.getString("tn");
+				if(!TextUtils.isEmpty(tn)){
+					responsMsg.setRetMsg(tn);
+					return responsMsg;
+				}
+			} catch (Exception e) {
+				//发生异常不做操作，代表不是银联的接口
+			}
 
 			AlipayEntity entity = new AlipayEntity();
 			entity.pantner = pay_info.getString("partner");

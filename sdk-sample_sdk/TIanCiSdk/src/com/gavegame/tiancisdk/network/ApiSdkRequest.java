@@ -93,7 +93,7 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 			try {
 				responsMsg = NetworkUtils.getJsonObjcet(context, resultJson);
 			} catch (Exception e) {
-				TCLogUtils.e("返回的json数据解析出错");
+				TCLogUtils.e("返回的json数据解析出错!!"+e);
 				responsMsg = new ResponseMsg();
 				responsMsg.setRetMsg(resultJson);
 			}

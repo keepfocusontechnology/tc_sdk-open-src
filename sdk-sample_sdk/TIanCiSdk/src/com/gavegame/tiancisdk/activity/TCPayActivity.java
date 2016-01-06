@@ -262,22 +262,43 @@ public class TCPayActivity extends BaseActivity {
 							});
 				} else if (payWay == PayWay.yinlian) {
 
-					
-					TianCi.getInstance().testGetTn(new RequestCallBack() {
+					TianCi.getInstance().getOrder(roleId, cp_orderId, serverId,
+							price, payWay.getPayway(), new RequestCallBack() {
 
-						@Override
-						public void onSuccessed(ResponseMsg responseMsg) {
-							TCLogUtils.e(TAG, responseMsg.toString());
-						}
+								@Override
+								public void onSuccessed(ResponseMsg responseMsg) {
+									// “00” – 银联正式环境
+									// “01” – 银联测试环境，该环境中不发生真实交易
+									String serverMode = "01";
+									TCLogUtils.e(TAG,
+											"tn = " + responseMsg.getRetMsg());
+									UPPayAssistEx.startPay(TCPayActivity.this,
+											null, null,
+											responseMsg.getRetMsg(), serverMode);
+								}
 
-						@Override
-						public void onFailure(String msg) {
-							// “00” – 银联正式环境
-							// “01” – 银联测试环境，该环境中不发生真实交易
-							String serverMode = "01";
-							 UPPayAssistEx.startPay(TCPayActivity.this, null, null, msg, serverMode);
-						}
-					});
+								@Override
+								public void onFailure(String msg) {
+									TCLogUtils.e(TAG, msg);
+								}
+							});
+
+					// TianCi.getInstance().testGetTn(new RequestCallBack() {
+					//
+					// @Override
+					// public void onSuccessed(ResponseMsg responseMsg) {
+					// TCLogUtils.e(TAG, responseMsg.toString());
+					// }
+					//
+					// @Override
+					// public void onFailure(String msg) {
+					// // “00” – 银联正式环境
+					// // “01” – 银联测试环境，该环境中不发生真实交易
+					// String serverMode = "01";
+					// UPPayAssistEx.startPay(TCPayActivity.this, null, null,
+					// msg, serverMode);
+					// }
+					// });
 
 				}
 			}
@@ -461,6 +482,7 @@ public class TCPayActivity extends BaseActivity {
 		}
 
 		String str = data.getExtras().getString("pay_result");
+		TCLogUtils.e(TAG, "银联返回的结果" + str);
 		// if (str.equalsIgnoreCase(R_SUCCESS)) {
 		// // 支付成功后，extra中如果存在result_data，取出校验
 		// // result_data结构见c）result_data参数说明

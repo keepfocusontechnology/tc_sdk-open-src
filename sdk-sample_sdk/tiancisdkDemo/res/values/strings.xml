@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TianCiGame</string>
+    <string name="app_name">TCSdkDemo</string>
     <string name="register">resgiter</string>
     <string name="login">login</string>
     <string name="auto_login">auto_login</string>
