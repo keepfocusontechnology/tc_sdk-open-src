@@ -31,14 +31,20 @@ import com.gavegame.tiancisdk.network.AlipayEntity;
 import com.gavegame.tiancisdk.network.BaseOrder;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.presenter.AlipayPayPresenter;
+import com.gavegame.tiancisdk.presenter.PayPresenter;
 import com.gavegame.tiancisdk.utils.NormalUtils;
 import com.gavegame.tiancisdk.utils.OrderUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
+import com.gavegame.tiancisdk.view.IPayVIew;
 import com.gavegame.tiancisdk.widget.ImageRadiobutton;
 import com.gavegame.tiancisdk.widget.ImageRadiobutton.RadioButtonCheckedListener;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.unionpay.UPPayAssistEx;
 
-public class TCPayActivity extends BaseActivity {
+public class TCPayActivity extends BaseActivity implements IPayVIew{
 
 	private final String TAG = "TCPayActivity";
 	private String subject;
@@ -146,6 +152,13 @@ public class TCPayActivity extends BaseActivity {
 				}).show();
 	}
 
+	void setCacheView(ImageRadiobutton v) {
+		v.setChecked();
+		if (cache != null && cache != v)
+			cache.setUnChecked();
+		cache = v;
+	}
+
 	@Override
 	void initId() {
 		tv_game_name = (TextView) findViewById(R.id.tv_game_name);
@@ -162,19 +175,13 @@ public class TCPayActivity extends BaseActivity {
 				back();
 			}
 		});
-		// final ImageRadiobutton irbs[] = { pay_alipay, pay_wechat, pay_bank,
-		// pay_cht };
 		pay_alipay.setChecked();
 		cache = pay_alipay;
 		pay_alipay.setCheckListener(new RadioButtonCheckedListener() {
 			@Override
 			public void onCheckedChanged(boolean isChecked) {
-				// setAllUnChecked(irbs);
 				payWay = PayWay.alipay;
-				pay_alipay.setChecked();
-				if (cache != null && cache != pay_alipay)
-					cache.setUnChecked();
-				cache = pay_alipay;
+				setCacheView(pay_alipay);
 			}
 		});
 
@@ -183,11 +190,7 @@ public class TCPayActivity extends BaseActivity {
 			@Override
 			public void onCheckedChanged(boolean isChecked) {
 				payWay = PayWay.wechat;
-				// setAllUnChecked(irbs);
-				pay_wechat.setChecked();
-				if (cache != null && cache != pay_wechat)
-					cache.setUnChecked();
-				cache = pay_wechat;
+				setCacheView(pay_wechat);
 			}
 		});
 
@@ -195,12 +198,8 @@ public class TCPayActivity extends BaseActivity {
 
 			@Override
 			public void onCheckedChanged(boolean isChecked) {
-				// setAllUnChecked(irbs);
 				payWay = PayWay.yinlian;
-				pay_bank.setChecked();
-				if (cache != null && cache != pay_bank)
-					cache.setUnChecked();
-				cache = pay_bank;
+				setCacheView(pay_bank);
 			}
 		});
 
@@ -208,12 +207,8 @@ public class TCPayActivity extends BaseActivity {
 
 			@Override
 			public void onCheckedChanged(boolean isChecked) {
-				// setAllUnChecked(irbs);
 				payWay = PayWay.caihutong;
-				pay_cht.setChecked();
-				if (cache != null && cache != pay_cht)
-					cache.setUnChecked();
-				cache = pay_cht;
+				setCacheView(pay_cht);
 			}
 		});
 
@@ -224,42 +219,44 @@ public class TCPayActivity extends BaseActivity {
 				TCLogUtils.showToast(getApplicationContext(),
 						"支付方式为：" + payWay.toString());
 				if (payWay == PayWay.alipay) {
-					TianCi.getInstance().getOrder(roleId, cp_orderId, serverId,
-							price, payWay.getPayway(), new RequestCallBack() {
-
-								@Override
-								public void onSuccessed(ResponseMsg responseMsg) {
-									try {
-										AlipayEntity entity = (AlipayEntity) responseMsg
-												.getBaseOrder();
-										PARTNER = entity.pantner;
-										SELLER = entity.seller;
-										RSA_PRIVATE = entity.rsa_private;
-										RSA_PUBLIC = entity.rsa_public;
-										notify_url = entity.notify_url;
-										orderId = entity.orderId;
-										pay(bt_earn);
-									} catch (Exception e) {
-										e.printStackTrace();
-										TCLogUtils
-												.showToast(
-														getApplicationContext(),
-														"支付失败");
-									}
-								}
-
-								@Override
-								public void onFailure(String msg) {
-									TCLogUtils.toastShort(
-											getApplicationContext(), msg);
-									Intent data = new Intent();
-									data.putExtra("result", msg);
-									setResult(
-											Config.REQUEST_STATUS_CODE_FAILURE,
-											data);
-									finish();
-								}
-							});
+					payPresenter = new AlipayPayPresenter(TCPayActivity.this);
+					payPresenter.pay();
+//					TianCi.getInstance().getOrder(roleId, cp_orderId, serverId,
+//							price, payWay.getPayway(), new RequestCallBack() {
+//
+//								@Override
+//								public void onSuccessed(ResponseMsg responseMsg) {
+//									try {
+//										AlipayEntity entity = (AlipayEntity) responseMsg
+//												.getBaseOrder();
+//										PARTNER = entity.pantner;
+//										SELLER = entity.seller;
+//										RSA_PRIVATE = entity.rsa_private;
+//										RSA_PUBLIC = entity.rsa_public;
+//										notify_url = entity.notify_url;
+//										orderId = entity.orderId;
+//										pay();
+//									} catch (Exception e) {
+//										e.printStackTrace();
+//										TCLogUtils
+//												.showToast(
+//														getApplicationContext(),
+//														"支付失败");
+//									}
+//								}
+//
+//								@Override
+//								public void onFailure(String msg) {
+//									TCLogUtils.toastShort(
+//											getApplicationContext(), msg);
+//									Intent data = new Intent();
+//									data.putExtra("result", msg);
+//									setResult(
+//											Config.REQUEST_STATUS_CODE_FAILURE,
+//											data);
+//									finish();
+//								}
+//							});
 				} else if (payWay == PayWay.yinlian) {
 
 					TianCi.getInstance().getOrder(roleId, cp_orderId, serverId,
@@ -300,6 +297,21 @@ public class TCPayActivity extends BaseActivity {
 					// }
 					// });
 
+				} else if (payWay == PayWay.wechat) {
+					final IWXAPI msgApi = WXAPIFactory.createWXAPI(
+							getApplicationContext(), null);
+					// 将该app注册到微信
+					msgApi.registerApp("wx7f69866f179fa23e");
+
+					PayReq request = new PayReq();
+					request.appId = "wxd930ea5d5a258f4f";
+					request.partnerId = "1900000109";
+					request.prepayId = "1101000000140415649af9fc314aa427";
+					request.packageValue = "Sign=WXPay";
+					request.nonceStr = "1101000000140429eb40476f8896f4c9";
+					request.timeStamp = "1398746574";
+					request.sign = "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
+					msgApi.sendReq(request);
 				}
 			}
 		});
@@ -350,17 +362,6 @@ public class TCPayActivity extends BaseActivity {
 
 	}
 
-	/**
-	 * 设置所有的radioButton为未选中
-	 * 
-	 * @param objs
-	 */
-	private void setAllUnChecked(ImageRadiobutton[] objs) {
-		for (int i = 0; i < objs.length; i++) {
-			if (objs[i].isChecked())
-				objs[i].setUnChecked();
-		}
-	}
 
 	@Override
 	int initView() {
@@ -372,8 +373,10 @@ public class TCPayActivity extends BaseActivity {
 		return false;
 	}
 
+	private PayPresenter payPresenter;
 	@Override
 	void initData(Bundle saveInstance) {
+		
 		Intent intent = getIntent();
 		subject = intent.getStringExtra("subject");
 		body = intent.getStringExtra("body");
@@ -390,7 +393,7 @@ public class TCPayActivity extends BaseActivity {
 	 * call alipay sdk pay. 调用SDK支付
 	 * 
 	 */
-	public void pay(View v) {
+	public void pay() {
 		if (TextUtils.isEmpty(PARTNER) || TextUtils.isEmpty(RSA_PRIVATE)
 				|| TextUtils.isEmpty(SELLER)) {
 			new AlertDialog.Builder(this)
@@ -506,6 +509,21 @@ public class TCPayActivity extends BaseActivity {
 		// } else if (str.equalsIgnoreCase(R_CANCEL)) {
 		// showResultDialog(" 你已取消了本次订单的支付！ ");
 		// }
+	}
+
+	@Override
+	public void paySuccessAction() {
+		TCLogUtils.e("...支付成功");
+	}
+
+	@Override
+	public void payFailedAction() {
+		TCLogUtils.e("...支付失败");
+	}
+
+	@Override
+	public void payWaitAction() {
+		TCLogUtils.e("支付结果确认中。。。");
 	}
 
 }

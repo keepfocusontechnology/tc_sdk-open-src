@@ -16,17 +16,14 @@ public class ResponseBean {
 	private WeakReference<Context> mContextRef;
 	private RequestCallBack callBack;
 	private Method method;
-	private String paramsUri;
 	private Context context;
 	// private HashMap<String, Object> mHashmap;
 	private ParamsStrategy strategy;
 
-	public ResponseBean(Context context, String url, String paramsUri,
-			Method method,
-			// HashMap<String, Object> hashmap,
+	public ResponseBean(Context context, String url, Method method,
+	// HashMap<String, Object> hashmap,
 			ParamsStrategy strategy, RequestCallBack callBack) {
 		this.url = url;
-		this.paramsUri = paramsUri;
 		this.callBack = callBack;
 		this.method = method;
 		mContextRef = new WeakReference<>(context);
@@ -72,14 +69,6 @@ public class ResponseBean {
 
 	public void setMethod(Method method) {
 		this.method = method;
-	}
-
-	public String getParamsUri() {
-		return paramsUri;
-	}
-
-	public void setParamsUri(String paramsUri) {
-		this.paramsUri = paramsUri;
 	}
 
 	public Context getContext() {

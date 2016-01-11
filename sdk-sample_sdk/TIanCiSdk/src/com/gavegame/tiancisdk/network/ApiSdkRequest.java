@@ -44,7 +44,6 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 
 	private RequestCallBack callBack;
 	private Method method;
-	private String paramsUri;
 	private Context context;
 	private HashMap<String, Object> paramsQuest;
 	private String url;
@@ -65,7 +64,6 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 	private ApiSdkRequest(ResponseBean responseBean) {
 		mContextRef = new WeakReference<Context>(responseBean.getContext());
 		this.url = responseBean.getUrl();
-		this.paramsUri = responseBean.getParamsUri();
 		this.callBack = responseBean.getCallBack();
 		this.method = responseBean.getMethod();
 		this.context = mContextRef.get();
