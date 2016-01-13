@@ -3,7 +3,7 @@ package com.gavegame.tiancisdk.network.strategy;
 import java.util.HashMap;
 
 
-public class SetPswStrategy implements ParamsStrategy {
+public class SetPswStrategy implements IParamsStrategy {
 
 	public String[] params;
 

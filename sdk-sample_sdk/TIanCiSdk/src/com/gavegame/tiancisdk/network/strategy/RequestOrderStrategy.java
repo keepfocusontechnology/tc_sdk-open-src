@@ -8,7 +8,7 @@ import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 
-public class RequestOrderStrategy implements ParamsStrategy {
+public class RequestOrderStrategy implements IParamsStrategy {
 
 	public RequestOrderStrategy(Context context, String... params) {
 		this.context = context;

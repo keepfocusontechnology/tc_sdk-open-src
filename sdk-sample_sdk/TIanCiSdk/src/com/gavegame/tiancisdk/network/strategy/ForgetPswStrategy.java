@@ -2,7 +2,7 @@ package com.gavegame.tiancisdk.network.strategy;
 
 import java.util.HashMap;
 
-public class ForgetPswStrategy implements ParamsStrategy {
+public class ForgetPswStrategy implements IParamsStrategy {
 
 	public String mobile;
 	public String code;

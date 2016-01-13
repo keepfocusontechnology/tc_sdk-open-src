@@ -164,7 +164,6 @@ public class ImageRadiobutton extends LinearLayout {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 
-				TCLogUtils.e(TAG, "View touched!!!!!");
 				if (isChecked) {
 					setUnChecked();
 				} else {

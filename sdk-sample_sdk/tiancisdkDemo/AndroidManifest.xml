@@ -44,6 +44,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx7f69866f179fa23e" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.gavegame.tiancisdk.activity.TCLoginActivity"
@@ -88,15 +95,25 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="net.sourceforge.simcpux.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" >
+            <meta-data
+                android:name="TIANCI_GAME_ID"
+                android:value="152" />
+            <!-- 天赐分配的游戏ID -->
+            <meta-data
+                android:name="TIANCI_CHANNEL_ID"
+                android:value="5" />
+            <!-- 天赐分配的渠道ID -->
+        </activity>
 
-        <meta-data
-            android:name="TIANCI_GAME_ID"
-            android:value="152" />
-        <!-- 天赐分配的游戏ID -->
-        <meta-data
-            android:name="TIANCI_CHANNEL_ID"
-            android:value="5" />
-        <!-- 天赐分配的渠道ID -->
+        <receiver android:name=".AppRegister" >
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

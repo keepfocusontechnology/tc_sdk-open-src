@@ -3,7 +3,7 @@ package com.gavegame.tiancisdk.network.strategy;
 import java.util.HashMap;
 
 
-public interface ParamsStrategy {
+public interface IParamsStrategy {
 	
 
 	/**

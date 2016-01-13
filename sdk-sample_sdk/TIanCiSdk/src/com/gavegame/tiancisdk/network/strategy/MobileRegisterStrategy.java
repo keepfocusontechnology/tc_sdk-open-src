@@ -7,7 +7,7 @@ import android.content.Context;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 
-public class MobileRegisterStrategy implements ParamsStrategy {
+public class MobileRegisterStrategy implements IParamsStrategy {
 
 	public MobileRegisterStrategy(Context context, String mobile,
 			String user_pass, String code) {

@@ -8,7 +8,7 @@ import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 
-public class FinishOrderStrategy implements ParamsStrategy {
+public class FinishOrderStrategy implements IParamsStrategy {
 
 	public Context context;
 	public String[] params;

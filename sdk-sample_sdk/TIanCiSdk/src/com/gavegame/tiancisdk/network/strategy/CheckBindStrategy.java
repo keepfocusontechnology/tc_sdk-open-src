@@ -2,7 +2,7 @@ package com.gavegame.tiancisdk.network.strategy;
 
 import java.util.HashMap;
 
-public class CheckBindStrategy implements ParamsStrategy {
+public class CheckBindStrategy implements IParamsStrategy {
 
 	public String user_login;
 

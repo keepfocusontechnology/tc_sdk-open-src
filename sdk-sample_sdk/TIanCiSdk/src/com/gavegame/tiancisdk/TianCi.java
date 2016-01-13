@@ -21,7 +21,7 @@ import com.gavegame.tiancisdk.network.strategy.GetOrderListStrategy;
 import com.gavegame.tiancisdk.network.strategy.LoginRoleStrategy;
 import com.gavegame.tiancisdk.network.strategy.LoginStrategy;
 import com.gavegame.tiancisdk.network.strategy.MobileRegisterStrategy;
-import com.gavegame.tiancisdk.network.strategy.ParamsStrategy;
+import com.gavegame.tiancisdk.network.strategy.IParamsStrategy;
 import com.gavegame.tiancisdk.network.strategy.RegisterStrategy;
 import com.gavegame.tiancisdk.network.strategy.RequestOrderStrategy;
 import com.gavegame.tiancisdk.network.strategy.SetPswStrategy;
@@ -42,7 +42,7 @@ public class TianCi {
 
 	private ApiSdkRequest apiSdkRequest;
 
-	private ParamsStrategy strategy;
+	private IParamsStrategy strategy;
 
 	public static void init(Activity context) {
 		if (mContext != context) {

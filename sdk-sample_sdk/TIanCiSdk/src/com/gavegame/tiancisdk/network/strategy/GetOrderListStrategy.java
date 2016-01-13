@@ -2,7 +2,7 @@ package com.gavegame.tiancisdk.network.strategy;
 
 import java.util.HashMap;
 
-public class GetOrderListStrategy implements ParamsStrategy {
+public class GetOrderListStrategy implements IParamsStrategy {
 
 	public GetOrderListStrategy(String tcsso) {
 		this.tcsso = tcsso;

@@ -22,9 +22,9 @@ import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.ResponseMsg;
 import com.gavegame.tiancisdk.utils.OrderUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
-import com.gavegame.tiancisdk.view.IPayVIew;
+import com.gavegame.tiancisdk.view.IPayView;
 
-public class AlipayPayPresenter implements PayPresenter {
+public class AliPresenterImpl implements IPayPresenter {
 
 	private static final int SDK_PAY_FLAG = 1;
 
@@ -90,19 +90,19 @@ public class AlipayPayPresenter implements PayPresenter {
 	private String notify_url;
 
 	private String cp_orderId;
-
 	private String subject;
 	private String body;
 	private String amount;
 	private String roleId;
 	private String serverId;
+	private String orderId;
 
-	private IPayVIew payView;
+	private IPayView payView;
 
 	private Activity context;
 
-	public AlipayPayPresenter(BaseActivity activity) {
-		this.payView = (IPayVIew) activity;
+	public AliPresenterImpl(BaseActivity activity) {
+		this.payView = (IPayView) activity;
 		this.context = activity;
 		TianCi.init(activity);
 
@@ -130,9 +130,7 @@ public class AlipayPayPresenter implements PayPresenter {
 						RSA_PRIVATE = entity.rsa_private;
 						RSA_PUBLIC = entity.rsa_public;
 						notify_url = entity.notify_url;
-
-						// tc自身的订单号,暂不涉及到渠道支付
-						String tc_order = entity.orderId;
+						orderId = entity.orderId;
 
 						if (TextUtils.isEmpty(PARTNER)
 								|| TextUtils.isEmpty(RSA_PRIVATE)
@@ -158,7 +156,7 @@ public class AlipayPayPresenter implements PayPresenter {
 						// String orderInfo = getOrderInfo(subject, body,
 						// price);
 						String orderInfo = OrderUtils.getAlipayOrderInfo(
-								subject, body, amount, cp_orderId, PARTNER,
+								subject, body, amount, orderId, PARTNER,
 								SELLER, notify_url);
 						TCLogUtils.e(TAG, orderInfo);
 

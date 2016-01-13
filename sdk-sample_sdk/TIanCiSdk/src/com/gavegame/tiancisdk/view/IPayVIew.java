@@ -1,6 +1,6 @@
 package com.gavegame.tiancisdk.view;
 
-public interface IPayVIew {
+public interface IPayView {
 	
 	void paySuccessAction();
 	

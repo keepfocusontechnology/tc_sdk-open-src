@@ -76,7 +76,6 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 	protected ResponseMsg doInBackground(Void... params) {
 
 		String resultJson = null;
-
 		try {
 			if (method == Method.GET) {
 				resultJson = HttpUtil.doGet(url, paramsQuest);
@@ -229,7 +228,7 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 		} else {
 			callBack.onFailure(msg.getRetMsg());
 		}
-		if (dialog != null) {
+		if (dialog != null && dialog.isShowing()) {
 			dialog.dismiss();
 		}
 		if (paramsQuest != null) {
@@ -243,7 +242,7 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 	@Override
 	protected void onCancelled() {
 		super.onCancelled();
-		if (dialog.isShowing()) {
+		if (dialog != null && dialog.isShowing()) {
 			dialog.dismiss();
 		}
 	}

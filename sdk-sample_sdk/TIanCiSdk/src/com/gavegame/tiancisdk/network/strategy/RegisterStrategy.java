@@ -7,7 +7,7 @@ import android.content.Context;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 
-public class RegisterStrategy implements ParamsStrategy {
+public class RegisterStrategy implements IParamsStrategy {
 	
 	public RegisterStrategy(Context context, String user_login, String user_pass) {
 		super();

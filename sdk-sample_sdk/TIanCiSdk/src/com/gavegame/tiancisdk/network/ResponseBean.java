@@ -5,7 +5,7 @@ import android.content.Context;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
-import com.gavegame.tiancisdk.network.strategy.ParamsStrategy;
+import com.gavegame.tiancisdk.network.strategy.IParamsStrategy;
 
 /**
  * Created by Tianci on 15/9/23.
@@ -18,11 +18,11 @@ public class ResponseBean {
 	private Method method;
 	private Context context;
 	// private HashMap<String, Object> mHashmap;
-	private ParamsStrategy strategy;
+	private IParamsStrategy strategy;
 
 	public ResponseBean(Context context, String url, Method method,
 	// HashMap<String, Object> hashmap,
-			ParamsStrategy strategy, RequestCallBack callBack) {
+			IParamsStrategy strategy, RequestCallBack callBack) {
 		this.url = url;
 		this.callBack = callBack;
 		this.method = method;
@@ -47,11 +47,11 @@ public class ResponseBean {
 		this.url = url;
 	}
 
-	public ParamsStrategy getStrategy() {
+	public IParamsStrategy getStrategy() {
 		return strategy;
 	}
 
-	public void setStrategy(ParamsStrategy strategy) {
+	public void setStrategy(IParamsStrategy strategy) {
 		this.strategy = strategy;
 	}
 

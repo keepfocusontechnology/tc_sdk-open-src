@@ -8,7 +8,7 @@ import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 
-public class LoginRoleStrategy implements ParamsStrategy {
+public class LoginRoleStrategy implements IParamsStrategy {
 
 	public LoginRoleStrategy(Context context, String cp_role, String serverid) {
 		super();

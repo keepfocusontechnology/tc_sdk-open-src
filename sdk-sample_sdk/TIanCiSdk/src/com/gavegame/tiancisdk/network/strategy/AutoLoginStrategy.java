@@ -7,7 +7,7 @@ import android.content.Context;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 
-public class AutoLoginStrategy implements ParamsStrategy {
+public class AutoLoginStrategy implements IParamsStrategy {
 
 	public Context context;
 

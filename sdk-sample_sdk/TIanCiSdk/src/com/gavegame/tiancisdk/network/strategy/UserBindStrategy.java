@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import android.text.TextUtils;
 
-public class UserBindStrategy implements ParamsStrategy {
+public class UserBindStrategy implements IParamsStrategy {
 
 	public String tcsso;
 	public String[] params;

@@ -7,7 +7,7 @@ import android.content.Context;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 
-public class GetNumberStrategy implements ParamsStrategy {
+public class GetNumberStrategy implements IParamsStrategy {
 
 	public GetNumberStrategy(Context context, String mobile) {
 		super();
