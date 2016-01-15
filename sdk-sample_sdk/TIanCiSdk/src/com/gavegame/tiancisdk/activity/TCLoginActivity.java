@@ -41,7 +41,7 @@ import com.gavegame.tiancisdk.fragment.QuckilyRegisterFragment;
 import com.gavegame.tiancisdk.fragment.TCBaseFragment;
 import com.gavegame.tiancisdk.fragment.VisitorUpdateFragment;
 import com.gavegame.tiancisdk.network.RequestCallBack;
-import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class TCLoginActivity extends BaseActivity implements

@@ -1,5 +1,7 @@
 package com.gavegame.tiancisdk.network;
 
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
+
 /**
  * Created by Tianci on 15/9/22.
  */

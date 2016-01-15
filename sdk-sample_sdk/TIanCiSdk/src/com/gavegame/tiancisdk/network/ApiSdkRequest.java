@@ -21,6 +21,8 @@ import android.text.TextUtils;
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
 import com.gavegame.tiancisdk.enums.PayWay;
+import com.gavegame.tiancisdk.network.bean.ResponseBean;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.order.entity.OrderEntity;
 import com.gavegame.tiancisdk.utils.DialogUtils;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
@@ -223,17 +225,17 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 	@Override
 	protected void onPostExecute(ResponseMsg msg) {
 		super.onPostExecute(msg);
-		if (msg.getRetCode() == Config.REQUEST_STATUS_CODE_SUC) {
-			callBack.onSuccessed(msg);
-		} else {
-			callBack.onFailure(msg.getRetMsg());
-		}
 		if (dialog != null && dialog.isShowing()) {
 			dialog.dismiss();
 		}
 		if (paramsQuest != null) {
 			paramsQuest.clear();
 			paramsQuest = null;
+		}
+		if (msg.getRetCode() == Config.REQUEST_STATUS_CODE_SUC) {
+			callBack.onSuccessed(msg);
+		} else {
+			callBack.onFailure(msg.getRetMsg());
 		}
 		// 此处存疑，是否手动调用性能更好
 		// onCancelled();

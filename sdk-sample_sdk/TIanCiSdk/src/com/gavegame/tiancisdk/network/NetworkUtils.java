@@ -12,6 +12,10 @@ import android.text.TextUtils;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.enums.PayWay;
+import com.gavegame.tiancisdk.network.bean.AlipayEntity;
+import com.gavegame.tiancisdk.network.bean.BaseOrder;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
+import com.gavegame.tiancisdk.network.bean.WxpayEntity;
 import com.gavegame.tiancisdk.order.entity.OrderEntity;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
@@ -81,23 +85,45 @@ public class NetworkUtils {
 
 			try {
 				String tn = pay_info.getString("tn");
-				if(!TextUtils.isEmpty(tn)){
+				if (!TextUtils.isEmpty(tn)) {
 					responsMsg.setRetMsg(tn);
 					return responsMsg;
 				}
 			} catch (Exception e) {
-				//发生异常不做操作，代表不是银联的接口
+				// 发生异常不做操作，代表不是银联的接口
 			}
 
-			AlipayEntity entity = new AlipayEntity();
-			entity.pantner = pay_info.getString("partner");
-			entity.seller = pay_info.getString("seller");
-			entity.rsa_public = pay_info.getString("rsa_public");
-			entity.rsa_private = pay_info.getString("rsa_private");
-			entity.notify_url = pay_info.getString("notify_url");
-			entity.orderId = jsonObject.getString("tc_order");
+			// {"appid":"wx7f69866f179fa23e","noncestr":"zS2JhVP9S0Njyctc"
+			// ,"package":"Sign=WXPay","partnerid":"1305459601",
+			// "prepayid":"wx20160115095910733f7566010959807723",
+			// "timestamp":"20160115095910","sign":"2B4A7A9D8FE1D656BA9DD4636A1F28EC"}}
+			BaseOrder baseEntity = null;
+			try {
+				AlipayEntity entity = new AlipayEntity();
+				entity.pantner = pay_info.getString("partner");
+				entity.seller = pay_info.getString("seller");
+				entity.rsa_public = pay_info.getString("rsa_public");
+				entity.rsa_private = pay_info.getString("rsa_private");
+				entity.notify_url = pay_info.getString("notify_url");
+				entity.orderId = jsonObject.getString("tc_order");
+				baseEntity = entity;
+			} catch (Exception e) {
+				try {
+					WxpayEntity entity = new WxpayEntity();
+					entity.appId = pay_info.getString("appid");
+					entity.nonceStr = pay_info.getString("noncestr");
+					entity.packageValue = pay_info.getString("package");
+					entity.partnerId = pay_info.getString("partnerid");
+					entity.prepayId = pay_info.getString("prepayid");
+					entity.timeStamp = pay_info.getString("timestamp");
+					entity.sign = pay_info.getString("sign");
+					baseEntity = entity;
+				} catch (Exception e1) {
 
-			responsMsg.setBaseOrder(entity);
+				}
+			}
+
+			responsMsg.setBaseOrder(baseEntity);
 			pay_info = null;
 		}
 

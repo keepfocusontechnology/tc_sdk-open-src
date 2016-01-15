@@ -1,4 +1,4 @@
-package com.gavegame.tiancisdk.network;
+package com.gavegame.tiancisdk.network.bean;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,13 +1,7 @@
 package net.sourceforge.simcpux.wxapi;
 
-import com.gavegame.tiancisdk.activity.BaseActivity;
-import com.gavegame.tiancisdk.presenter.WxPresenterImpl;
+import com.gavegame.tiancisdk.activity.TCPayActivity;
 
-public class WXPayEntryActivity extends WxPresenterImpl {
-
-	public WXPayEntryActivity(BaseActivity activity) {
-		super(activity);
-		// TODO Auto-generated constructor stub
-	}
+public class WXPayEntryActivity extends TCPayActivity {
 
 }

@@ -71,6 +71,7 @@ public class HttpUtil {
 		String paramStr = prepareParam(paramMap);
 		TCLogUtils.e(TAG, "url:" + urlStr);
 		TCLogUtils.e(TAG, "request：" + paramStr);
+		TCLogUtils.e(TAG, urlStr + "&" + paramStr);
 		conn.setDoInput(true);
 		conn.setDoOutput(true);
 		conn.setConnectTimeout(TIMEOUT);

@@ -1,4 +1,5 @@
-package com.gavegame.tiancisdk.network;
+package com.gavegame.tiancisdk.network.bean;
+
 
 public class AlipayEntity extends BaseOrder {
 	// 签约合作者身份id

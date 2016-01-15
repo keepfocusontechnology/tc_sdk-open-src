@@ -30,7 +30,7 @@ import com.gavegame.tiancisdk.TianCiSDK;
 import com.gavegame.tiancisdk.activity.TCLoginActivity;
 import com.gavegame.tiancisdk.activity.TCPayActivity;
 import com.gavegame.tiancisdk.network.RequestCallBack;
-import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class MainActivity extends Activity {

@@ -8,7 +8,7 @@ import com.gavegame.tiancisdk.activity.BaseActivity;
 import com.gavegame.tiancisdk.activity.TCPayActivity;
 import com.gavegame.tiancisdk.enums.PayWay;
 import com.gavegame.tiancisdk.network.RequestCallBack;
-import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.view.IPayView;
 import com.unionpay.UPPayAssistEx;

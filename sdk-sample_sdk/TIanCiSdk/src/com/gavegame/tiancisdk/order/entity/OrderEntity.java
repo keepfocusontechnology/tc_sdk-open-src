@@ -1,7 +1,7 @@
 package com.gavegame.tiancisdk.order.entity;
 
 import com.gavegame.tiancisdk.enums.PayWay;
-import com.gavegame.tiancisdk.network.BaseOrder;
+import com.gavegame.tiancisdk.network.bean.BaseOrder;
 
 public class OrderEntity extends BaseOrder {
 

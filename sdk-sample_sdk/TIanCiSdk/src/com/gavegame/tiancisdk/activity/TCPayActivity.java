@@ -1,17 +1,13 @@
 package com.gavegame.tiancisdk.activity;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,33 +16,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alipay.sdk.app.PayTask;
-import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
-import com.gavegame.tiancisdk.alipay.PayResult;
-import com.gavegame.tiancisdk.alipay.SignUtils;
 import com.gavegame.tiancisdk.enums.PayWay;
-import com.gavegame.tiancisdk.network.AlipayEntity;
-import com.gavegame.tiancisdk.network.BaseOrder;
 import com.gavegame.tiancisdk.network.RequestCallBack;
-import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.network.bean.BaseOrder;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.presenter.AliPresenterImpl;
 import com.gavegame.tiancisdk.presenter.IPayPresenter;
 import com.gavegame.tiancisdk.presenter.WxPresenterImpl;
 import com.gavegame.tiancisdk.presenter.YLPresenterImpl;
 import com.gavegame.tiancisdk.utils.NormalUtils;
-import com.gavegame.tiancisdk.utils.OrderUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.view.IPayView;
 import com.gavegame.tiancisdk.widget.ImageRadiobutton;
 import com.gavegame.tiancisdk.widget.ImageRadiobutton.RadioButtonCheckedListener;
-import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.constants.Build;
+import com.tencent.mm.sdk.constants.ConstantsAPI;
+import com.tencent.mm.sdk.modelbase.BaseReq;
+import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.unionpay.UPPayAssistEx;
 
-public class TCPayActivity extends BaseActivity implements IPayView {
+public class TCPayActivity extends BaseActivity implements IPayView,
+		IWXAPIEventHandler {
 
 	private final String TAG = "TCPayActivity";
 	private String subject;
@@ -73,6 +67,24 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 
 	private TextView tv_game_name;
 	private TextView tv_pay_amount;
+
+	private IWXAPI api;
+	private final String app_id = "wx7f69866f179fa23e";
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		api = WXAPIFactory.createWXAPI(this, app_id);
+		api.handleIntent(getIntent(), this);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+		api.handleIntent(intent, this);
+	}
 
 	/**
 	 * 退出支付弹窗
@@ -169,27 +181,28 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 				} else if (payWay == PayWay.yinlian) {
 					payPresenter = new YLPresenterImpl(TCPayActivity.this);
 					payPresenter.pay();
-					
-//					TianCi.getInstance().getOrder(roleId, cp_orderId, serverId,
-//							price, payWay.getPayway(), new RequestCallBack() {
-//
-//								@Override
-//								public void onSuccessed(ResponseMsg responseMsg) {
-//									// “00” – 银联正式环境
-//									// “01” – 银联测试环境，该环境中不发生真实交易
-//									String serverMode = "01";
-//									TCLogUtils.e(TAG,
-//											"tn = " + responseMsg.getRetMsg());
-//									UPPayAssistEx.startPay(TCPayActivity.this,
-//											null, null,
-//											responseMsg.getRetMsg(), serverMode);
-//								}
-//
-//								@Override
-//								public void onFailure(String msg) {
-//									TCLogUtils.e(TAG, msg);
-//								}
-//							});
+
+					// TianCi.getInstance().getOrder(roleId, cp_orderId,
+					// serverId,
+					// price, payWay.getPayway(), new RequestCallBack() {
+					//
+					// @Override
+					// public void onSuccessed(ResponseMsg responseMsg) {
+					// // “00” – 银联正式环境
+					// // “01” – 银联测试环境，该环境中不发生真实交易
+					// String serverMode = "01";
+					// TCLogUtils.e(TAG,
+					// "tn = " + responseMsg.getRetMsg());
+					// UPPayAssistEx.startPay(TCPayActivity.this,
+					// null, null,
+					// responseMsg.getRetMsg(), serverMode);
+					// }
+					//
+					// @Override
+					// public void onFailure(String msg) {
+					// TCLogUtils.e(TAG, msg);
+					// }
+					// });
 
 					// TianCi.getInstance().testGetTn(new RequestCallBack() {
 					//
@@ -209,22 +222,26 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 					// });
 
 				} else if (payWay == PayWay.wechat) {
-//					final IWXAPI msgApi = WXAPIFactory.createWXAPI(
-//							getApplicationContext(), null);
-//					// 将该app注册到微信
-//					msgApi.registerApp("wx7f69866f179fa23e");
-//
-//					PayReq request = new PayReq();
-//					request.appId = "wxd930ea5d5a258f4f";
-//					request.partnerId = "1900000109";
-//					request.prepayId = "1101000000140415649af9fc314aa427";
-//					request.packageValue = "Sign=WXPay";
-//					request.nonceStr = "1101000000140429eb40476f8896f4c9";
-//					request.timeStamp = "1398746574";
-//					request.sign = "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
-//					msgApi.sendReq(request);
-					payPresenter = new WxPresenterImpl(TCPayActivity.this);
-					payPresenter.pay();
+					// final IWXAPI msgApi = WXAPIFactory.createWXAPI(
+					// getApplicationContext(), null);
+					// // 将该app注册到微信
+					// msgApi.registerApp("wx7f69866f179fa23e");
+					//
+					// PayReq request = new PayReq();
+					// request.appId = "wxd930ea5d5a258f4f";
+					// request.partnerId = "1900000109";
+					// request.prepayId = "1101000000140415649af9fc314aa427";
+					// request.packageValue = "Sign=WXPay";
+					// request.nonceStr = "1101000000140429eb40476f8896f4c9";
+					// request.timeStamp = "1398746574";
+					// request.sign =
+					// "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
+					// msgApi.sendReq(request);
+					boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+					if (isPaySupported) {
+						payPresenter = new WxPresenterImpl(TCPayActivity.this);
+						payPresenter.pay();
+					}
 				}
 			}
 		});
@@ -358,6 +375,22 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 	@Override
 	public void payWaitAction() {
 		TCLogUtils.e("支付结果确认中。。。");
+	}
+
+	@Override
+	public void onReq(BaseReq arg0) {
+
+	}
+
+	@Override
+	public void onResp(BaseResp resp) {
+
+		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+
+		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+			TCLogUtils.e(TAG, String.valueOf(resp.errCode));
+			// payView.payFailedAction();
+		}
 	}
 
 }

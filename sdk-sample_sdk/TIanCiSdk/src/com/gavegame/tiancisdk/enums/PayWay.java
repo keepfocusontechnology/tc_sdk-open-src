@@ -9,7 +9,7 @@ package com.gavegame.tiancisdk.enums;
 
 public enum PayWay {
 	alipay("alipay"), // 支付宝
-	wechat("wechat"), // 微信
+	wechat("weixin"), // 微信
 	caihutong("caihutong"), // 财付通
 	yinlian("yinlian"); // 银联
 

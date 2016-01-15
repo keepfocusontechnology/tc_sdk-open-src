@@ -12,7 +12,7 @@ import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.network.RequestCallBack;
-import com.gavegame.tiancisdk.network.ResponseMsg;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.utils.TimerCount;
 

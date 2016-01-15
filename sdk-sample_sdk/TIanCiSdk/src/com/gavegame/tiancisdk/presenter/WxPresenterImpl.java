@@ -1,9 +1,15 @@
 package com.gavegame.tiancisdk.presenter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
+import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.activity.BaseActivity;
+import com.gavegame.tiancisdk.enums.PayWay;
+import com.gavegame.tiancisdk.network.RequestCallBack;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
+import com.gavegame.tiancisdk.network.bean.WxpayEntity;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.view.IPayView;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
@@ -13,10 +19,9 @@ import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.unionpay.UPPayAssistEx;
 
-public class WxPresenterImpl implements IPayPresenter, IWXAPIEventHandler {
-
-	private final String app_id = "wx7f69866f179fa23e";
+public class WxPresenterImpl implements IPayPresenter {
 
 	private final String TAG = "WxPresenterImpl";
 
@@ -24,44 +29,54 @@ public class WxPresenterImpl implements IPayPresenter, IWXAPIEventHandler {
 	private IPayView payView;
 	private IWXAPI msgApi;
 
+	private String cp_orderId;
+	private String amount;
+	private String roleId;
+	private String serverId;
 
 	public WxPresenterImpl(BaseActivity activity) {
 		this.context = activity;
 		this.payView = (IPayView) activity;
-		msgApi = WXAPIFactory.createWXAPI(context, app_id);
+		Intent intent = context.getIntent();
+		amount = intent.getStringExtra("price");
+		roleId = intent.getStringExtra("roleId");
+		serverId = intent.getStringExtra("serverId");
+		cp_orderId = intent.getStringExtra("cp_orderId");
 	}
 
 	@Override
 	public void pay() {
-		msgApi.registerApp("wx7f69866f179fa23e");
 
-		PayReq request = new PayReq();
-		request.appId = "wx7f69866f179fa23e";
-		request.partnerId = "1900000109";
-		request.prepayId = "1101000000140415649af9fc314aa427";
-		request.packageValue = "Sign=WXPay";
-		request.nonceStr = "1101000000140429eb40476f8896f4c9";
-		request.timeStamp = "1398746574";
-		request.sign = "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
-		msgApi.sendReq(request);
-	}
+		TianCi.getInstance().getOrder(roleId, cp_orderId, serverId, amount,
+				PayWay.wechat.getPayway(), new RequestCallBack() {
 
-	@Override
-	public void onReq(BaseReq arg0) {
-		// TODO Auto-generated method stub
+					@Override
+					public void onSuccessed(ResponseMsg responseMsg) {
 
-	}
+						TCLogUtils.e(TAG, responseMsg.toString());
 
-	@Override
-	public void onResp(BaseResp resp) {
+						WxpayEntity entity = (WxpayEntity) responseMsg
+								.getBaseOrder();
+						TCLogUtils.e(TAG, entity.toString());
+						msgApi = WXAPIFactory.createWXAPI(context, null);
+						msgApi.registerApp(entity.appId);
 
-		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+						PayReq request = new PayReq();
+						request.appId = entity.appId;
+						request.partnerId = entity.partnerId;
+						request.prepayId = entity.prepayId;
+						request.packageValue = entity.packageValue;
+						request.nonceStr = entity.nonceStr;
+						request.timeStamp = entity.timeStamp;
+						request.sign = entity.sign;
+						msgApi.sendReq(request);
+					}
 
-		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			TCLogUtils.e(TAG, String.valueOf(resp.errCode));
-			// payView.payFailedAction();
-		}
-
+					@Override
+					public void onFailure(String msg) {
+						TCLogUtils.e(TAG, msg);
+					}
+				});
 	}
 
 }

@@ -10,7 +10,7 @@ import com.gavegame.tiancisdk.network.ApiSdkRequest;
 import com.gavegame.tiancisdk.network.Method;
 import com.gavegame.tiancisdk.network.NetworkUtils;
 import com.gavegame.tiancisdk.network.RequestCallBack;
-import com.gavegame.tiancisdk.network.ResponseBean;
+import com.gavegame.tiancisdk.network.bean.ResponseBean;
 import com.gavegame.tiancisdk.network.strategy.AutoLoginStrategy;
 import com.gavegame.tiancisdk.network.strategy.CheckBindStrategy;
 import com.gavegame.tiancisdk.network.strategy.CreateOrderStrategy;

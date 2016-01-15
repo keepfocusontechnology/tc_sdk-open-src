@@ -1,10 +1,12 @@
-package com.gavegame.tiancisdk.network;
+package com.gavegame.tiancisdk.network.bean;
 
 import android.content.Context;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
+import com.gavegame.tiancisdk.network.Method;
+import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.strategy.IParamsStrategy;
 
 /**

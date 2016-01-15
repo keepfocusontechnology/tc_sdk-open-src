@@ -99,21 +99,17 @@
             android:name="net.sourceforge.simcpux.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" >
-            <meta-data
-                android:name="TIANCI_GAME_ID"
-                android:value="152" />
-            <!-- 天赐分配的游戏ID -->
-            <meta-data
-                android:name="TIANCI_CHANNEL_ID"
-                android:value="5" />
-            <!-- 天赐分配的渠道ID -->
         </activity>
 
-        <receiver android:name=".AppRegister" >
-            <intent-filter>
-                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
-            </intent-filter>
-        </receiver>
+        <meta-data
+            android:name="TIANCI_GAME_ID"
+            android:value="152" />
+        <!-- 天赐分配的游戏ID -->
+        <meta-data
+            android:name="TIANCI_CHANNEL_ID"
+            android:value="5" />
+        <!-- 天赐分配的渠道ID -->
+
     </application>
 
 </manifest>
