@@ -26,7 +26,7 @@ public class WxPresenterImpl implements IPayPresenter {
 	private final String TAG = "WxPresenterImpl";
 
 	private Activity context;
-	private IPayView payView;
+//	private IPayView payView;
 	private IWXAPI msgApi;
 
 	private String cp_orderId;
@@ -36,7 +36,7 @@ public class WxPresenterImpl implements IPayPresenter {
 
 	public WxPresenterImpl(BaseActivity activity) {
 		this.context = activity;
-		this.payView = (IPayView) activity;
+//		this.payView = (IPayView) activity;
 		Intent intent = context.getIntent();
 		amount = intent.getStringExtra("price");
 		roleId = intent.getStringExtra("roleId");

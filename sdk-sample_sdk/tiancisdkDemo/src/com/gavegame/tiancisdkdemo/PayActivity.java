@@ -36,7 +36,7 @@ public class PayActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay);
 
-		api = WXAPIFactory.createWXAPI(this, appId);
+		api = WXAPIFactory.createWXAPI(this, null);
 
 		Button appayBtn = (Button) findViewById(R.id.appay_btn);
 		appayBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class PayActivity extends Activity {
 								WxpayEntity entity = (WxpayEntity) responseMsg
 										.getBaseOrder();
 								TCLogUtils.e(TAG, entity.toString());
-								// api.registerApp(entity.appId);
+								 api.registerApp(entity.appId);
 								PayReq request = new PayReq();
 								request.appId = entity.appId;
 								request.partnerId = entity.partnerId;
