@@ -110,7 +110,7 @@ public class NetworkUtils {
 			} catch (Exception e) {
 				try {
 					WxpayEntity entity = new WxpayEntity();
-					entity.appId = pay_info.getString("appid");
+					entity.appId = pay_info.getString("appid").trim();
 					entity.nonceStr = pay_info.getString("noncestr");
 					entity.packageValue = pay_info.getString("package");
 					entity.partnerId = pay_info.getString("partnerid");

@@ -39,8 +39,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-public class TCPayActivity extends BaseActivity implements IPayView,
-		IWXAPIEventHandler {
+public class TCPayActivity extends BaseActivity implements IPayView {
 
 	private final String TAG = "TCPayActivity";
 	private String subject;
@@ -71,20 +70,20 @@ public class TCPayActivity extends BaseActivity implements IPayView,
 	private IWXAPI api;
 	private final String app_id = "wx7f69866f179fa23e";
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		api = WXAPIFactory.createWXAPI(this, app_id);
-		api.handleIntent(getIntent(), this);
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		setIntent(intent);
-		api.handleIntent(intent, this);
-	}
+	// @Override
+	// public void onCreate(Bundle savedInstanceState) {
+	// super.onCreate(savedInstanceState);
+	//
+	// api = WXAPIFactory.createWXAPI(this, app_id);
+	// api.handleIntent(getIntent(), this);
+	// }
+	//
+	// @Override
+	// protected void onNewIntent(Intent intent) {
+	// super.onNewIntent(intent);
+	// setIntent(intent);
+	// api.handleIntent(intent, this);
+	// }
 
 	/**
 	 * 退出支付弹窗
@@ -377,20 +376,20 @@ public class TCPayActivity extends BaseActivity implements IPayView,
 		TCLogUtils.e("支付结果确认中。。。");
 	}
 
-	@Override
-	public void onReq(BaseReq arg0) {
-
-	}
-
-	@Override
-	public void onResp(BaseResp resp) {
-
-		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
-
-		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			TCLogUtils.e(TAG, String.valueOf(resp.errCode));
-			// payView.payFailedAction();
-		}
-	}
+//	@Override
+//	public void onReq(BaseReq arg0) {
+//
+//	}
+//
+//	@Override
+//	public void onResp(BaseResp resp) {
+//
+//		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+//
+//		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+//			TCLogUtils.e(TAG, String.valueOf(resp.errCode));
+//			// payView.payFailedAction();
+//		}
+//	}
 
 }
