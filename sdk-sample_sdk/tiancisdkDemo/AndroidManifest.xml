@@ -100,8 +100,6 @@
             android:exported="true"
             android:launchMode="singleTop" >
         </activity>
-        <activity android:name="com.gavegame.tiancisdkdemo.PayActivity" >
-        </activity>
 
         <meta-data
             android:name="TIANCI_GAME_ID"

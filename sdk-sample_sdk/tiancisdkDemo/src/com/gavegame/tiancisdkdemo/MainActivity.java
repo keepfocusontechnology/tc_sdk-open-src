@@ -112,16 +112,6 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		findViewById(R.id.bt_download).setOnClickListener(
-				new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						startActivity(new Intent(MainActivity.this,
-								PayActivity.class));
-					}
-				});
-
 	}
 
 	/**
@@ -137,18 +127,16 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	private final String TAG = "MainActivity";
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		TCLogUtils.e(TAG, "requestCode:" + requestCode + "/nresultCode:"
+				+ resultCode);
 		if (data != null) {
-			int aliCode = data.getIntExtra("pay_resultcode", 0);
-			if (aliCode == 200) {
-				Toast.makeText(this, "alipay支付成功", 0).show();
-			} else if (aliCode == 300) {
-				Toast.makeText(this, "alipay支付中", 0).show();
-			} else if (aliCode == 400) {
-				Toast.makeText(this, "alipay支付失败", 0).show();
-			}
+			TCLogUtils.e(TAG, "intent:" + data);
+
 		}
 
 		if (resultCode == Config.REQUEST_STATUS_CODE_SUC) {

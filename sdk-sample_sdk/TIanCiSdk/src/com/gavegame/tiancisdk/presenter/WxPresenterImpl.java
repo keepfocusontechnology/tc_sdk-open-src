@@ -12,6 +12,7 @@ import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.network.bean.WxpayEntity;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.view.IPayView;
+import com.tencent.mm.sdk.constants.Build;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -26,7 +27,7 @@ public class WxPresenterImpl implements IPayPresenter {
 	private final String TAG = "WxPresenterImpl";
 
 	private Activity context;
-//	private IPayView payView;
+	// private IPayView payView;
 	private IWXAPI msgApi;
 
 	private String cp_orderId;
@@ -36,7 +37,7 @@ public class WxPresenterImpl implements IPayPresenter {
 
 	public WxPresenterImpl(BaseActivity activity) {
 		this.context = activity;
-//		this.payView = (IPayView) activity;
+		// this.payView = (IPayView) activity;
 		Intent intent = context.getIntent();
 		amount = intent.getStringExtra("price");
 		roleId = intent.getStringExtra("roleId");
@@ -59,17 +60,20 @@ public class WxPresenterImpl implements IPayPresenter {
 								.getBaseOrder();
 						TCLogUtils.e(TAG, entity.toString());
 						msgApi = WXAPIFactory.createWXAPI(context, null);
-						msgApi.registerApp(entity.appId);
-
-						PayReq request = new PayReq();
-						request.appId = entity.appId;
-						request.partnerId = entity.partnerId;
-						request.prepayId = entity.prepayId;
-						request.packageValue = entity.packageValue;
-						request.nonceStr = entity.nonceStr;
-						request.timeStamp = entity.timeStamp;
-						request.sign = entity.sign;
-						msgApi.sendReq(request);
+						
+						boolean isPaySupported = msgApi.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+						if (isPaySupported) {
+							PayReq request = new PayReq();
+							request.appId = entity.appId;
+							msgApi.registerApp(entity.appId);
+							request.partnerId = entity.partnerId;
+							request.prepayId = entity.prepayId;
+							request.packageValue = entity.packageValue;
+							request.nonceStr = entity.nonceStr;
+							request.timeStamp = entity.timeStamp;
+							request.sign = entity.sign;
+							msgApi.sendReq(request);
+						}
 					}
 
 					@Override

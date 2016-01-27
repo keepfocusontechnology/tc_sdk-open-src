@@ -79,7 +79,6 @@ public class TCLoginActivity extends BaseActivity implements
 								"游客自动登陆成功");
 						data.putExtra("tcsso", TianCi.getInstance().getTcsso());
 						setResult(Config.REQUEST_STATUS_CODE_SUC, data);
-						finish();
 					}
 
 					@Override
@@ -87,7 +86,6 @@ public class TCLoginActivity extends BaseActivity implements
 						TCLogUtils.toastShort(getApplicationContext(), msg);
 						data.putExtra("result", msg);
 						setResult(Config.REQUEST_STATUS_CODE_FAILURE, data);
-						finish();
 					}
 				});
 			} else if (loginModel.equals("account")) {
@@ -348,6 +346,7 @@ public class TCLoginActivity extends BaseActivity implements
 		if (TextUtils.isEmpty(userAction)) {
 			if (!isFristLogin()) {
 				mainView.setVisibility(View.GONE);
+				finish();
 			} else {
 				switchFragment(0, null);
 			}

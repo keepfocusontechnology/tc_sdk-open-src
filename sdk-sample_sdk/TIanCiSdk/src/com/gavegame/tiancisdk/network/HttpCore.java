@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Tianci on 15/9/15.
  */
-public class HttpUtil {
+public class HttpCore {
 
 	static final String TAG = "HttpUtil";
 	private static final String SERVLET_POST = "POST";
@@ -23,11 +23,11 @@ public class HttpUtil {
 	private static final String SERVLET_DELETE = "DELETE";
 	private static final String SERVLET_PUT = "PUT";
 	private static final int TIMEOUT = 10000;
+	private HttpURLConnection conn;
 
-	public static String doGet(String urlStr, Map<String, Object> paramMap)
+	public String doGet(String urlStr, Map<String, Object> paramMap)
 			throws Exception {
 		String result = "";
-		HttpURLConnection conn = null;
 		// try {
 		String paramStr = prepareParam(paramMap);
 		if (paramStr == null || paramStr.trim().length() < 1) {
@@ -60,10 +60,14 @@ public class HttpUtil {
 		return result;
 	}
 
-	public static String doPost(String urlStr, Map<String, Object> paramMap)
+	public void disConnect() {
+		if (conn != null)
+			conn.disconnect();
+	}
+
+	public String doPost(String urlStr, Map<String, Object> paramMap)
 			throws Exception {
 
-		HttpURLConnection conn = null;
 		// try {
 		URL url = new URL(urlStr);
 		conn = (HttpURLConnection) url.openConnection();
@@ -90,7 +94,7 @@ public class HttpUtil {
 		 */
 	}
 
-	public static String dealResponseResult(InputStream inputStream) {
+	public String dealResponseResult(InputStream inputStream) {
 		if (inputStream == null) {
 			return null;
 		}
@@ -108,7 +112,7 @@ public class HttpUtil {
 		return resultData;
 	}
 
-	private static String prepareParam(Map<String, Object> paramMap) {
+	private String prepareParam(Map<String, Object> paramMap) {
 		if (paramMap == null || paramMap.isEmpty()) {
 			return "";
 		} else {
@@ -125,10 +129,10 @@ public class HttpUtil {
 		}
 	}
 
-	public static void doPut(String urlStr, Map<String, Object> paramMap)
+	public void doPut(String urlStr, Map<String, Object> paramMap)
 			throws Exception {
 		URL url = new URL(urlStr);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod(SERVLET_PUT);
 		String paramStr = prepareParam(paramMap);
 		conn.setDoInput(true);
@@ -148,7 +152,7 @@ public class HttpUtil {
 
 	}
 
-	public static void doDelete(String urlStr, Map<String, Object> paramMap)
+	public void doDelete(String urlStr, Map<String, Object> paramMap)
 			throws Exception {
 		String paramStr = prepareParam(paramMap);
 		if (paramStr == null || paramStr.trim().length() < 1) {
@@ -157,7 +161,7 @@ public class HttpUtil {
 			urlStr += "?" + paramStr;
 		}
 		URL url = new URL(urlStr);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);
 		conn.setRequestMethod(SERVLET_DELETE);
 		// 屏蔽掉的代码是错误的，java.net.ProtocolException: HTTP method DELETE doesn't

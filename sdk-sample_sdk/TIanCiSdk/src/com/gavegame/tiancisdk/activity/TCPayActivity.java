@@ -67,23 +67,8 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 	private TextView tv_game_name;
 	private TextView tv_pay_amount;
 
-	private IWXAPI api;
+	// private IWXAPI api;
 	private final String app_id = "wx7f69866f179fa23e";
-
-	// @Override
-	// public void onCreate(Bundle savedInstanceState) {
-	// super.onCreate(savedInstanceState);
-	//
-	// api = WXAPIFactory.createWXAPI(this, app_id);
-	// api.handleIntent(getIntent(), this);
-	// }
-	//
-	// @Override
-	// protected void onNewIntent(Intent intent) {
-	// super.onNewIntent(intent);
-	// setIntent(intent);
-	// api.handleIntent(intent, this);
-	// }
 
 	/**
 	 * 退出支付弹窗
@@ -181,66 +166,9 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 					payPresenter = new YLPresenterImpl(TCPayActivity.this);
 					payPresenter.pay();
 
-					// TianCi.getInstance().getOrder(roleId, cp_orderId,
-					// serverId,
-					// price, payWay.getPayway(), new RequestCallBack() {
-					//
-					// @Override
-					// public void onSuccessed(ResponseMsg responseMsg) {
-					// // “00” – 银联正式环境
-					// // “01” – 银联测试环境，该环境中不发生真实交易
-					// String serverMode = "01";
-					// TCLogUtils.e(TAG,
-					// "tn = " + responseMsg.getRetMsg());
-					// UPPayAssistEx.startPay(TCPayActivity.this,
-					// null, null,
-					// responseMsg.getRetMsg(), serverMode);
-					// }
-					//
-					// @Override
-					// public void onFailure(String msg) {
-					// TCLogUtils.e(TAG, msg);
-					// }
-					// });
-
-					// TianCi.getInstance().testGetTn(new RequestCallBack() {
-					//
-					// @Override
-					// public void onSuccessed(ResponseMsg responseMsg) {
-					// TCLogUtils.e(TAG, responseMsg.toString());
-					// }
-					//
-					// @Override
-					// public void onFailure(String msg) {
-					// // “00” – 银联正式环境
-					// // “01” – 银联测试环境，该环境中不发生真实交易
-					// String serverMode = "01";
-					// UPPayAssistEx.startPay(TCPayActivity.this, null, null,
-					// msg, serverMode);
-					// }
-					// });
-
 				} else if (payWay == PayWay.wechat) {
-					// final IWXAPI msgApi = WXAPIFactory.createWXAPI(
-					// getApplicationContext(), null);
-					// // 将该app注册到微信
-					// msgApi.registerApp("wx7f69866f179fa23e");
-					//
-					// PayReq request = new PayReq();
-					// request.appId = "wxd930ea5d5a258f4f";
-					// request.partnerId = "1900000109";
-					// request.prepayId = "1101000000140415649af9fc314aa427";
-					// request.packageValue = "Sign=WXPay";
-					// request.nonceStr = "1101000000140429eb40476f8896f4c9";
-					// request.timeStamp = "1398746574";
-					// request.sign =
-					// "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
-					// msgApi.sendReq(request);
-					boolean isPaySupported = api.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
-					if (isPaySupported) {
-						payPresenter = new WxPresenterImpl(TCPayActivity.this);
-						payPresenter.pay();
-					}
+					payPresenter = new WxPresenterImpl(TCPayActivity.this);
+					payPresenter.pay();
 				}
 			}
 		});
@@ -336,60 +264,42 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 
 		String str = data.getExtras().getString("pay_result");
 		TCLogUtils.e(TAG, "银联返回的结果" + str);
-		// if (str.equalsIgnoreCase(R_SUCCESS)) {
-		// // 支付成功后，extra中如果存在result_data，取出校验
-		// // result_data结构见c）result_data参数说明
-		// if (data.hasExtra("result_data")) {
-		// String sign = data.getExtras().getString("result_data");
-		// // 验签证书同后台验签证书
-		// // 此处的verify，商户需送去商户后台做验签
-		// if (verify(sign)) {
-		// // 验证通过后，显示支付结果
-		// showResultDialog(" 支付成功！ ");
-		// } else {
-		// // 验证不通过后的处理
-		// // 建议通过商户后台查询支付结果
-		// }
-		// } else {
-		// // 未收到签名信息
-		// // 建议通过商户后台查询支付结果
-		// }
-		// } else if (str.equalsIgnoreCase(R_FAIL)) {
-		// showResultDialog(" 支付失败！ ");
-		// } else if (str.equalsIgnoreCase(R_CANCEL)) {
-		// showResultDialog(" 你已取消了本次订单的支付！ ");
-		// }
+		if (str.equalsIgnoreCase("success")) {
+			setResult(PAY_SUCCESSED);
+			finish();
+		} else if (str.equalsIgnoreCase("fail")) {
+			setResult(PAY_UNSUCCESSED);
+			finish();
+		} else if (str.equalsIgnoreCase("cancel")) {
+			setResult(PAY_CANCEL);
+			finish();
+		}
 	}
+
+	private final int PAY_SUCCESSED = 20000;
+	private final int PAY_UNSUCCESSED = 40000;
+	private final int PAY_CANCEL = 60000;
+	private final int PAY_WAITING = 80000;
 
 	@Override
 	public void paySuccessAction() {
 		TCLogUtils.e("...支付成功");
+		setResult(PAY_SUCCESSED);
+		finish();
 	}
 
 	@Override
 	public void payFailedAction() {
 		TCLogUtils.e("...支付失败");
+		setResult(PAY_UNSUCCESSED);
+		finish();
 	}
 
 	@Override
 	public void payWaitAction() {
 		TCLogUtils.e("支付结果确认中。。。");
+		setResult(PAY_WAITING);
+		finish();
 	}
-
-//	@Override
-//	public void onReq(BaseReq arg0) {
-//
-//	}
-//
-//	@Override
-//	public void onResp(BaseResp resp) {
-//
-//		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
-//
-//		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-//			TCLogUtils.e(TAG, String.valueOf(resp.errCode));
-//			// payView.payFailedAction();
-//		}
-//	}
 
 }

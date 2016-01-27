@@ -51,6 +51,8 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 	private String url;
 	private Dialog dialog;
 
+	private HttpCore core;
+
 	// private int channelId;
 	// private int gameId;
 	// private int deviceType;
@@ -78,11 +80,12 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 	protected ResponseMsg doInBackground(Void... params) {
 
 		String resultJson = null;
+		core = new HttpCore();
 		try {
 			if (method == Method.GET) {
-				resultJson = HttpUtil.doGet(url, paramsQuest);
+				resultJson = core.doGet(url, paramsQuest);
 			} else if (method == Method.POST) {
-				resultJson = HttpUtil.doPost(url, paramsQuest);
+				resultJson = core.doPost(url, paramsQuest);
 			} else if (method == Method.PUT) {
 				// HttpUtil.doPut(url, paramsQuest);
 			} else if (method == Method.DELETE) {
@@ -92,7 +95,7 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 			try {
 				responsMsg = NetworkUtils.getJsonObjcet(context, resultJson);
 			} catch (Exception e) {
-				TCLogUtils.e("返回的json数据解析出错!!"+e);
+				TCLogUtils.e("返回的json数据解析出错!!" + e);
 				responsMsg = new ResponseMsg();
 				responsMsg.setRetMsg(resultJson);
 			}
@@ -102,6 +105,13 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 			responsMsg.setRetMsg("网络访问错误");
 		}
 		return responsMsg;
+	}
+
+	@Override
+	protected void onCancelled(ResponseMsg result) {
+		super.onCancelled(result);
+		if (core != null)
+			core.disConnect();
 	}
 
 	// /**
@@ -182,17 +192,21 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 	protected void onPreExecute() {
 		super.onPreExecute();
 
-		if (context != null) {
-			dialog = DialogUtils.createLoadingDialog(context);
-			dialog.show();
-			dialog.setCancelable(false);
-			dialog.setOnCancelListener(new OnCancelListener() {
-
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					ApiSdkRequest.this.cancel(true);
-				}
-			});
+		if (dialog != null) {
+				dialog.show();
+		} else {
+			if (context != null) {
+				dialog = DialogUtils.createLoadingDialog(context);
+				dialog.show();
+				dialog.setCanceledOnTouchOutside(false);
+				// dialog.setOnCancelListener(new OnCancelListener() {
+				//
+				// @Override
+				// public void onCancel(DialogInterface dialog) {
+				// ApiSdkRequest.this.cancel(true);
+				// }
+				// });
+			}
 		}
 
 		// preParams();

@@ -26,6 +26,7 @@
         <item name="android:background">@color/transparent</item>
         <item name="android:windowBackground">@drawable/tcsdk_pay_bg</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
 
     <style name="tcsdk_title_text">
@@ -58,12 +59,12 @@
 
     <style name="MyDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>
-        背景透明        <item name="android:windowFrame">@null</item>
-        边框        <item name="android:windowNoTitle">true</item>
-        无标题        <item name="android:windowIsFloating">true</item>
-        是否浮现在activity之上        <item name="android:windowIsTranslucent">true</item>
-        半透明        <item name="android:windowContentOverlay">@null</item>
-        内容覆盖        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        背景透明                <item name="android:windowFrame">@null</item>
+        边框                <item name="android:windowNoTitle">true</item>
+        无标题                <item name="android:windowIsFloating">true</item>
+        是否浮现在activity之上                <item name="android:windowIsTranslucent">true</item>
+        半透明                <item name="android:windowContentOverlay">@null</item>
+        内容覆盖                <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
 
 </resources>
