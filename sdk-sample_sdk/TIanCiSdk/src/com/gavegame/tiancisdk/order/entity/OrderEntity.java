@@ -53,6 +53,10 @@ public class OrderEntity extends BaseOrder {
 	public void setPayway(PayWay payway) {
 		this.payway = payway;
 	}
+	
+	public void setPayway(String payway){
+		this.payway = PayWay.valueOf(payway);
+	}
 
 	public boolean isSuccessed() {
 		return isSuccessed;

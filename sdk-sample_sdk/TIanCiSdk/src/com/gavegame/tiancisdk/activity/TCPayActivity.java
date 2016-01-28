@@ -194,9 +194,10 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 											intent.putExtra("order_list",
 													(Serializable) list);
 											startActivity(intent);
+										}else{
+											Toast.makeText(getApplicationContext(),
+													"此账号没有订单信息", 0).show();
 										}
-										Toast.makeText(getApplicationContext(),
-												"此账号没有订单信息", 0).show();
 									}
 
 									@Override

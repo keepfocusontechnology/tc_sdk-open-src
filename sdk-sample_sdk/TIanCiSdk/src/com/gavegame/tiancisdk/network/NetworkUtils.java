@@ -143,7 +143,7 @@ public class NetworkUtils {
 					entity.setOrder_amount(order.getString("amount"));
 					entity.setOrder_time(order.getString("create_time"));
 					entity.orderId = order.getString("id");
-					entity.setPayway(PayWay.alipay);
+					entity.setPayway(order.getString("pay_type"));
 					entity.setSuccessed(true);
 					list.add(entity);
 				}
