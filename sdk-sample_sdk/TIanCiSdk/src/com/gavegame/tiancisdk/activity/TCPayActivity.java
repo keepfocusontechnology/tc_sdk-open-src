@@ -270,10 +270,10 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 			finish();
 		} else if (str.equalsIgnoreCase("fail")) {
 			setResult(PAY_UNSUCCESSED);
-			finish();
+//			finish();
 		} else if (str.equalsIgnoreCase("cancel")) {
 			setResult(PAY_CANCEL);
-			finish();
+//			finish();
 		}
 	}
 
@@ -293,14 +293,14 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 	public void payFailedAction() {
 		TCLogUtils.e("...支付失败");
 		setResult(PAY_UNSUCCESSED);
-		finish();
+//		finish();
 	}
 
 	@Override
 	public void payWaitAction() {
 		TCLogUtils.e("支付结果确认中。。。");
 		setResult(PAY_WAITING);
-		finish();
+//		finish();
 	}
 
 }

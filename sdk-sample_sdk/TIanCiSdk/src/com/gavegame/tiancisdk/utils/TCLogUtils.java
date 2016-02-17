@@ -61,7 +61,7 @@ public class TCLogUtils {
 	}
 
 	public static void showToast(Context context, String msg) {
-		if (isDebug)
+//		if (isDebug)
 			Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
 	}
 

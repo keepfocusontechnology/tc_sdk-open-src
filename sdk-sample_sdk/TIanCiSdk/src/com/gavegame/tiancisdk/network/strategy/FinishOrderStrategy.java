@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 
 public class FinishOrderStrategy implements IParamsStrategy {
@@ -39,5 +40,11 @@ public class FinishOrderStrategy implements IParamsStrategy {
 		paramsQuest.put("serverid", params[2]);
 		paramsQuest.put("amount", Double.valueOf(params[3]));
 		return paramsQuest;
+	}
+
+	@Override
+	public ResponseMsg resolveJson(String json) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

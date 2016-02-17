@@ -197,6 +197,7 @@ public class AliPresenterImpl implements IPayPresenter {
 
 					@Override
 					public void onFailure(String msg) {
+						TCLogUtils.showToast(context, msg);
 						payView.payFailedAction();
 					}
 				});

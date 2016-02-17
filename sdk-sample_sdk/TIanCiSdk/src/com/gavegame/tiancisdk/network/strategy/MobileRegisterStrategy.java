@@ -2,12 +2,19 @@ package com.gavegame.tiancisdk.network.strategy;
 
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
 import android.content.Context;
 
+import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class MobileRegisterStrategy implements IParamsStrategy {
+
+	private final String TAG = "MobileRegisterStrategy";
 
 	public MobileRegisterStrategy(Context context, String mobile,
 			String user_pass, String code) {
@@ -46,5 +53,19 @@ public class MobileRegisterStrategy implements IParamsStrategy {
 		paramsQuest.put("user_pass", user_pass);
 		paramsQuest.put("code", code);
 		return paramsQuest;
+	}
+
+	@Override
+	public ResponseMsg resolveJson(String json) throws Exception {
+		TCLogUtils.e(TAG, json);
+		ResponseMsg responsMsg = new ResponseMsg();
+		JSONObject jsonObject = new JSONObject(json);
+
+		responsMsg.setRetCode(jsonObject.getInt("retcode"));
+		responsMsg.setRetMsg(jsonObject.getString("retmsg"));
+		responsMsg.setTcsso(jsonObject.getString("tcsso"));
+		SharedPreferencesUtils.setParam(context, Config.USER_TCSSO,
+				jsonObject.getString(Config.USER_TCSSO));
+		return responsMsg;
 	}
 }

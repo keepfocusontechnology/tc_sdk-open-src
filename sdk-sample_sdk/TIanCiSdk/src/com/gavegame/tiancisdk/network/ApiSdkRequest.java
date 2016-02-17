@@ -3,15 +3,18 @@ package com.gavegame.tiancisdk.network;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.network.bean.ResponseBean;
 import com.gavegame.tiancisdk.network.bean.ResponseMsg;
+import com.gavegame.tiancisdk.network.strategy.IParamsStrategy;
 import com.gavegame.tiancisdk.utils.DialogUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 
@@ -40,6 +43,8 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 
 	private HttpCore core;
 
+	private IParamsStrategy strategy;
+
 	// private int channelId;
 	// private int gameId;
 	// private int deviceType;
@@ -59,7 +64,8 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 		this.method = responseBean.getMethod();
 		this.context = mContextRef.get();
 		if (null != responseBean.getStrategy()) {
-			this.paramsQuest = responseBean.getStrategy().getParamsQuest();
+			this.strategy = responseBean.getStrategy();
+			this.paramsQuest = strategy.getParamsQuest();
 		}
 	}
 
@@ -80,11 +86,18 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 			}
 
 			try {
-				responsMsg = NetworkUtils.getJsonObjcet(context, resultJson);
+				responsMsg = strategy.resolveJson(resultJson);
+				// responsMsg = NetworkUtils.getJsonObjcet(context, resultJson);
 			} catch (Exception e) {
 				TCLogUtils.e("返回的json数据解析出错!!" + e);
 				responsMsg = new ResponseMsg();
-				responsMsg.setRetMsg(resultJson);
+				JSONObject json = new JSONObject(resultJson);
+				String retmsg = json.getString("retmsg");
+				if (!TextUtils.isEmpty(retmsg)) {
+					responsMsg.setRetMsg(retmsg);
+				} else {
+					responsMsg.setRetMsg(resultJson);
+				}
 			}
 		} catch (Exception e) {
 			TCLogUtils.e(e.toString());
@@ -101,7 +114,6 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 			core.disConnect();
 	}
 
-	
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();

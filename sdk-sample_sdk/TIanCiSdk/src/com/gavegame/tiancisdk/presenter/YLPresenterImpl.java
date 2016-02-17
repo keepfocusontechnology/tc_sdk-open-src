@@ -2,6 +2,7 @@ package com.gavegame.tiancisdk.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.activity.BaseActivity;
@@ -12,10 +13,14 @@ import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
 import com.gavegame.tiancisdk.view.IPayView;
 import com.unionpay.UPPayAssistEx;
+import com.unionpay.uppay.PayActivity;
 
 public class YLPresenterImpl implements IPayPresenter {
 
 	private final String TAG = "YLPresenterImpl";
+
+	private final String OFFICIALSERVERMODE = "00";
+	private final String TESTSERVERMODE = "01";
 
 	private IPayView payView;
 
@@ -40,9 +45,10 @@ public class YLPresenterImpl implements IPayPresenter {
 
 	}
 
+	String tn;
+
 	@Override
 	public void pay() {
-
 		TianCi.getInstance().getOrder(roleId, cp_orderId, serverId, amount,
 				PayWay.yinlian.getPayway(), new RequestCallBack() {
 
@@ -50,10 +56,17 @@ public class YLPresenterImpl implements IPayPresenter {
 					public void onSuccessed(ResponseMsg responseMsg) {
 						// “00” – 银联正式环境
 						// “01” – 银联测试环境，该环境中不发生真实交易
-						String serverMode = "00";
+						tn = responseMsg.getRetMsg();
 						TCLogUtils.e(TAG, "tn = " + responseMsg.getRetMsg());
-						UPPayAssistEx.startPay(context, null, null,
-								responseMsg.getRetMsg(), serverMode);
+						// try {
+						// UPPayAssistEx.startPay(context, null, null,
+						// responseMsg.getRetMsg(), serverMode);
+						// } catch (Throwable e) {
+						// e.printStackTrace();
+						// TCLogUtils.e(TAG, e.getMessage());
+						// TCLogUtils.e(TAG, e.getLocalizedMessage());
+						// }
+						UPPayAssistEx.startPay(context, null, null, tn, OFFICIALSERVERMODE);
 					}
 
 					@Override
@@ -61,6 +74,8 @@ public class YLPresenterImpl implements IPayPresenter {
 						TCLogUtils.e(TAG, msg);
 					}
 				});
+
+
 
 		// TianCi.getInstance().testGetTn(new RequestCallBack() {
 		//

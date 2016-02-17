@@ -200,7 +200,7 @@ public class TianCi {
 	}
 
 	/**
-	 * 获取订单（支付宝）
+	 * 获取订单
 	 * 
 	 * @param roleId
 	 * @param orderId

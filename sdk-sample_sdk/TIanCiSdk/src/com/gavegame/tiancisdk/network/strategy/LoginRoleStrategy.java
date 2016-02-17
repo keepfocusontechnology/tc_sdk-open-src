@@ -2,13 +2,19 @@ package com.gavegame.tiancisdk.network.strategy;
 
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
 import android.content.Context;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.Platform;
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class LoginRoleStrategy implements IParamsStrategy {
+	
+	private final String TAG = "LoginRoleStrategy";
 
 	public LoginRoleStrategy(Context context, String cp_role, String serverid) {
 		super();
@@ -40,5 +46,17 @@ public class LoginRoleStrategy implements IParamsStrategy {
 		paramsQuest.put("cp_role", Integer.valueOf(cp_role));
 		paramsQuest.put("serverid", Integer.valueOf(serverid));
 		return paramsQuest;
+	}
+
+	@Override
+	public ResponseMsg resolveJson(String json) throws Exception {
+		TCLogUtils.e(TAG, json);
+		ResponseMsg responsMsg = new ResponseMsg();
+		JSONObject jsonObject = new JSONObject(json);
+
+		responsMsg.setRetCode(jsonObject.getInt("retcode"));
+		responsMsg.setRetMsg(jsonObject.getString("retmsg"));
+
+		return responsMsg;
 	}
 }

@@ -2,10 +2,16 @@ package com.gavegame.tiancisdk.network.strategy;
 
 import java.util.HashMap;
 
+import org.json.JSONObject;
+
+import com.gavegame.tiancisdk.network.bean.ResponseMsg;
+import com.gavegame.tiancisdk.utils.TCLogUtils;
+
 import android.text.TextUtils;
 
 public class UserBindStrategy implements IParamsStrategy {
 
+	private final String TAG = "UserBindStrategy";
 	public String tcsso;
 	public String[] params;
 
@@ -25,5 +31,17 @@ public class UserBindStrategy implements IParamsStrategy {
 		}
 		paramsQuest.put("tcsso", tcsso);
 		return paramsQuest;
+	}
+
+	@Override
+	public ResponseMsg resolveJson(String json) throws Exception {
+		TCLogUtils.e(TAG, json);
+		ResponseMsg responsMsg = new ResponseMsg();
+		JSONObject jsonObject = new JSONObject(json);
+
+		responsMsg.setRetCode(jsonObject.getInt("retcode"));
+		responsMsg.setRetMsg(jsonObject.getString("retmsg"));
+
+		return responsMsg;
 	}
 }
