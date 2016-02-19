@@ -141,7 +141,7 @@ public class TCLoginActivity extends BaseActivity implements
 	}
 
 	private void switchFragment(int fragmentID, Bundle bundle) {
-		switchFragment(fragmentID, bundle, false);
+		switchFragment(fragmentID, bundle, true);
 	}
 
 	private String titleStr;
@@ -204,24 +204,27 @@ public class TCLoginActivity extends BaseActivity implements
 		if (bundle != null) {
 			contentFragment.initData(bundle);
 		}
-		if (isHaveAnimation) {
+//		if (isHaveAnimation) {
 			showFragment(fragmentID, contentFragment, isHaveAnimation);
-		} else {
-			showFragment(fragmentID, contentFragment);
-		}
+//		} else {
+//			showFragment(fragmentID, contentFragment);
+//		}
 
 	}
 
-	private void showFragment(int fragmentID, TCBaseFragment fragment) {
-		showFragment(fragmentID, fragment, false);
-	}
+//	private void showFragment(int fragmentID, TCBaseFragment fragment) {
+//		showFragment(fragmentID, fragment, false);
+//	}
 
 	private void showFragment(int fragmentID, TCBaseFragment fragment,
 			boolean isHaveAnimation) {
 		transaction = manager.beginTransaction();
-		if (isHaveAnimation) {
-			transaction.setCustomAnimations(R.anim.left_silde,
-					R.anim.right_silde);
+			if (isHaveAnimation) {
+				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+			
+//			transaction.setCustomAnimations(R.anim.left_silde,
+//					R.anim.right_silde);
 		}
 		transaction.replace(R.id.fl_content, fragment, tag);
 		if (!tag.equals("QuckilyLoginFragment")) {
@@ -240,7 +243,7 @@ public class TCLoginActivity extends BaseActivity implements
 
 	@Override
 	public void jumpNextPage(int targetFragmentID) {
-		switchFragment(targetFragmentID, null, false);
+		switchFragment(targetFragmentID, null, true);
 	}
 
 	@Override
@@ -319,7 +322,7 @@ public class TCLoginActivity extends BaseActivity implements
 		// 首先弹出栈中所有fragment
 		// manager.popBackStackImmediate(null, 1);
 		// titleStack.clear();
-		switchFragment(fragmentID, bundle, false);
+		switchFragment(fragmentID, bundle, true);
 	}
 
 	@Override
