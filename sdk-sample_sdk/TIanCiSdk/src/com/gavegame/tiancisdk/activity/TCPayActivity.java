@@ -106,8 +106,10 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 		tv_pay_amount = (TextView) findViewById(R.id.tv_pay_amount);
 		pay_alipay = (ImageRadiobutton) findViewById(R.id.pay_alipay);
 		pay_wechat = (ImageRadiobutton) findViewById(R.id.pay_wechat);
+		pay_wechat.setVisibility(View.GONE);
 		pay_bank = (ImageRadiobutton) findViewById(R.id.pay_bank);
 		pay_cht = (ImageRadiobutton) findViewById(R.id.pay_cht);
+		pay_cht.setVisibility(View.GONE);
 		ImageView iv_back = (ImageView) findViewById(R.id.iv_pay_back);
 		// 返回键
 		iv_back.setOnClickListener(new OnClickListener() {
