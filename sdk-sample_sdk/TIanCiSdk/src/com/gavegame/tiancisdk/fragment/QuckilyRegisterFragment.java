@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
@@ -91,14 +92,15 @@ public class QuckilyRegisterFragment extends TCBaseFragment {
 
 									@Override
 									public void onFailure(String msg) {
-										TCLogUtils.toastShort(getActivity(),
-												msg);
-										Intent data = new Intent();
-										data.putExtra("result", msg);
-										getActivity()
-												.setResult(
-														Config.REQUEST_STATUS_CODE_FAILURE,
-														data);
+										Toast.makeText(getActivity().getApplicationContext(), msg, 0).show();
+//										TCLogUtils.toastShort(getActivity(),
+//												msg);
+//										Intent data = new Intent();
+//										data.putExtra("result", msg);
+//										getActivity()
+//												.setResult(
+//														Config.REQUEST_STATUS_CODE_FAILURE,
+//														data);
 //										getActivity().finish();
 									}
 								});
@@ -128,12 +130,12 @@ public class QuckilyRegisterFragment extends TCBaseFragment {
 	// 检测用户名，密码是否合法
 	private boolean dataCheck(String... params) {
 		if (TextUtils.isEmpty(params[0]) || TextUtils.isEmpty(params[1])) {
-			TCLogUtils.toastShort(getActivity(), "不能为空");
+			Toast.makeText(getActivity().getApplicationContext(), "用户名或密码不能为空", 0).show();
 			return false;
 		}
 
 		if (NormalUtils.isAllNum(params[0])) {
-			TCLogUtils.toastShort(getActivity(), "用户名不能为纯数字");
+			Toast.makeText(getActivity().getApplicationContext(), "用户名不能为纯数字", 0).show();
 			return false;
 		}
 		return true;

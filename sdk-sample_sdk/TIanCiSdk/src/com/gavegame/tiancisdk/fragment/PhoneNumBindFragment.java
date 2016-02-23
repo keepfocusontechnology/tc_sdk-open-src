@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
@@ -70,7 +71,8 @@ public class PhoneNumBindFragment extends TCBaseFragment {
 
 							@Override
 							public void onFailure(String msg) {
-								TCLogUtils.toastShort(getActivity(), msg);
+//								TCLogUtils.toastShort(getActivity(), msg);
+								Toast.makeText(getActivity().getApplicationContext(), msg, 0).show();
 							}
 						});
 			}

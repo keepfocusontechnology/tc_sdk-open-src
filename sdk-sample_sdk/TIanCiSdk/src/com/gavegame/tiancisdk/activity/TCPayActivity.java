@@ -81,6 +81,7 @@ public class TCPayActivity extends BaseActivity implements IPayView {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						setResult(PAY_CANCEL);
 						finish();
 					}
 				})

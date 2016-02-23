@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
@@ -74,7 +75,9 @@ public class MobileBindFragment extends TCBaseFragment {
 							@Override
 							public void onFailure(String msg) {
 								// 绑定不成功，留在此页面
-								TCLogUtils.toastShort(getActivity(), msg);
+								Toast.makeText(
+										getActivity().getApplicationContext(),
+										msg, 0).show();
 
 							}
 						});
@@ -98,7 +101,10 @@ public class MobileBindFragment extends TCBaseFragment {
 
 								@Override
 								public void onFailure(String msg) {
-									TCLogUtils.toastShort(getActivity(), msg);
+									Toast.makeText(
+											getActivity()
+													.getApplicationContext(),
+											msg, 0).show();
 								}
 							});
 					timer.start();

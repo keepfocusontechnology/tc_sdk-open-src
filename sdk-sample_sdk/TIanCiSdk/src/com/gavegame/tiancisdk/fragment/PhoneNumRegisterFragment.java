@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
@@ -65,15 +66,16 @@ public class PhoneNumRegisterFragment extends TCBaseFragment {
 
 										@Override
 										public void onFailure(String msg) {
-											TCLogUtils.toastShort(
-													getActivity(), msg);
-
-											Intent data = new Intent();
-											data.putExtra("result", msg);
-											getActivity()
-													.setResult(
-															Config.REQUEST_STATUS_CODE_FAILURE,
-															data);
+											Toast.makeText(getActivity().getApplicationContext(), msg, 0).show();
+//											TCLogUtils.toastShort(
+//													getActivity(), msg);
+//
+//											Intent data = new Intent();
+//											data.putExtra("result", msg);
+//											getActivity()
+//													.setResult(
+//															Config.REQUEST_STATUS_CODE_FAILURE,
+//															data);
 //											getActivity().finish();
 										}
 									});

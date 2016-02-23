@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
@@ -205,23 +206,14 @@ public class QuckilyLoginFragment extends TCBaseFragment {
 
 							@Override
 							public void onFailure(String msg) {
-								TCLogUtils.toastShort(getActivity(), msg);
-
-								Intent data = new Intent();
-								data.putExtra("result", msg);
-								getActivity().setResult(
-										Config.REQUEST_STATUS_CODE_FAILURE,
-										data);
+								Toast.makeText(getActivity().getApplicationContext(), msg, 0).show();
+//								TCLogUtils.toastShort(getActivity(), msg);
+//								Intent data = new Intent();
+//								data.putExtra("result", msg);
+//								getActivity().setResult(
+//										Config.REQUEST_STATUS_CODE_FAILURE,
+//										data);
 								// getActivity().finish();
-								// TCLogUtils.showToast(getActivity(),
-								// msg.getRetMsg());
-								// Intent data = new Intent();
-								// data.putExtra("result", msg.getRetMsg());
-								// getActivity().setResult(
-								// Config.REQUEST_STATUS_CODE_FAILURE, data);
-								// getActivity().finish();
-								// TCSdkToast.show(msg.getRetMsg(),
-								// getActivity());
 							}
 						});
 			}

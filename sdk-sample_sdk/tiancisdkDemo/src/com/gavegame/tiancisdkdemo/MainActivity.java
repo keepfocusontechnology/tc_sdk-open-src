@@ -35,9 +35,6 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class MainActivity extends Activity {
 
-	private Context context;
-
-	private static final int PAY_RESULT = 2233;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +48,6 @@ public class MainActivity extends Activity {
 			TianCiSDK.setScreenIsPortrait(false);
 		}
 		setContentView(R.layout.activity_main);
-		context = getApplicationContext();
 		findViewById(R.id.jump_login_page).setOnClickListener(
 				new OnClickListener() {
 					@Override
@@ -78,14 +74,15 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(MainActivity.this,
 						TCPayActivity.class);
+				// 全部参数均为String
 				intent.putExtra("subject", "支付宝测试名称");
 				intent.putExtra("body", "测试：描述信息");
 				intent.putExtra("price", "0.01");
 				intent.putExtra("roleId", "123");
 				intent.putExtra("serverId", "152001");
-				// orderId 请传入String
-				intent.putExtra("cp_orderId", new Random().nextInt(10000) + 1
-						+ "");
+				//此处请填入cp自己的订单号
+				String order_id = new Random().nextInt(10000) + 1 + "";
+				intent.putExtra("cp_orderId", order_id);
 				startActivityForResult(intent, 0);
 			}
 		});
@@ -94,19 +91,24 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				// 第一个参数是角色id 第二个参数是角色所在服务器id
 				TianCi.getInstance().roleAutoLogin("123", "123",
 						new RequestCallBack() {
 
 							@Override
 							public void onSuccessed(ResponseMsg responseMsg) {
-								TCLogUtils.showToast(getApplicationContext(),
-										"角色登陆成功");
+								Toast.makeText(getApplicationContext(),
+										"角色登录成功", 0).show();
+								// TCLogUtils.showToast(getApplicationContext(),
+								// "角色登陆成功");
 							}
 
 							@Override
 							public void onFailure(String msg) {
-								TCLogUtils.showToast(getApplicationContext(),
-										msg);
+								Toast.makeText(getApplicationContext(), msg, 0)
+										.show();
+								// TCLogUtils.showToast(getApplicationContext(),
+								// msg);
 							}
 						});
 			}
@@ -114,31 +116,18 @@ public class MainActivity extends Activity {
 
 	}
 
-	/**
-	 * @param context
-	 *            used to check the device version and DownloadManager
-	 *            information
-	 * @return true if the download manager is available
-	 */
-	private boolean isDownloadManagerAvailable(Context context) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-			return false;
-		}
-		return true;
-	}
-
 	private final String TAG = "MainActivity";
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		TCLogUtils.e(TAG, "requestCode:" + requestCode + "/nresultCode:"
-				+ resultCode);
-		if (data != null) {
-			TCLogUtils.e(TAG, "intent:" + data);
-
-		}
-
+		// TCLogUtils.e(TAG, "requestCode:" + requestCode + "/nresultCode:"
+		// + resultCode);
+		// if (data != null) {
+		// TCLogUtils.e(TAG, "intent:" + data);
+		//
+		// }
+		//
 		if (resultCode == Config.REQUEST_STATUS_CODE_SUC) {
 			String tcsso = data.getStringExtra("tcsso");
 			Toast.makeText(this, tcsso, 0).show();
@@ -150,6 +139,13 @@ public class MainActivity extends Activity {
 			Toast.makeText(this,
 					data.getExtras().getSerializable("result").toString(), 0)
 					.show();
+		} else if (resultCode == 20000) {
+			// 支付成功
+		} else if (resultCode == 40000) {
+			// 支付失败
+
+		} else if (resultCode == 60000) {
+			// 支付取消
 		}
 	}
 

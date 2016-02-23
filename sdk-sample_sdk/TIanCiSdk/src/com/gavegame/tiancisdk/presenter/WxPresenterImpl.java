@@ -2,7 +2,6 @@ package com.gavegame.tiancisdk.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
 import com.gavegame.tiancisdk.TianCi;
 import com.gavegame.tiancisdk.activity.BaseActivity;
@@ -11,16 +10,10 @@ import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.bean.ResponseMsg;
 import com.gavegame.tiancisdk.network.bean.WxpayEntity;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
-import com.gavegame.tiancisdk.view.IPayView;
 import com.tencent.mm.sdk.constants.Build;
-import com.tencent.mm.sdk.constants.ConstantsAPI;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
-import com.unionpay.UPPayAssistEx;
 
 public class WxPresenterImpl implements IPayPresenter {
 
