@@ -45,13 +45,11 @@ public class TianCi {
 	private IParamsStrategy strategy;
 
 	public static void init(Activity context) {
-		if (mContext != context) {
-			mTianCi = null;
-		}
+		mContext = context;
 		if (mTianCi == null) {
 			synchronized (TianCiSDK.class) {
 				if (mTianCi == null) {
-					mTianCi = new TianCi(context);
+					mTianCi = new TianCi(mContext);
 				}
 			}
 		}
@@ -59,10 +57,25 @@ public class TianCi {
 
 	public static TianCi getInstance() {
 		if (mTianCi == null) {
-			throw new IllegalStateException("The TianCiSDK is not initialize!");
+			synchronized (TianCiSDK.class) {
+				if (mTianCi == null) {
+					mTianCi = new TianCi(mContext);
+				}
+			}
 		}
 		return mTianCi;
 	}
+
+//	public static TianCi getInstance(Activity context) {
+//		if (mContext != context)
+//			mTianCi = null;
+//		synchronized (TianCiSDK.class) {
+//			if (mTianCi == null) {
+//				mTianCi = new TianCi(context);
+//			}
+//		}
+//		return mTianCi;
+//	}
 
 	private TianCi(Activity context) {
 		this.mContext = context;

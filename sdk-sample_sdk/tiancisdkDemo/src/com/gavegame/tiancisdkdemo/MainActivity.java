@@ -1,25 +1,11 @@
 package com.gavegame.tiancisdkdemo;
 
-import java.io.File;
-import java.util.List;
 import java.util.Random;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
@@ -31,10 +17,10 @@ import com.gavegame.tiancisdk.activity.TCLoginActivity;
 import com.gavegame.tiancisdk.activity.TCPayActivity;
 import com.gavegame.tiancisdk.network.RequestCallBack;
 import com.gavegame.tiancisdk.network.bean.ResponseMsg;
-import com.gavegame.tiancisdk.utils.TCLogUtils;
 
 public class MainActivity extends Activity {
 
+	private final String TAG = "MainActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +34,7 @@ public class MainActivity extends Activity {
 			TianCiSDK.setScreenIsPortrait(false);
 		}
 		setContentView(R.layout.activity_main);
+		//登陆界面,登陆成功后会自动登陆
 		findViewById(R.id.jump_login_page).setOnClickListener(
 				new OnClickListener() {
 					@Override
@@ -56,6 +43,7 @@ public class MainActivity extends Activity {
 								TCLoginActivity.class), 0);
 					}
 				});
+		//切换用户
 		findViewById(R.id.switch_account).setOnClickListener(
 				new OnClickListener() {
 
@@ -67,7 +55,7 @@ public class MainActivity extends Activity {
 						startActivityForResult(intent, 0);
 					}
 				});
-
+		//进入支付界面 
 		findViewById(R.id.pay).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -86,12 +74,14 @@ public class MainActivity extends Activity {
 				startActivityForResult(intent, 0);
 			}
 		});
-
+		
+		//账户登陆后，登陆用户的角色
 		findViewById(R.id.login_role).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// 第一个参数是角色id 第二个参数是角色所在服务器id
+				TianCi.init(MainActivity.this);
 				TianCi.getInstance().roleAutoLogin("123", "123",
 						new RequestCallBack() {
 
@@ -113,10 +103,24 @@ public class MainActivity extends Activity {
 						});
 			}
 		});
-
+		//获取用户唯一标识，成功登陆后才有
+		findViewById(R.id.get_user_token).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String user_token ;
+				TianCi.init(MainActivity.this);
+				user_token = TianCi.getInstance().getTcsso();
+				Toast.makeText(getApplicationContext(), "用户唯一标识为："+user_token, 0).show();
+			}
+		});
 	}
-
-	private final String TAG = "MainActivity";
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -135,10 +139,10 @@ public class MainActivity extends Activity {
 			Toast.makeText(this,
 					data.getExtras().getSerializable("result").toString(), 0)
 					.show();
-		} else if (resultCode == Config.BIND_SUC) {
-			Toast.makeText(this,
-					data.getExtras().getSerializable("result").toString(), 0)
-					.show();
+//		} else if (resultCode == Config.BIND_SUC) {
+//			Toast.makeText(this,
+//					data.getExtras().getSerializable("result").toString(), 0)
+//					.show();
 		} else if (resultCode == 20000) {
 			// 支付成功
 		} else if (resultCode == 40000) {
@@ -147,11 +151,5 @@ public class MainActivity extends Activity {
 		} else if (resultCode == 60000) {
 			// 支付取消
 		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		TianCi.init(this);
 	}
 }
