@@ -24,8 +24,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 
+import com.gavegame.tiancisdk.network.NetworkUtils;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
+import com.gavegame.tiancisdk.utils.UrlConfigManager;
 
 public class Platform {
 
@@ -58,6 +60,8 @@ public class Platform {
 
 	private void parserMetaData(Context context) {
 		try {
+			NetworkUtils.setServer(UrlConfigManager.findURL(context));
+
 			ApplicationInfo appInfo = context.getPackageManager()
 					.getApplicationInfo(context.getPackageName(),
 							PackageManager.GET_META_DATA);

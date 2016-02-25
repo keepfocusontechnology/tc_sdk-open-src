@@ -4,8 +4,7 @@ package com.gavegame.tiancisdk;
  * Created by Tianci on 15/9/15.
  */
 public interface Config {
-	String SERVER = "http://fz.gavegame.com";
-
+	
 	String REQUEST_PARAMS_REGISTER = "name_reg_post";
 	String REQUEST_PARAMS_LOGIN = "name_login_post";
 	String REQUEST_PARAMS_AUTOLOGIN = "login_auto";

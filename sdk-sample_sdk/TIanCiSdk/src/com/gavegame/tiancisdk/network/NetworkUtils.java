@@ -11,7 +11,6 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.gavegame.tiancisdk.Config;
-import com.gavegame.tiancisdk.enums.PayWay;
 import com.gavegame.tiancisdk.network.bean.AlipayEntity;
 import com.gavegame.tiancisdk.network.bean.BaseOrder;
 import com.gavegame.tiancisdk.network.bean.ResponseMsg;
@@ -23,21 +22,27 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 public class NetworkUtils {
 
 	private final static String TAG = "NetworkUtils";
+	public static String SERVER;
 
-	private static final String loginUrl = Config.SERVER
-			+ "/index.php?g=mobile&m=login&a=%s";
-	private static final String orderUri = Config.SERVER
-			+ "/index.php?g=mobile&m=order&a=%s";
+	private final static String loginUri = "/index.php?g=mobile&m=login&a=%s";
+	private final static String orderUri = "/index.php?g=mobile&m=order&a=%s";
 
 	public static String getUrl(String paramsUri) {
+		String loginUrl = SERVER + loginUri;
+		String orderUrl = SERVER + orderUri;
+
 		if (paramsUri.equals(Config.REQUEST_PARAMS_FINISH_ORDER)
 				|| paramsUri.equals(Config.REQUEST_PARAMS_CREATE_ORDER)
 				|| paramsUri.equals(Config.REQUEST_PARAMS_REQUEST_ORDER)
 				|| paramsUri.equals(Config.REQUEST_GET_ORDER_LIST)) {
-			return String.format(orderUri, paramsUri);
+			return String.format(orderUrl, paramsUri);
 		} else {
 			return String.format(loginUrl, paramsUri);
 		}
+	}
+
+	public static void setServer(String url) {
+		SERVER = url;
 	}
 
 	/**

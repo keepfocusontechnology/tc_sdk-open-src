@@ -28,6 +28,7 @@ import com.gavegame.tiancisdk.network.strategy.SetPswStrategy;
 import com.gavegame.tiancisdk.network.strategy.UserBindStrategy;
 import com.gavegame.tiancisdk.utils.SharedPreferencesUtils;
 import com.gavegame.tiancisdk.utils.TCLogUtils;
+import com.gavegame.tiancisdk.utils.UrlConfigManager;
 
 /**
  * Created by Tianci on 15/10/9.
@@ -57,25 +58,21 @@ public class TianCi {
 
 	public static TianCi getInstance() {
 		if (mTianCi == null) {
-			synchronized (TianCiSDK.class) {
-				if (mTianCi == null) {
-					mTianCi = new TianCi(mContext);
-				}
-			}
+			throw new IllegalStateException("TianCi is not initialize!");
 		}
 		return mTianCi;
 	}
 
-//	public static TianCi getInstance(Activity context) {
-//		if (mContext != context)
-//			mTianCi = null;
-//		synchronized (TianCiSDK.class) {
-//			if (mTianCi == null) {
-//				mTianCi = new TianCi(context);
-//			}
-//		}
-//		return mTianCi;
-//	}
+	// public static TianCi getInstance(Activity context) {
+	// if (mContext != context)
+	// mTianCi = null;
+	// synchronized (TianCiSDK.class) {
+	// if (mTianCi == null) {
+	// mTianCi = new TianCi(context);
+	// }
+	// }
+	// return mTianCi;
+	// }
 
 	private TianCi(Activity context) {
 		this.mContext = context;
@@ -165,6 +162,7 @@ public class TianCi {
 		apiSdkRequest = ApiSdkRequest.newApiSdkRequest(responseBean);
 		apiSdkRequest.execute();
 	}
+
 
 	/**
 	 * 创建订单

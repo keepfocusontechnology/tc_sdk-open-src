@@ -81,7 +81,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// 第一个参数是角色id 第二个参数是角色所在服务器id
-				TianCi.init(MainActivity.this);
 				TianCi.getInstance().roleAutoLogin("123", "123",
 						new RequestCallBack() {
 
@@ -109,7 +108,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String user_token ;
-				TianCi.init(MainActivity.this);
 				user_token = TianCi.getInstance().getTcsso();
 				Toast.makeText(getApplicationContext(), "用户唯一标识为："+user_token, 0).show();
 			}
@@ -119,7 +117,7 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
+		TianCi.init(this);
 	}
 
 	@Override
