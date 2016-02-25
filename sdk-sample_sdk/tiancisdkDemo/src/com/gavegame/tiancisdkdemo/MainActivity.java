@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.TianCi;
+import com.gavegame.tiancisdk.TianCiApi;
 import com.gavegame.tiancisdk.TianCiSDK;
 import com.gavegame.tiancisdk.activity.TCLoginActivity;
 import com.gavegame.tiancisdk.activity.TCPayActivity;
@@ -81,7 +82,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// 第一个参数是角色id 第二个参数是角色所在服务器id
-				TianCi.getInstance().roleAutoLogin("123", "123",
+				TianCiApi api = new TianCiApi(MainActivity.this);
+				api.roleAutoLogin("207200111000016452", "123",
 						new RequestCallBack() {
 
 							@Override

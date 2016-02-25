@@ -22,7 +22,7 @@ import com.gavegame.tiancisdk.utils.TCLogUtils;
 public class NetworkUtils {
 
 	private final static String TAG = "NetworkUtils";
-	public static String SERVER;
+	private static String SERVER;
 
 	private final static String loginUri = "/index.php?g=mobile&m=login&a=%s";
 	private final static String orderUri = "/index.php?g=mobile&m=order&a=%s";

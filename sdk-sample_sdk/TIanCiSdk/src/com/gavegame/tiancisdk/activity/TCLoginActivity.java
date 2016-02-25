@@ -79,6 +79,7 @@ public class TCLoginActivity extends BaseActivity implements
 								"游客自动登陆成功");
 						data.putExtra("tcsso", TianCi.getInstance().getTcsso());
 						setResult(Config.REQUEST_STATUS_CODE_SUC, data);
+						finish();
 					}
 
 					@Override
@@ -86,6 +87,8 @@ public class TCLoginActivity extends BaseActivity implements
 						TCLogUtils.toastShort(getApplicationContext(), msg);
 						data.putExtra("result", msg);
 						setResult(Config.REQUEST_STATUS_CODE_FAILURE, data);
+						finish();
+
 					}
 				});
 			} else if (loginModel.equals("account")) {
@@ -106,6 +109,7 @@ public class TCLoginActivity extends BaseActivity implements
 								finish();
 								TCLogUtils.toastShort(getApplicationContext(),
 										"自动登陆成功");
+								finish();
 							}
 
 							@Override
@@ -124,7 +128,7 @@ public class TCLoginActivity extends BaseActivity implements
 	@Override
 	public void onResume() {
 		super.onResume();
-//		 TianCi.init(this);
+		// TianCi.init(this);
 	}
 
 	private void initTitle() {
@@ -204,27 +208,29 @@ public class TCLoginActivity extends BaseActivity implements
 		if (bundle != null) {
 			contentFragment.initData(bundle);
 		}
-//		if (isHaveAnimation) {
-			showFragment(fragmentID, contentFragment, isHaveAnimation);
-//		} else {
-//			showFragment(fragmentID, contentFragment);
-//		}
+		// if (isHaveAnimation) {
+		showFragment(fragmentID, contentFragment, isHaveAnimation);
+		// } else {
+		// showFragment(fragmentID, contentFragment);
+		// }
 
 	}
 
-//	private void showFragment(int fragmentID, TCBaseFragment fragment) {
-//		showFragment(fragmentID, fragment, false);
-//	}
+	// private void showFragment(int fragmentID, TCBaseFragment fragment) {
+	// showFragment(fragmentID, fragment, false);
+	// }
 
 	private void showFragment(int fragmentID, TCBaseFragment fragment,
 			boolean isHaveAnimation) {
 		transaction = manager.beginTransaction();
-			if (isHaveAnimation) {
-				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-				transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-			
-//			transaction.setCustomAnimations(R.anim.left_silde,
-//					R.anim.right_silde);
+		if (isHaveAnimation) {
+			transaction
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+			transaction
+					.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+
+			// transaction.setCustomAnimations(R.anim.left_silde,
+			// R.anim.right_silde);
 		}
 		transaction.replace(R.id.fl_content, fragment, tag);
 		if (!tag.equals("QuckilyLoginFragment")) {
@@ -349,7 +355,6 @@ public class TCLoginActivity extends BaseActivity implements
 		if (TextUtils.isEmpty(userAction)) {
 			if (!isFristLogin()) {
 				mainView.setVisibility(View.GONE);
-				finish();
 			} else {
 				switchFragment(0, null);
 			}

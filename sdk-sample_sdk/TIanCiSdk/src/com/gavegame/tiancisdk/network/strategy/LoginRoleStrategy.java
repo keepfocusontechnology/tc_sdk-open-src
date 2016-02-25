@@ -43,7 +43,7 @@ public class LoginRoleStrategy implements IParamsStrategy {
 		paramsQuest.put("gameid", gameId);
 		paramsQuest.put("channelid", channelId);
 		paramsQuest.put("device_type", deviceType);
-		paramsQuest.put("cp_role", Integer.valueOf(cp_role));
+		paramsQuest.put("cp_role", cp_role);
 		paramsQuest.put("serverid", Integer.valueOf(serverid));
 		return paramsQuest;
 	}

@@ -122,9 +122,14 @@ public class ApiSdkRequest extends AsyncTask<Void, Void, ResponseMsg> {
 			dialog.show();
 		} else {
 			if (context != null) {
-				dialog = DialogUtils.createLoadingDialog(context);
-				dialog.show();
-				dialog.setCanceledOnTouchOutside(false);
+				try {
+					dialog = DialogUtils.createLoadingDialog(context);
+					dialog.show();
+					dialog.setCanceledOnTouchOutside(false);
+
+				} catch (Exception e) {
+
+				}
 				// dialog.setOnCancelListener(new OnCancelListener() {
 				//
 				// @Override
