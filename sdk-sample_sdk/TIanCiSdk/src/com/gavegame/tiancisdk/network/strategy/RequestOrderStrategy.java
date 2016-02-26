@@ -41,7 +41,7 @@ public class RequestOrderStrategy implements IParamsStrategy {
 		String tcsso = (String) SharedPreferencesUtils.getParam(context,
 				Config.USER_TCSSO, "");
 
-		paramsQuest.put("cp_role", Integer.valueOf(params[0]));
+		paramsQuest.put("cp_role", params[0]);
 		paramsQuest.put("cp_order", params[1]);
 		paramsQuest.put("serverid", params[2]);
 		paramsQuest.put("amount", params[3]);

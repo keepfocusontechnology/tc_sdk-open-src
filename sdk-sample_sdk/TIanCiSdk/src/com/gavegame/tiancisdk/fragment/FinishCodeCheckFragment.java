@@ -1,5 +1,6 @@
 package com.gavegame.tiancisdk.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,7 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.Toast;
 import com.gavegame.tiancisdk.Config;
 import com.gavegame.tiancisdk.R;
 import com.gavegame.tiancisdk.TianCi;
@@ -18,9 +19,11 @@ import com.gavegame.tiancisdk.utils.TimerCount;
 
 /**
  * 已经用手机号来找回密码，直接输入验证码的页面
+ * 
  * @author Tianci
  *
  */
+@SuppressLint("ShowToast")
 public class FinishCodeCheckFragment extends TCBaseFragment {
 
 	private EditText et_check_captcha;
@@ -81,16 +84,18 @@ public class FinishCodeCheckFragment extends TCBaseFragment {
 												}
 
 												@Override
-												public void onFailure(
-														String msg) {
-
+												public void onFailure(String msg) {
+													Toast.makeText(
+															getActivity(), msg,
+															0).show();
 												}
 											});
 								}
 
 								@Override
 								public void onFailure(String msg) {
-
+									Toast.makeText(getActivity(), msg, 0)
+											.show();
 								}
 							});
 				}
@@ -113,8 +118,7 @@ public class FinishCodeCheckFragment extends TCBaseFragment {
 
 							@Override
 							public void onFailure(String msg) {
-								TCLogUtils.toastShort(getActivity(),
-										msg);
+								TCLogUtils.toastShort(getActivity(), msg);
 							}
 						});
 				timer.start();
