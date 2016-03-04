@@ -213,16 +213,16 @@ public class TianCi {
 	/**
 	 * 获取订单
 	 * 
-	 * @param roleId
-	 * @param orderId
+	 * @param cp_role
+	 * @param cp_order
 	 * @param serverId
 	 * @param amount
 	 * @param payType
 	 * @param callBack
 	 */
-	public void getOrder(String roleId, String orderId, String serverId,
+	public void getOrder(String cp_role, String cp_order, String serverId,
 			String amount, String payType, RequestCallBack callBack) {
-		strategy = new RequestOrderStrategy(mContext, roleId, orderId,
+		strategy = new RequestOrderStrategy(mContext, cp_role, cp_order,
 				serverId, amount, payType);
 		responseBean = new ResponseBean(mContext,
 				NetworkUtils.getUrl(Config.REQUEST_PARAMS_REQUEST_ORDER),

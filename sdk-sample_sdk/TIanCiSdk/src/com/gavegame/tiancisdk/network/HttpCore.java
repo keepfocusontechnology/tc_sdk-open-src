@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class HttpCore {
 
-	static final String TAG = "HttpUtil";
+	static final String TAG = "HttpCore";
 	private static final String SERVLET_POST = "POST";
 	private static final String SERVLET_GET = "GET";
 	private static final String SERVLET_DELETE = "DELETE";

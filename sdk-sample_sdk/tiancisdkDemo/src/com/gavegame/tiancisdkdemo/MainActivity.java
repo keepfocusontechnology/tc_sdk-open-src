@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
 				intent.putExtra("body", "测试：描述信息");
 				intent.putExtra("price", "0.01");
 				intent.putExtra("roleId", "123");
-				intent.putExtra("serverId", "152001");
+				intent.putExtra("serverId", "153001");
 				//此处请填入cp自己的订单号
 				String order_id = new Random().nextInt(10000) + 1 + "";
 				intent.putExtra("cp_orderId", order_id);
@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// 第一个参数是角色id 第二个参数是角色所在服务器id
 				TianCiApi api = new TianCiApi(MainActivity.this);
-				api.roleAutoLogin("207200111000016452", "123",
+				api.roleAutoLogin("123", "153001",
 						new RequestCallBack() {
 
 							@Override

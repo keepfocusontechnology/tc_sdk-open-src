@@ -103,7 +103,7 @@
 
         <meta-data
             android:name="TIANCI_GAME_ID"
-            android:value="152" />
+            android:value="153" />
         <!-- 天赐分配的游戏ID -->
         <meta-data
             android:name="TIANCI_CHANNEL_ID"
